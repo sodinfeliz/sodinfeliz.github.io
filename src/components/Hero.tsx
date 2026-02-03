@@ -142,9 +142,9 @@ export default function Hero() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          gap: '16px',
+          gap: 'clamp(12px, 3vw, 16px)',
           flexWrap: 'wrap',
-          marginBottom: '100px',
+          marginBottom: 'clamp(60px, 12vw, 100px)',
         }}>
           <a href="#experience" className="btn btn-primary">
             View Experience
@@ -157,8 +157,8 @@ export default function Hero() {
         {/* Stats row */}
         <div className="animate-fade-in-up animate-delay-4" style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-          gap: '20px',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(min(200px, 100%), 1fr))',
+          gap: 'clamp(12px, 3vw, 20px)',
           maxWidth: '900px',
           margin: '0 auto',
         }}>
@@ -166,8 +166,8 @@ export default function Hero() {
             <div
               key={index}
               style={{
-                padding: '28px 32px',
-                borderRadius: '20px',
+                padding: 'clamp(20px, 4vw, 28px) clamp(16px, 4vw, 32px)',
+                borderRadius: 'clamp(16px, 3vw, 20px)',
                 background: stat.highlight
                   ? 'linear-gradient(135deg, rgba(124, 58, 237, 0.15) 0%, rgba(124, 58, 237, 0.05) 100%)'
                   : 'linear-gradient(135deg, rgba(10, 10, 20, 0.8) 0%, rgba(20, 10, 40, 0.6) 100%)',
@@ -212,7 +212,7 @@ export default function Hero() {
                 </span>
               </div>
               <div style={{
-                fontSize: '2.75rem',
+                fontSize: 'clamp(2rem, 6vw, 2.75rem)',
                 fontWeight: 700,
                 background: stat.highlight
                   ? 'linear-gradient(135deg, var(--purple-glow) 0%, var(--accent-pink) 100%)'

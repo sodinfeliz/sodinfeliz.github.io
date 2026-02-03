@@ -110,8 +110,8 @@ export default function Features() {
           ref={gridRef}
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-            gap: '24px',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(260px, 100%), 1fr))',
+            gap: 'clamp(16px, 3vw, 24px)',
           }}
         >
           {features.map((feature, index) => (
@@ -119,7 +119,7 @@ export default function Features() {
               key={index}
               className={`glass scroll-animate ${gridVisible ? 'visible' : ''} stagger-${index + 1}`}
               style={{
-                padding: '32px',
+                padding: 'clamp(24px, 5vw, 32px)',
                 transition: 'all 0.3s ease, opacity 0.6s ease, transform 0.6s ease',
                 cursor: 'default',
                 transitionDelay: `${index * 0.1}s`,
@@ -188,7 +188,7 @@ export default function Features() {
             display: 'flex',
             flexWrap: 'wrap',
             justifyContent: 'center',
-            gap: '16px',
+            gap: 'clamp(10px, 2vw, 16px)',
             maxWidth: '800px',
             margin: '0 auto',
           }}>
@@ -209,12 +209,12 @@ export default function Features() {
                 style={{
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '10px',
-                  padding: '10px 18px',
+                  gap: 'clamp(6px, 1.5vw, 10px)',
+                  padding: 'clamp(8px, 1.5vw, 10px) clamp(12px, 2.5vw, 18px)',
                   borderRadius: '12px',
                   background: 'var(--bg-card)',
                   border: '1px solid var(--border-color)',
-                  fontSize: '0.9rem',
+                  fontSize: 'clamp(0.8rem, 2vw, 0.9rem)',
                   color: 'var(--text-secondary)',
                   transition: 'all 0.3s ease',
                   cursor: 'default',

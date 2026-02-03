@@ -10,6 +10,7 @@ const navLinks = [
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -19,75 +20,228 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  return (
-    <nav style={{
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      right: 0,
-      zIndex: 1000,
-      padding: '16px 0',
-      transition: 'all 0.3s ease',
-      background: isScrolled ? 'rgba(10, 10, 15, 0.8)' : 'transparent',
-      backdropFilter: isScrolled ? 'blur(12px)' : 'none',
-      borderBottom: isScrolled ? '1px solid var(--border-color)' : 'none',
-    }}>
-      <div className="container" style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-      }}>
-        <a href="#home" style={{
-          fontSize: '1.5rem',
-          fontWeight: 700,
-          letterSpacing: '-0.02em',
-        }}>
-          <span className="gradient-text">Ethan Su</span>
-        </a>
+  // Close mobile menu when clicking a link
+  const handleLinkClick = () => {
+    setIsMobileMenuOpen(false)
+  }
 
-        <div style={{
+  // Close mobile menu on resize to desktop
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 768) {
+        setIsMobileMenuOpen(false)
+      }
+    }
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [isMobileMenuOpen])
+
+  return (
+    <>
+      <nav style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 1000,
+        padding: '16px 0',
+        transition: 'all 0.3s ease',
+        background: isScrolled || isMobileMenuOpen ? 'rgba(10, 10, 15, 0.95)' : 'transparent',
+        backdropFilter: isScrolled || isMobileMenuOpen ? 'blur(12px)' : 'none',
+        borderBottom: isScrolled ? '1px solid var(--border-color)' : 'none',
+      }}>
+        <div className="container" style={{
           display: 'flex',
           alignItems: 'center',
-          gap: '8px',
-          padding: '6px',
-          borderRadius: '50px',
-          background: 'var(--bg-card)',
-          border: '1px solid var(--border-color)',
-          backdropFilter: 'blur(12px)',
+          justifyContent: 'space-between',
         }}>
-          {navLinks.map((link) => (
+          <a href="#home" style={{
+            fontSize: '1.5rem',
+            fontWeight: 700,
+            letterSpacing: '-0.02em',
+            zIndex: 1001,
+          }}>
+            <span className="gradient-text">Ethan Su</span>
+          </a>
+
+          {/* Desktop Navigation */}
+          <div className="nav-desktop" style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            padding: '6px',
+            borderRadius: '50px',
+            background: 'var(--bg-card)',
+            border: '1px solid var(--border-color)',
+            backdropFilter: 'blur(12px)',
+          }}>
+            {navLinks.map((link) => (
+              <a
+                key={link.name}
+                href={link.href}
+                style={{
+                  padding: '10px 20px',
+                  borderRadius: '50px',
+                  fontSize: '0.9rem',
+                  fontWeight: 300,
+                  color: 'var(--text-secondary)',
+                  transition: 'all 0.3s ease',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = 'var(--text-primary)'
+                  e.currentTarget.style.background = 'var(--bg-card-hover)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = 'var(--text-secondary)'
+                  e.currentTarget.style.background = 'transparent'
+                }}
+              >
+                {link.name}
+              </a>
+            ))}
+          </div>
+
+          {/* Desktop CTA Button */}
+          <a href="#contact" className="btn btn-primary nav-cta-desktop" style={{
+            padding: '10px 24px',
+            fontSize: '0.9rem',
+          }}>
+            Get in Touch
+          </a>
+
+          {/* Mobile Menu Toggle */}
+          <button
+            className="nav-mobile-toggle"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle menu"
+            style={{
+              display: 'none',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: '44px',
+              height: '44px',
+              background: 'var(--bg-card)',
+              border: '1px solid var(--border-color)',
+              borderRadius: '12px',
+              cursor: 'pointer',
+              zIndex: 1001,
+              gap: '5px',
+              padding: '10px',
+            }}
+          >
+            <span style={{
+              display: 'block',
+              width: '20px',
+              height: '2px',
+              background: 'var(--text-primary)',
+              borderRadius: '1px',
+              transition: 'all 0.3s ease',
+              transform: isMobileMenuOpen ? 'rotate(45deg) translateY(5px)' : 'none',
+            }} />
+            <span style={{
+              display: 'block',
+              width: '20px',
+              height: '2px',
+              background: 'var(--text-primary)',
+              borderRadius: '1px',
+              transition: 'all 0.3s ease',
+              opacity: isMobileMenuOpen ? 0 : 1,
+            }} />
+            <span style={{
+              display: 'block',
+              width: '20px',
+              height: '2px',
+              background: 'var(--text-primary)',
+              borderRadius: '1px',
+              transition: 'all 0.3s ease',
+              transform: isMobileMenuOpen ? 'rotate(-45deg) translateY(-5px)' : 'none',
+            }} />
+          </button>
+        </div>
+      </nav>
+
+      {/* Mobile Menu Overlay */}
+      <div
+        className="nav-mobile-menu"
+        style={{
+          display: 'none',
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          zIndex: 999,
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          background: 'rgba(3, 3, 5, 0.98)',
+          backdropFilter: 'blur(20px)',
+          opacity: isMobileMenuOpen ? 1 : 0,
+          pointerEvents: isMobileMenuOpen ? 'auto' : 'none',
+          transition: 'opacity 0.3s ease',
+        }}
+      >
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '8px',
+        }}>
+          {navLinks.map((link, index) => (
             <a
               key={link.name}
               href={link.href}
+              onClick={handleLinkClick}
               style={{
-                padding: '10px 20px',
-                borderRadius: '50px',
-                fontSize: '0.9rem',
-                fontWeight: 300,
+                padding: '16px 32px',
+                fontSize: '1.25rem',
+                fontWeight: 500,
                 color: 'var(--text-secondary)',
                 transition: 'all 0.3s ease',
+                transform: isMobileMenuOpen ? 'translateY(0)' : 'translateY(20px)',
+                opacity: isMobileMenuOpen ? 1 : 0,
+                transitionDelay: `${index * 0.05}s`,
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.color = 'var(--text-primary)'
-                e.currentTarget.style.background = 'var(--bg-card-hover)'
+                e.currentTarget.style.color = 'var(--purple-glow)'
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.color = 'var(--text-secondary)'
-                e.currentTarget.style.background = 'transparent'
               }}
             >
               {link.name}
             </a>
           ))}
+          <a
+            href="#contact"
+            onClick={handleLinkClick}
+            className="btn btn-primary"
+            style={{
+              marginTop: '24px',
+              padding: '14px 32px',
+              fontSize: '1rem',
+              transform: isMobileMenuOpen ? 'translateY(0)' : 'translateY(20px)',
+              opacity: isMobileMenuOpen ? 1 : 0,
+              transitionDelay: '0.25s',
+            }}
+          >
+            Get in Touch
+          </a>
         </div>
-
-        <a href="#contact" className="btn btn-primary" style={{
-          padding: '10px 24px',
-          fontSize: '0.9rem',
-        }}>
-          Get in Touch
-        </a>
       </div>
-    </nav>
+    </>
   )
 }

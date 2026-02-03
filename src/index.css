@@ -243,3 +243,60 @@ section {
   padding: 100px 0;
   position: relative;
 }
+
+/* ========================================
+   Mobile Responsive Styles
+   ======================================== */
+
+/* Tablet and below (768px) */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 20px;
+  }
+
+  section {
+    padding: 60px 0;
+  }
+
+  .btn {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+
+  /* Hide desktop nav, show mobile nav */
+  .nav-desktop {
+    display: none !important;
+  }
+
+  .nav-mobile-toggle {
+    display: flex !important;
+  }
+
+  .nav-mobile-menu {
+    display: flex !important;
+  }
+
+  .nav-cta-desktop {
+    display: none !important;
+  }
+}
+
+/* Mobile phones (480px) */
+@media (max-width: 480px) {
+  .container {
+    padding: 0 16px;
+  }
+
+  section {
+    padding: 48px 0;
+  }
+
+  .btn {
+    padding: 10px 18px;
+    font-size: 0.85rem;
+  }
+
+  .glass {
+    border-radius: 16px;
+  }
+}

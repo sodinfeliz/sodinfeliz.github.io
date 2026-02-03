@@ -125,18 +125,18 @@ export default function Experience() {
               className={`scroll-animate ${timelineVisible ? 'visible' : ''}`}
               style={{
                 position: 'relative',
-                paddingLeft: '40px',
-                paddingBottom: index === experiences.length - 1 ? '0' : '48px',
+                paddingLeft: 'clamp(24px, 5vw, 40px)',
+                paddingBottom: index === experiences.length - 1 ? '0' : 'clamp(32px, 6vw, 48px)',
                 transitionDelay: `${index * 0.2}s`,
               }}
             >
               {/* Timeline dot */}
               <div style={{
                 position: 'absolute',
-                left: '-6px',
+                left: 'clamp(-8px, -1vw, -6px)',
                 top: '8px',
-                width: '14px',
-                height: '14px',
+                width: 'clamp(10px, 2vw, 14px)',
+                height: 'clamp(10px, 2vw, 14px)',
                 borderRadius: '50%',
                 background: 'var(--purple-primary)',
                 border: '3px solid var(--bg-dark)',
@@ -146,7 +146,7 @@ export default function Experience() {
               <div
                 className="glass"
                 style={{
-                  padding: '28px',
+                  padding: 'clamp(20px, 4vw, 28px)',
                   transition: 'all 0.3s ease',
                 }}
                 onMouseEnter={(e) => {

@@ -128,7 +128,7 @@ export default function Projects() {
           {/* GIF Preview */}
           <div style={{
             width: '100%',
-            height: '300px',
+            height: 'clamp(200px, 40vw, 300px)',
             overflow: 'hidden',
             position: 'relative',
           }}>
@@ -154,7 +154,7 @@ export default function Projects() {
           </div>
 
           {/* Content */}
-          <div style={{ padding: '28px 32px' }}>
+          <div style={{ padding: 'clamp(20px, 4vw, 28px) clamp(20px, 5vw, 32px)' }}>
             <h3 style={{
               fontSize: '1.5rem',
               fontWeight: 600,
@@ -201,8 +201,8 @@ export default function Projects() {
           ref={gridRef}
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
-            gap: '24px',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px, 100%), 1fr))',
+            gap: 'clamp(16px, 3vw, 24px)',
           }}
         >
           {projects.map((project, index) => (
@@ -232,7 +232,7 @@ export default function Projects() {
                 background: project.gradient,
               }} />
 
-              <div style={{ padding: '28px' }}>
+              <div style={{ padding: 'clamp(20px, 4vw, 28px)' }}>
                 <h3 style={{
                   fontSize: '1.3rem',
                   fontWeight: 600,
