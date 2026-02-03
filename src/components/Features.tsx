@@ -1,3 +1,5 @@
+import { useScrollAnimation } from '../hooks/useScrollAnimation'
+
 const features = [
   {
     icon: (
@@ -41,6 +43,10 @@ const features = [
 ]
 
 export default function Features() {
+  const { ref: headerRef, isVisible: headerVisible } = useScrollAnimation(0.2)
+  const { ref: gridRef, isVisible: gridVisible } = useScrollAnimation(0.1)
+  const { ref: skillsRef, isVisible: skillsVisible } = useScrollAnimation(0.2)
+
   return (
     <section id="about" style={{
       position: 'relative',
@@ -50,22 +56,25 @@ export default function Features() {
         position: 'absolute',
         top: '50%',
         left: '50%',
-        transform: 'translate(-50%, -50%)',
+        transform: 'translate(-50%, -50%) translateZ(0)',
         width: '800px',
         height: '800px',
         borderRadius: '50%',
         background: 'radial-gradient(circle, var(--purple-dark) 0%, transparent 70%)',
         opacity: 0.15,
-        filter: 'blur(100px)',
         pointerEvents: 'none',
       }} />
 
       <div className="container" style={{ position: 'relative', zIndex: 1 }}>
         {/* Section header */}
-        <div style={{
-          textAlign: 'center',
-          marginBottom: '64px',
-        }}>
+        <div
+          ref={headerRef}
+          className={`scroll-animate ${headerVisible ? 'visible' : ''}`}
+          style={{
+            textAlign: 'center',
+            marginBottom: '64px',
+          }}
+        >
           <span style={{
             display: 'inline-block',
             padding: '8px 16px',
@@ -97,28 +106,30 @@ export default function Features() {
         </div>
 
         {/* Features grid */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-          gap: '24px',
-        }}>
+        <div
+          ref={gridRef}
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: '24px',
+          }}
+        >
           {features.map((feature, index) => (
             <div
               key={index}
-              className="glass"
+              className={`glass scroll-animate ${gridVisible ? 'visible' : ''} stagger-${index + 1}`}
               style={{
                 padding: '32px',
-                transition: 'all 0.3s ease',
+                transition: 'all 0.3s ease, opacity 0.6s ease, transform 0.6s ease',
                 cursor: 'default',
+                transitionDelay: `${index * 0.1}s`,
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-8px)'
                 e.currentTarget.style.background = 'var(--bg-card-hover)'
                 e.currentTarget.style.boxShadow = '0 20px 40px rgba(139, 92, 246, 0.2)'
                 e.currentTarget.style.borderColor = 'var(--purple-primary)'
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)'
                 e.currentTarget.style.background = 'var(--bg-card)'
                 e.currentTarget.style.boxShadow = 'none'
                 e.currentTarget.style.borderColor = 'var(--border-color)'
@@ -157,10 +168,14 @@ export default function Features() {
         </div>
 
         {/* Skills tags */}
-        <div style={{
-          marginTop: '64px',
-          textAlign: 'center',
-        }}>
+        <div
+          ref={skillsRef}
+          className={`scroll-animate ${skillsVisible ? 'visible' : ''}`}
+          style={{
+            marginTop: '64px',
+            textAlign: 'center',
+          }}
+        >
           <h3 style={{
             fontSize: '1.1rem',
             fontWeight: 600,

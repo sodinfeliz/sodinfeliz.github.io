@@ -1,3 +1,5 @@
+import { useScrollAnimation } from '../hooks/useScrollAnimation'
+
 const experiences = [
   {
     title: 'Senior AI Engineer',
@@ -36,6 +38,9 @@ const experiences = [
 ]
 
 export default function Experience() {
+  const { ref: headerRef, isVisible: headerVisible } = useScrollAnimation(0.2)
+  const { ref: timelineRef, isVisible: timelineVisible } = useScrollAnimation(0.05)
+
   return (
     <section id="experience" style={{
       position: 'relative',
@@ -50,16 +55,20 @@ export default function Experience() {
         borderRadius: '50%',
         background: 'radial-gradient(circle, var(--purple-dark) 0%, transparent 70%)',
         opacity: 0.15,
-        filter: 'blur(80px)',
         pointerEvents: 'none',
+        transform: 'translateZ(0)',
       }} />
 
       <div className="container" style={{ position: 'relative', zIndex: 1 }}>
         {/* Section header */}
-        <div style={{
-          textAlign: 'center',
-          marginBottom: '64px',
-        }}>
+        <div
+          ref={headerRef}
+          className={`scroll-animate ${headerVisible ? 'visible' : ''}`}
+          style={{
+            textAlign: 'center',
+            marginBottom: '64px',
+          }}
+        >
           <span style={{
             display: 'inline-block',
             padding: '8px 16px',
@@ -91,11 +100,14 @@ export default function Experience() {
         </div>
 
         {/* Timeline */}
-        <div style={{
-          position: 'relative',
-          maxWidth: '800px',
-          margin: '0 auto',
-        }}>
+        <div
+          ref={timelineRef}
+          style={{
+            position: 'relative',
+            maxWidth: '800px',
+            margin: '0 auto',
+          }}
+        >
           {/* Timeline line */}
           <div style={{
             position: 'absolute',
@@ -110,10 +122,12 @@ export default function Experience() {
           {experiences.map((exp, index) => (
             <div
               key={index}
+              className={`scroll-animate ${timelineVisible ? 'visible' : ''}`}
               style={{
                 position: 'relative',
                 paddingLeft: '40px',
                 paddingBottom: index === experiences.length - 1 ? '0' : '48px',
+                transitionDelay: `${index * 0.2}s`,
               }}
             >
               {/* Timeline dot */}
@@ -136,12 +150,10 @@ export default function Experience() {
                   transition: 'all 0.3s ease',
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateX(8px)'
                   e.currentTarget.style.background = 'var(--bg-card-hover)'
                   e.currentTarget.style.borderColor = 'var(--purple-primary)'
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateX(0)'
                   e.currentTarget.style.background = 'var(--bg-card)'
                   e.currentTarget.style.borderColor = 'var(--border-color)'
                 }}

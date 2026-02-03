@@ -1,3 +1,5 @@
+import { useScrollAnimation } from '../hooks/useScrollAnimation'
+
 const projects = [
   {
     title: 'AI Document Verification Platform',
@@ -32,6 +34,9 @@ const projects = [
 ]
 
 export default function Projects() {
+  const { ref: headerRef, isVisible: headerVisible } = useScrollAnimation(0.2)
+  const { ref: gridRef, isVisible: gridVisible } = useScrollAnimation(0.1)
+
   return (
     <section id="projects" style={{
       position: 'relative',
@@ -42,22 +47,25 @@ export default function Projects() {
         position: 'absolute',
         top: '50%',
         left: '50%',
-        transform: 'translate(-50%, -50%)',
+        transform: 'translate(-50%, -50%) translateZ(0)',
         width: '900px',
         height: '900px',
         borderRadius: '50%',
         background: 'radial-gradient(circle, var(--purple-dark) 0%, transparent 70%)',
         opacity: 0.1,
-        filter: 'blur(100px)',
         pointerEvents: 'none',
       }} />
 
       <div className="container" style={{ position: 'relative', zIndex: 1 }}>
         {/* Section header */}
-        <div style={{
-          textAlign: 'center',
-          marginBottom: '64px',
-        }}>
+        <div
+          ref={headerRef}
+          className={`scroll-animate ${headerVisible ? 'visible' : ''}`}
+          style={{
+            textAlign: 'center',
+            marginBottom: '64px',
+          }}
+        >
           <span style={{
             display: 'inline-block',
             padding: '8px 16px',
@@ -89,28 +97,31 @@ export default function Projects() {
         </div>
 
         {/* Projects grid */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
-          gap: '24px',
-        }}>
+        <div
+          ref={gridRef}
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
+            gap: '24px',
+          }}
+        >
           {projects.map((project, index) => (
             <div
               key={index}
+              className={`scroll-animate ${gridVisible ? 'visible' : ''}`}
               style={{
                 borderRadius: '20px',
                 background: 'var(--bg-card)',
                 border: '1px solid var(--border-color)',
                 overflow: 'hidden',
-                transition: 'all 0.4s ease',
+                transition: 'all 0.4s ease, opacity 0.6s ease, transform 0.6s ease',
+                transitionDelay: `${index * 0.15}s`,
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-8px)'
                 e.currentTarget.style.boxShadow = '0 20px 60px rgba(139, 92, 246, 0.2)'
                 e.currentTarget.style.borderColor = 'var(--purple-primary)'
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)'
                 e.currentTarget.style.boxShadow = 'none'
                 e.currentTarget.style.borderColor = 'var(--border-color)'
               }}

@@ -1,3 +1,5 @@
+import { useScrollAnimation } from '../hooks/useScrollAnimation'
+
 const socialLinks = [
   {
     name: 'GitHub',
@@ -30,6 +32,8 @@ const socialLinks = [
 ]
 
 export default function CTA() {
+  const { ref: ctaRef, isVisible: ctaVisible } = useScrollAnimation(0.2)
+
   return (
     <section id="contact" style={{
       position: 'relative',
@@ -48,7 +52,8 @@ export default function CTA() {
 
       <div className="container" style={{ position: 'relative', zIndex: 1 }}>
         <div
-          className="glass"
+          ref={ctaRef}
+          className={`glass scroll-animate-scale ${ctaVisible ? 'visible' : ''}`}
           style={{
             padding: 'clamp(40px, 8vw, 80px)',
             textAlign: 'center',
