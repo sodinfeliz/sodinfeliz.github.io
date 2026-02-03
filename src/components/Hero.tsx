@@ -110,12 +110,12 @@ export default function Hero() {
         <p className="animate-fade-in-up animate-delay-2" style={{
           fontSize: 'clamp(1rem, 2vw, 1.25rem)',
           color: 'var(--text-secondary)',
-          maxWidth: '600px',
+          maxWidth: '650px',
           margin: '0 auto 40px',
           lineHeight: 1.7,
         }}>
-          Crafting intelligent solutions with machine learning and deep learning.
-          Turning complex problems into elegant, scalable AI systems.
+          6+ years designing production-grade AI systems. Strong mathematical foundation
+          with hands-on expertise in computer vision, NLP, and data-driven applications.
         </p>
 
         {/* CTA buttons */}
@@ -126,8 +126,8 @@ export default function Hero() {
           gap: '16px',
           flexWrap: 'wrap',
         }}>
-          <a href="#projects" className="btn btn-primary">
-            View My Work
+          <a href="#experience" className="btn btn-primary">
+            View Experience
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M5 12h14M12 5l7 7-7 7"/>
             </svg>
@@ -146,9 +146,9 @@ export default function Hero() {
           flexWrap: 'wrap',
         }}>
           {[
-            { label: 'ML Models Deployed', value: '50+' },
-            { label: 'Years Experience', value: '8+' },
-            { label: 'Projects Completed', value: '100+' },
+            { label: 'Years Experience', value: '6+' },
+            { label: 'AI Systems Built', value: '10+' },
+            { label: 'Companies', value: '3' },
           ].map((stat, index) => (
             <div
               key={index}

@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 const navLinks = [
   { name: 'Home', href: '#home' },
   { name: 'About', href: '#about' },
-  { name: 'Projects', href: '#projects' },
+  { name: 'Experience', href: '#experience' },
   { name: 'Contact', href: '#contact' },
 ]
 
@@ -41,7 +41,7 @@ export default function Navbar() {
           fontWeight: 700,
           letterSpacing: '-0.02em',
         }}>
-          <span className="gradient-text">Elliot Su</span>
+          <span className="gradient-text">Ethan Su</span>
         </a>
 
         <div style={{

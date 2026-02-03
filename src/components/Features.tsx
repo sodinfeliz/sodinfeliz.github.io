@@ -5,18 +5,17 @@ const features = [
         <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
       </svg>
     ),
-    title: 'Deep Learning',
-    description: 'Designing and training neural networks for computer vision, NLP, and complex pattern recognition tasks.',
+    title: 'Computer Vision',
+    description: 'Building object detection, anomaly detection, and image analysis systems for manufacturing and aerospace applications.',
   },
   {
     icon: (
       <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <circle cx="12" cy="12" r="3"/>
-        <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
       </svg>
     ),
-    title: 'MLOps & Deployment',
-    description: 'Building robust ML pipelines with CI/CD, model versioning, and scalable cloud infrastructure.',
+    title: 'NLP & RAG',
+    description: 'Developing document processing pipelines with OCR, LLM reasoning, and retrieval-augmented generation for enterprise solutions.',
   },
   {
     icon: (
@@ -26,17 +25,18 @@ const features = [
         <line x1="12" y1="22.08" x2="12" y2="12"/>
       </svg>
     ),
-    title: 'LLM Applications',
-    description: 'Developing production-ready applications powered by large language models with RAG and fine-tuning.',
+    title: 'MLOps & Backend',
+    description: 'Architecting scalable ML systems with FastAPI, Docker, PostgreSQL, and microservices-based worker architectures.',
   },
   {
     icon: (
       <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <path d="M18 20V10M12 20V4M6 20v-6"/>
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
       </svg>
     ),
-    title: 'Data Engineering',
-    description: 'Creating efficient data pipelines and analytics systems to power data-driven decision making.',
+    title: 'LLM & Fine-tuning',
+    description: 'Exploring frontier methods including diffusion models, LoRA, AI agents, and LangChain for production-grade systems.',
   },
 ]
 
@@ -154,6 +154,54 @@ export default function Features() {
               </p>
             </div>
           ))}
+        </div>
+
+        {/* Skills tags */}
+        <div style={{
+          marginTop: '64px',
+          textAlign: 'center',
+        }}>
+          <h3 style={{
+            fontSize: '1.1rem',
+            fontWeight: 600,
+            color: 'var(--text-secondary)',
+            marginBottom: '24px',
+          }}>
+            Technologies I work with
+          </h3>
+          <div style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            gap: '12px',
+            maxWidth: '700px',
+            margin: '0 auto',
+          }}>
+            {['Python', 'PyTorch', 'FastAPI', 'Docker', 'PostgreSQL', 'AWS', 'LangChain', 'Git Actions', 'NVIDIA TAO', 'OpenCV'].map((skill) => (
+              <span
+                key={skill}
+                style={{
+                  padding: '8px 20px',
+                  borderRadius: '50px',
+                  background: 'var(--bg-card)',
+                  border: '1px solid var(--border-color)',
+                  fontSize: '0.9rem',
+                  color: 'var(--text-secondary)',
+                  transition: 'all 0.3s ease',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--purple-primary)'
+                  e.currentTarget.style.color = 'var(--purple-glow)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--border-color)'
+                  e.currentTarget.style.color = 'var(--text-secondary)'
+                }}
+              >
+                {skill}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
     </section>

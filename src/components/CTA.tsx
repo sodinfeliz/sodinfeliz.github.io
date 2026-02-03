@@ -10,7 +10,7 @@ const socialLinks = [
   },
   {
     name: 'LinkedIn',
-    href: 'https://linkedin.com/in/',
+    href: 'https://linkedin.com/in/ethan-suu',
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
         <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
@@ -19,7 +19,7 @@ const socialLinks = [
   },
   {
     name: 'Email',
-    href: 'mailto:hello@example.com',
+    href: 'mailto:sodinfeliz@gmail.com',
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
         <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
@@ -104,7 +104,7 @@ export default function CTA() {
               I'd love to hear from you.
             </p>
 
-            <a href="mailto:hello@example.com" className="btn btn-primary" style={{
+            <a href="mailto:sodinfeliz@gmail.com" className="btn btn-primary" style={{
               padding: '16px 40px',
               fontSize: '1.1rem',
             }}>
@@ -167,7 +167,7 @@ export default function CTA() {
           color: 'var(--text-muted)',
           fontSize: '0.875rem',
         }}>
-          <p>&copy; {new Date().getFullYear()} Elliot Su. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Ethan Su. All rights reserved.</p>
         </div>
       </div>
     </section>
