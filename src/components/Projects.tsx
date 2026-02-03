@@ -1,5 +1,12 @@
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
 
+const featuredProject = {
+  title: 'Car Detection System',
+  description: 'Real-time vehicle detection and tracking system using deep learning for traffic monitoring and analysis.',
+  image: '/car-detection.gif',
+  tags: ['Computer Vision', 'Deep Learning', 'Object Detection', 'YOLO'],
+}
+
 const projects = [
   {
     title: 'AI Document Verification Platform',
@@ -35,6 +42,7 @@ const projects = [
 
 export default function Projects() {
   const { ref: headerRef, isVisible: headerVisible } = useScrollAnimation(0.2)
+  const { ref: featuredRef, isVisible: featuredVisible } = useScrollAnimation(0.1)
   const { ref: gridRef, isVisible: gridVisible } = useScrollAnimation(0.1)
 
   return (
@@ -47,7 +55,7 @@ export default function Projects() {
         position: 'absolute',
         top: '50%',
         left: '50%',
-        transform: 'translate(-50%, -50%) translateZ(0)',
+        transform: 'translate(-50%, -50%)',
         width: '900px',
         height: '900px',
         borderRadius: '50%',
@@ -96,7 +104,99 @@ export default function Projects() {
           </p>
         </div>
 
-        {/* Projects grid */}
+        {/* Featured Project with GIF */}
+        <div
+          ref={featuredRef}
+          className={`scroll-animate ${featuredVisible ? 'visible' : ''}`}
+          style={{
+            marginBottom: '40px',
+            borderRadius: '24px',
+            background: 'linear-gradient(135deg, rgba(10, 10, 20, 0.9) 0%, rgba(20, 10, 40, 0.8) 100%)',
+            border: '1px solid rgba(139, 92, 246, 0.15)',
+            overflow: 'hidden',
+            transition: 'border-color 0.3s ease, box-shadow 0.3s ease',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.borderColor = 'rgba(139, 92, 246, 0.4)'
+            e.currentTarget.style.boxShadow = '0 20px 60px rgba(139, 92, 246, 0.15)'
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.borderColor = 'rgba(139, 92, 246, 0.15)'
+            e.currentTarget.style.boxShadow = 'none'
+          }}
+        >
+          {/* GIF Preview */}
+          <div style={{
+            width: '100%',
+            height: '300px',
+            overflow: 'hidden',
+            position: 'relative',
+          }}>
+            <img
+              src={featuredProject.image}
+              alt={featuredProject.title}
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                objectPosition: 'center 30%',
+              }}
+            />
+            {/* Gradient overlay */}
+            <div style={{
+              position: 'absolute',
+              bottom: 0,
+              left: 0,
+              right: 0,
+              height: '100px',
+              background: 'linear-gradient(transparent, rgba(10, 10, 20, 0.9))',
+            }} />
+          </div>
+
+          {/* Content */}
+          <div style={{ padding: '28px 32px' }}>
+            <h3 style={{
+              fontSize: '1.5rem',
+              fontWeight: 600,
+              color: 'var(--text-primary)',
+              marginBottom: '12px',
+            }}>
+              {featuredProject.title}
+            </h3>
+
+            <p style={{
+              fontSize: '1rem',
+              color: 'var(--text-secondary)',
+              lineHeight: 1.7,
+              marginBottom: '20px',
+              maxWidth: '600px',
+            }}>
+              {featuredProject.description}
+            </p>
+
+            {/* Tags */}
+            <div style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: '8px',
+            }}>
+              {featuredProject.tags.map((tag, i) => (
+                <span key={i} style={{
+                  padding: '6px 14px',
+                  borderRadius: '50px',
+                  background: 'rgba(139, 92, 246, 0.1)',
+                  border: '1px solid rgba(139, 92, 246, 0.2)',
+                  fontSize: '0.8rem',
+                  color: 'var(--purple-glow)',
+                }}>
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Other Projects grid */}
         <div
           ref={gridRef}
           style={{
@@ -111,24 +211,24 @@ export default function Projects() {
               className={`scroll-animate ${gridVisible ? 'visible' : ''}`}
               style={{
                 borderRadius: '20px',
-                background: 'var(--bg-card)',
-                border: '1px solid var(--border-color)',
+                background: 'linear-gradient(135deg, rgba(10, 10, 20, 0.9) 0%, rgba(20, 10, 40, 0.8) 100%)',
+                border: '1px solid rgba(139, 92, 246, 0.1)',
                 overflow: 'hidden',
-                transition: 'all 0.4s ease, opacity 0.6s ease, transform 0.6s ease',
+                transition: 'border-color 0.3s ease, box-shadow 0.3s ease, opacity 0.6s ease, transform 0.6s ease',
                 transitionDelay: `${index * 0.15}s`,
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.boxShadow = '0 20px 60px rgba(139, 92, 246, 0.2)'
-                e.currentTarget.style.borderColor = 'var(--purple-primary)'
+                e.currentTarget.style.boxShadow = '0 20px 60px rgba(139, 92, 246, 0.15)'
+                e.currentTarget.style.borderColor = 'rgba(139, 92, 246, 0.3)'
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.boxShadow = 'none'
-                e.currentTarget.style.borderColor = 'var(--border-color)'
+                e.currentTarget.style.borderColor = 'rgba(139, 92, 246, 0.1)'
               }}
             >
               {/* Gradient header */}
               <div style={{
-                height: '8px',
+                height: '6px',
                 background: project.gradient,
               }} />
 
