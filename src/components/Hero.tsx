@@ -29,13 +29,11 @@ export default function Hero() {
           position: 'absolute',
           top: '-30%',
           left: '50%',
-          transform: 'translateX(-50%) translateZ(0)',
+          transform: 'translateX(-50%)',
           width: '1200px',
           height: '1200px',
           borderRadius: '50%',
           background: 'radial-gradient(circle, rgba(124, 58, 237, 0.2) 0%, rgba(91, 33, 182, 0.08) 40%, transparent 70%)',
-          willChange: 'opacity',
-          animation: 'pulse-glow 10s ease-in-out infinite',
         }} />
 
         {/* Pink accent orb - left */}
@@ -46,10 +44,7 @@ export default function Hero() {
           width: '500px',
           height: '500px',
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(244, 114, 182, 0.15) 0%, transparent 70%)',
-          opacity: 0.6,
-          transform: 'translateZ(0)',
-          animation: 'float 20s ease-in-out infinite',
+          background: 'radial-gradient(circle, rgba(244, 114, 182, 0.12) 0%, transparent 70%)',
         }} />
 
         {/* Cyan accent orb - right */}
@@ -60,10 +55,7 @@ export default function Hero() {
           width: '400px',
           height: '400px',
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(34, 211, 238, 0.1) 0%, transparent 70%)',
-          opacity: 0.5,
-          transform: 'translateZ(0)',
-          animation: 'float 15s ease-in-out infinite reverse',
+          background: 'radial-gradient(circle, rgba(34, 211, 238, 0.08) 0%, transparent 70%)',
         }} />
 
         {/* Deep purple orb - bottom */}
@@ -74,9 +66,7 @@ export default function Hero() {
           width: '600px',
           height: '600px',
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(59, 7, 100, 0.3) 0%, transparent 70%)',
-          opacity: 0.8,
-          transform: 'translateZ(0)',
+          background: 'radial-gradient(circle, rgba(59, 7, 100, 0.25) 0%, transparent 70%)',
         }} />
 
         {/* Subtle grid overlay */}
@@ -110,15 +100,13 @@ export default function Hero() {
           marginBottom: '36px',
           fontSize: '0.85rem',
           color: 'var(--purple-glow)',
-          backdropFilter: 'blur(10px)',
         }}>
           <span style={{
             width: '8px',
             height: '8px',
             borderRadius: '50%',
             background: '#22c55e',
-            boxShadow: '0 0 12px #22c55e, 0 0 24px rgba(34, 197, 94, 0.4)',
-            animation: 'pulse-glow 2s ease-in-out infinite',
+            boxShadow: '0 0 8px #22c55e',
           }} />
           Available for opportunities
         </div>
@@ -182,12 +170,11 @@ export default function Hero() {
                 borderRadius: '20px',
                 background: stat.highlight
                   ? 'linear-gradient(135deg, rgba(124, 58, 237, 0.15) 0%, rgba(124, 58, 237, 0.05) 100%)'
-                  : 'linear-gradient(135deg, rgba(10, 10, 20, 0.6) 0%, rgba(20, 10, 40, 0.4) 100%)',
+                  : 'linear-gradient(135deg, rgba(10, 10, 20, 0.8) 0%, rgba(20, 10, 40, 0.6) 100%)',
                 border: stat.highlight
                   ? '1px solid rgba(124, 58, 237, 0.3)'
                   : '1px solid rgba(124, 58, 237, 0.1)',
-                backdropFilter: 'blur(12px)',
-                transition: 'all 0.4s ease',
+                transition: 'transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease',
                 cursor: 'default',
               }}
               onMouseEnter={(e) => {

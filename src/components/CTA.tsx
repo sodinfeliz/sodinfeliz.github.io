@@ -173,6 +173,27 @@ export default function CTA() {
           fontSize: '0.875rem',
         }}>
           <p>&copy; {new Date().getFullYear()} Ethan Su. All rights reserved.</p>
+          <p style={{
+            marginTop: '12px',
+            fontSize: '0.8rem',
+            opacity: 0.7,
+          }}>
+            Built with{' '}
+            <a
+              href="https://claude.ai/code"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                color: 'var(--purple-glow)',
+                textDecoration: 'none',
+                transition: 'opacity 0.2s ease',
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.opacity = '0.8'}
+              onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+            >
+              Claude Code
+            </a>
+          </p>
         </div>
       </div>
     </section>
