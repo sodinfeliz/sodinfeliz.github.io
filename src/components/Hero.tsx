@@ -161,8 +161,8 @@ export default function Hero() {
           <a href="#experience" className="btn btn-primary">
             View Experience
           </a>
-          <a href="#contact" className="btn btn-secondary">
-            Get in Touch
+          <a href="#projects" className="btn btn-secondary">
+            See Projects
           </a>
         </div>
 
