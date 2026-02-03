@@ -116,7 +116,7 @@ export default function Hero() {
           fontSize: 'clamp(2.5rem, 7vw, 5rem)',
           fontWeight: 700,
           lineHeight: 1.05,
-          marginBottom: '28px',
+          marginBottom: '20px',
           letterSpacing: '-0.04em',
         }}>
           <span style={{ color: 'var(--text-primary)' }}>Building </span>

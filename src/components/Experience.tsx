@@ -84,7 +84,7 @@ export default function Experience() {
           <h2 style={{
             fontSize: 'clamp(2rem, 5vw, 3rem)',
             fontWeight: 700,
-            marginBottom: '16px',
+            marginBottom: '8px',
             letterSpacing: '-0.02em',
           }}>
             <span className="gradient-text">Work Experience</span>

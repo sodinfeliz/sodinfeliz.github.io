@@ -91,7 +91,7 @@ export default function CTA() {
             <h2 style={{
               fontSize: 'clamp(1.75rem, 5vw, 2.75rem)',
               fontWeight: 700,
-              marginBottom: '16px',
+              marginBottom: '8px',
               letterSpacing: '-0.02em',
             }}>
               Let's Build Something
