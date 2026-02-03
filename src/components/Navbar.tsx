@@ -63,7 +63,7 @@ export default function Navbar() {
                 padding: '10px 20px',
                 borderRadius: '50px',
                 fontSize: '0.9rem',
-                fontWeight: 500,
+                fontWeight: 300,
                 color: 'var(--text-secondary)',
                 transition: 'all 0.3s ease',
               }}
