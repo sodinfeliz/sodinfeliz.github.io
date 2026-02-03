@@ -139,7 +139,7 @@ export default function Projects() {
                 width: '100%',
                 height: '100%',
                 objectFit: 'cover',
-                objectPosition: 'center 50%',
+                objectPosition: 'center 70%',
               }}
             />
             {/* Gradient overlay */}
