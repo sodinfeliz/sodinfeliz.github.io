@@ -87,6 +87,8 @@ export default function Hero() {
         zIndex: 1,
         textAlign: 'center',
         maxWidth: '1000px',
+        width: '100%',
+        boxSizing: 'border-box',
       }}>
         {/* Badge */}
         <div className="animate-fade-in-up" style={{
@@ -157,10 +159,11 @@ export default function Hero() {
         {/* Stats row */}
         <div className="animate-fade-in-up animate-delay-4" style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(min(200px, 100%), 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(min(180px, 100%), 1fr))',
           gap: 'clamp(12px, 3vw, 20px)',
           maxWidth: '900px',
           margin: '0 auto',
+          width: '100%',
         }}>
           {stats.map((stat, index) => (
             <div

@@ -48,7 +48,6 @@ export default function Projects() {
   return (
     <section id="projects" style={{
       position: 'relative',
-      padding: '100px 0',
     }}>
       {/* Background glow */}
       <div style={{
@@ -71,7 +70,7 @@ export default function Projects() {
           className={`scroll-animate ${headerVisible ? 'visible' : ''}`}
           style={{
             textAlign: 'center',
-            marginBottom: '64px',
+            marginBottom: 'clamp(40px, 8vw, 64px)',
           }}
         >
           <span style={{
@@ -234,7 +233,7 @@ export default function Projects() {
 
               <div style={{ padding: 'clamp(20px, 4vw, 28px)' }}>
                 <h3 style={{
-                  fontSize: '1.3rem',
+                  fontSize: 'clamp(1.1rem, 3vw, 1.3rem)',
                   fontWeight: 600,
                   color: 'var(--text-primary)',
                   marginBottom: '12px',
@@ -243,10 +242,10 @@ export default function Projects() {
                 </h3>
 
                 <p style={{
-                  fontSize: '0.95rem',
+                  fontSize: 'clamp(0.85rem, 2.5vw, 0.95rem)',
                   color: 'var(--text-secondary)',
                   lineHeight: 1.7,
-                  marginBottom: '24px',
+                  marginBottom: 'clamp(16px, 4vw, 24px)',
                 }}>
                   {project.description}
                 </p>
@@ -254,13 +253,13 @@ export default function Projects() {
                 {/* Metrics */}
                 <div style={{
                   display: 'flex',
-                  gap: '24px',
-                  marginBottom: '24px',
+                  gap: 'clamp(16px, 4vw, 24px)',
+                  marginBottom: 'clamp(16px, 4vw, 24px)',
                 }}>
                   {project.metrics.map((metric, i) => (
                     <div key={i}>
                       <div style={{
-                        fontSize: '1.8rem',
+                        fontSize: 'clamp(1.4rem, 4vw, 1.8rem)',
                         fontWeight: 700,
                         color: 'var(--purple-glow)',
                         lineHeight: 1,
@@ -268,7 +267,7 @@ export default function Projects() {
                         {metric.value}
                       </div>
                       <div style={{
-                        fontSize: '0.8rem',
+                        fontSize: 'clamp(0.7rem, 2vw, 0.8rem)',
                         color: 'var(--text-muted)',
                         marginTop: '4px',
                       }}>

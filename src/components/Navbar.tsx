@@ -138,7 +138,7 @@ export default function Navbar() {
               borderRadius: '12px',
               cursor: 'pointer',
               zIndex: 1001,
-              gap: '5px',
+              gap: '6px',
               padding: '10px',
             }}
           >
@@ -149,7 +149,7 @@ export default function Navbar() {
               background: 'var(--text-primary)',
               borderRadius: '1px',
               transition: 'all 0.3s ease',
-              transform: isMobileMenuOpen ? 'rotate(45deg) translateY(5px)' : 'none',
+              transform: isMobileMenuOpen ? 'rotate(45deg) translate(4px, 4px)' : 'none',
             }} />
             <span style={{
               display: 'block',
@@ -159,6 +159,7 @@ export default function Navbar() {
               borderRadius: '1px',
               transition: 'all 0.3s ease',
               opacity: isMobileMenuOpen ? 0 : 1,
+              transform: isMobileMenuOpen ? 'scaleX(0)' : 'scaleX(1)',
             }} />
             <span style={{
               display: 'block',
@@ -167,7 +168,7 @@ export default function Navbar() {
               background: 'var(--text-primary)',
               borderRadius: '1px',
               transition: 'all 0.3s ease',
-              transform: isMobileMenuOpen ? 'rotate(-45deg) translateY(-5px)' : 'none',
+              transform: isMobileMenuOpen ? 'rotate(-45deg) translate(4px, -4px)' : 'none',
             }} />
           </button>
         </div>
@@ -181,8 +182,8 @@ export default function Navbar() {
           position: 'fixed',
           top: 0,
           left: 0,
-          right: 0,
-          bottom: 0,
+          width: '100%',
+          height: '100%',
           zIndex: 999,
           flexDirection: 'column',
           alignItems: 'center',

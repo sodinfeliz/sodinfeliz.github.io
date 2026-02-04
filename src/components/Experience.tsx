@@ -66,7 +66,7 @@ export default function Experience() {
           className={`scroll-animate ${headerVisible ? 'visible' : ''}`}
           style={{
             textAlign: 'center',
-            marginBottom: '64px',
+            marginBottom: 'clamp(40px, 8vw, 64px)',
           }}
         >
           <span style={{
@@ -133,13 +133,13 @@ export default function Experience() {
               {/* Timeline dot */}
               <div style={{
                 position: 'absolute',
-                left: 'clamp(-8px, -1vw, -6px)',
+                left: '-6px',
                 top: '8px',
-                width: 'clamp(10px, 2vw, 14px)',
-                height: 'clamp(10px, 2vw, 14px)',
+                width: '12px',
+                height: '12px',
                 borderRadius: '50%',
                 background: 'var(--purple-primary)',
-                border: '3px solid var(--bg-dark)',
+                border: '2px solid var(--bg-dark)',
                 boxShadow: '0 0 20px rgba(139, 92, 246, 0.5)',
               }} />
 
@@ -159,39 +159,44 @@ export default function Experience() {
                 }}
               >
                 <div style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'flex-start',
-                  flexWrap: 'wrap',
-                  gap: '8px',
                   marginBottom: '12px',
                 }}>
-                  <div>
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'flex-start',
+                    flexWrap: 'wrap',
+                    gap: '4px 16px',
+                  }}>
                     <h3 style={{
-                      fontSize: '1.25rem',
+                      fontSize: 'clamp(1.1rem, 3vw, 1.25rem)',
                       fontWeight: 600,
                       color: 'var(--text-primary)',
-                      marginBottom: '4px',
                     }}>
                       {exp.title}
                     </h3>
                     <p style={{
-                      fontSize: '1rem',
+                      fontSize: '0.875rem',
+                      color: 'var(--text-secondary)',
+                      whiteSpace: 'nowrap',
+                    }}>
+                      {exp.period}
+                    </p>
+                  </div>
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    flexWrap: 'wrap',
+                    gap: '4px 16px',
+                    marginTop: '4px',
+                  }}>
+                    <p style={{
+                      fontSize: 'clamp(0.9rem, 2.5vw, 1rem)',
                       color: 'var(--purple-glow)',
                       fontWeight: 500,
                     }}>
                       {exp.company}
-                    </p>
-                  </div>
-                  <div style={{
-                    textAlign: 'right',
-                  }}>
-                    <p style={{
-                      fontSize: '0.875rem',
-                      color: 'var(--text-secondary)',
-                      marginBottom: '2px',
-                    }}>
-                      {exp.period}
                     </p>
                     <p style={{
                       fontSize: '0.8rem',
@@ -209,7 +214,7 @@ export default function Experience() {
                 }}>
                   {exp.description.map((item, i) => (
                     <li key={i} style={{
-                      fontSize: '0.95rem',
+                      fontSize: 'clamp(0.85rem, 2.5vw, 0.95rem)',
                       color: 'var(--text-secondary)',
                       lineHeight: 1.7,
                       marginBottom: '8px',

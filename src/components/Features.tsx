@@ -72,7 +72,7 @@ export default function Features() {
           className={`scroll-animate ${headerVisible ? 'visible' : ''}`}
           style={{
             textAlign: 'center',
-            marginBottom: '64px',
+            marginBottom: 'clamp(40px, 8vw, 64px)',
           }}
         >
           <span style={{
