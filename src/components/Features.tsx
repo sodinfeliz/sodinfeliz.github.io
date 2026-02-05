@@ -8,7 +8,7 @@ const features = [
       </svg>
     ),
     title: 'Computer Vision',
-    description: 'Building object detection, anomaly detection, and image analysis systems for manufacturing and aerospace applications.',
+    description: 'Object detection, anomaly detection, and image analysis deployed in manufacturing and aerospace.',
   },
   {
     icon: (
@@ -17,7 +17,7 @@ const features = [
       </svg>
     ),
     title: 'NLP & RAG',
-    description: 'Developing document processing pipelines with OCR, LLM reasoning, and retrieval-augmented generation for enterprise solutions.',
+    description: 'Document processing with OCR, LLM reasoning, and RAG powering enterprise pipelines.',
   },
   {
     icon: (
@@ -28,7 +28,7 @@ const features = [
       </svg>
     ),
     title: 'MLOps & Backend',
-    description: 'Architecting scalable ML systems with FastAPI, Docker, PostgreSQL, and microservices-based worker architectures.',
+    description: 'Production-grade ML infrastructure with FastAPI, Docker, PostgreSQL, and microservices.',
   },
   {
     icon: (
@@ -38,7 +38,7 @@ const features = [
       </svg>
     ),
     title: 'LLM & Fine-tuning',
-    description: 'Exploring frontier methods including diffusion models, LoRA, AI agents, and LangChain for production-grade systems.',
+    description: 'Diffusion models, LoRA, AI agents, and LangChain for production systems.',
   },
 ]
 
@@ -90,10 +90,10 @@ export default function Features() {
           <h2 style={{
             fontSize: 'clamp(2rem, 5vw, 3rem)',
             fontWeight: 700,
-            marginBottom: '16px',
+            marginBottom: '8px',
             letterSpacing: '-0.02em',
           }}>
-            <span className="gradient-text">Expertise & Skills</span>
+            <span className="gradient-text">Applied AI Engineering</span>
           </h2>
           <p style={{
             fontSize: '1.1rem',
@@ -101,7 +101,7 @@ export default function Features() {
             maxWidth: '600px',
             margin: '0 auto',
           }}>
-            Specialized in building end-to-end AI solutions that drive real business impact
+            From research to production-ready systems
           </p>
         </div>
 
@@ -117,22 +117,10 @@ export default function Features() {
           {features.map((feature, index) => (
             <div
               key={index}
-              className={`glass scroll-animate ${gridVisible ? 'visible' : ''} stagger-${index + 1}`}
+              className={`glass feature-card scroll-animate ${gridVisible ? 'visible' : ''} stagger-${index + 1}`}
               style={{
                 padding: 'clamp(24px, 5vw, 32px)',
-                transition: 'all 0.3s ease, opacity 0.6s ease, transform 0.6s ease',
                 cursor: 'default',
-                transitionDelay: `${index * 0.1}s`,
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = 'var(--bg-card-hover)'
-                e.currentTarget.style.boxShadow = '0 20px 40px rgba(139, 92, 246, 0.2)'
-                e.currentTarget.style.borderColor = 'var(--purple-primary)'
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = 'var(--bg-card)'
-                e.currentTarget.style.boxShadow = 'none'
-                e.currentTarget.style.borderColor = 'var(--border-color)'
               }}
             >
               <div style={{

@@ -109,6 +109,18 @@ button {
   box-shadow: 0 8px 30px rgba(124, 58, 237, 0.1);
 }
 
+/* Feature cards */
+.feature-card {
+  background: var(--bg-card);
+  transition: background 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.feature-card:hover {
+  background: var(--bg-card-hover);
+  box-shadow: 0 20px 40px rgba(139, 92, 246, 0.2);
+  border-color: var(--purple-primary);
+}
+
 /* Gradient text utility - static for performance */
 .gradient-text {
   background: linear-gradient(
