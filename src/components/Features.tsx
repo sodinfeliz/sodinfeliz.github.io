@@ -123,17 +123,20 @@ export default function Features() {
                 cursor: 'default',
               }}
             >
-              <div style={{
-                width: '56px',
-                height: '56px',
-                borderRadius: '12px',
-                background: 'linear-gradient(135deg, var(--purple-primary) 0%, var(--purple-deep) 100%)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginBottom: '20px',
-                color: 'white',
-              }}>
+              <div
+                className="feature-icon"
+                style={{
+                  width: '56px',
+                  height: '56px',
+                  borderRadius: '12px',
+                  background: 'linear-gradient(135deg, var(--purple-primary) 0%, var(--purple-deep) 100%)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginBottom: '20px',
+                  color: 'white',
+                  boxShadow: '0 4px 20px rgba(124, 58, 237, 0.35)',
+                }}>
                 {feature.icon}
               </div>
               <h3 style={{

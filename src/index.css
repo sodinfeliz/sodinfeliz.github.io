@@ -121,6 +121,16 @@ button {
   border-color: var(--purple-primary);
 }
 
+/* Feature card icons */
+.feature-icon {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.feature-card:hover .feature-icon {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 8px 28px rgba(124, 58, 237, 0.5);
+}
+
 /* Gradient text utility - static for performance */
 .gradient-text {
   background: linear-gradient(
