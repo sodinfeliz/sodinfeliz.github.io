@@ -129,6 +129,26 @@ button {
   border-color: rgba(139, 92, 246, 0.4);
 }
 
+/* Project cards */
+.project-card {
+  background: rgba(15, 10, 30, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(139, 92, 246, 0.15);
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transition: background 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.project-card:hover {
+  background: rgba(20, 12, 40, 0.7);
+  box-shadow:
+    0 20px 40px rgba(139, 92, 246, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  border-color: rgba(139, 92, 246, 0.4);
+}
+
 /* Feature card icons */
 .feature-icon {
   transition: transform 0.2s ease, box-shadow 0.2s ease;

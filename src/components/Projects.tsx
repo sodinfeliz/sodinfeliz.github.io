@@ -106,22 +106,11 @@ export default function Projects() {
         {/* Featured Project with GIF */}
         <div
           ref={featuredRef}
-          className={`scroll-animate ${featuredVisible ? 'visible' : ''}`}
+          className={`project-card scroll-animate ${featuredVisible ? 'visible' : ''}`}
           style={{
             marginBottom: '40px',
             borderRadius: '24px',
-            background: 'linear-gradient(135deg, rgba(10, 10, 20, 0.9) 0%, rgba(20, 10, 40, 0.8) 100%)',
-            border: '1px solid rgba(139, 92, 246, 0.15)',
             overflow: 'hidden',
-            transition: 'border-color 0.3s ease, box-shadow 0.3s ease',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.borderColor = 'rgba(139, 92, 246, 0.4)'
-            e.currentTarget.style.boxShadow = '0 20px 60px rgba(139, 92, 246, 0.15)'
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.borderColor = 'rgba(139, 92, 246, 0.15)'
-            e.currentTarget.style.boxShadow = 'none'
           }}
         >
           {/* GIF Preview */}
@@ -207,28 +196,18 @@ export default function Projects() {
           {projects.map((project, index) => (
             <div
               key={index}
-              className={`scroll-animate ${gridVisible ? 'visible' : ''}`}
+              className={`project-card scroll-animate ${gridVisible ? 'visible' : ''}`}
               style={{
                 borderRadius: '20px',
-                background: 'linear-gradient(135deg, rgba(10, 10, 20, 0.9) 0%, rgba(20, 10, 40, 0.8) 100%)',
-                border: '1px solid rgba(139, 92, 246, 0.1)',
                 overflow: 'hidden',
-                transition: 'border-color 0.3s ease, box-shadow 0.3s ease, opacity 0.6s ease, transform 0.6s ease',
                 transitionDelay: `${index * 0.15}s`,
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.boxShadow = '0 20px 60px rgba(139, 92, 246, 0.15)'
-                e.currentTarget.style.borderColor = 'rgba(139, 92, 246, 0.3)'
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.boxShadow = 'none'
-                e.currentTarget.style.borderColor = 'rgba(139, 92, 246, 0.1)'
               }}
             >
               {/* Gradient header */}
               <div style={{
-                height: '6px',
+                height: '3px',
                 background: project.gradient,
+                boxShadow: '0 0 20px rgba(139, 92, 246, 0.6), 0 0 40px rgba(139, 92, 246, 0.3)',
               }} />
 
               <div style={{ padding: 'clamp(20px, 4vw, 28px)' }}>
