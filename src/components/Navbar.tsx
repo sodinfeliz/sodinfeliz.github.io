@@ -11,10 +11,31 @@ const navLinks = [
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [activeSection, setActiveSection] = useState('home')
+  const [scrollProgress, setScrollProgress] = useState(0)
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50)
+
+      // Calculate scroll progress
+      const scrollTop = window.scrollY
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight
+      const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0
+      setScrollProgress(progress)
+
+      // Determine active section
+      const sections = navLinks.map(link => link.href.replace('#', ''))
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const section = document.getElementById(sections[i])
+        if (section) {
+          const rect = section.getBoundingClientRect()
+          if (rect.top <= 150) {
+            setActiveSection(sections[i])
+            break
+          }
+        }
+      }
     }
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
@@ -50,6 +71,19 @@ export default function Navbar() {
 
   return (
     <>
+      {/* Scroll Progress Bar */}
+      <div style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: `${scrollProgress}%`,
+        height: '2px',
+        background: 'linear-gradient(90deg, var(--purple-primary), var(--purple-glow))',
+        boxShadow: '0 0 10px rgba(139, 92, 246, 0.5)',
+        zIndex: 1001,
+        transition: 'width 0.1s ease-out',
+      }} />
+
       <nav style={{
         position: 'fixed',
         top: 0,
@@ -87,30 +121,38 @@ export default function Navbar() {
             border: '1px solid var(--border-color)',
             backdropFilter: 'blur(12px)',
           }}>
-            {navLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                style={{
-                  padding: '10px 20px',
-                  borderRadius: '50px',
-                  fontSize: '0.9rem',
-                  fontWeight: 300,
-                  color: 'var(--text-secondary)',
-                  transition: 'all 0.3s ease',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.color = 'var(--text-primary)'
-                  e.currentTarget.style.background = 'var(--bg-card-hover)'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.color = 'var(--text-secondary)'
-                  e.currentTarget.style.background = 'transparent'
-                }}
-              >
-                {link.name}
-              </a>
-            ))}
+            {navLinks.map((link) => {
+              const isActive = activeSection === link.href.replace('#', '')
+              return (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  style={{
+                    padding: '10px 20px',
+                    borderRadius: '50px',
+                    fontSize: '0.9rem',
+                    fontWeight: isActive ? 500 : 300,
+                    color: isActive ? 'var(--text-primary)' : 'var(--text-secondary)',
+                    background: isActive ? 'rgba(139, 92, 246, 0.15)' : 'transparent',
+                    transition: 'all 0.2s ease',
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!isActive) {
+                      e.currentTarget.style.color = 'var(--text-primary)'
+                      e.currentTarget.style.background = 'var(--bg-card-hover)'
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!isActive) {
+                      e.currentTarget.style.color = 'var(--text-secondary)'
+                      e.currentTarget.style.background = 'transparent'
+                    }
+                  }}
+                >
+                  {link.name}
+                </a>
+              )
+            })}
           </div>
 
           {/* Desktop CTA Button */}
@@ -201,31 +243,36 @@ export default function Navbar() {
           alignItems: 'center',
           gap: '8px',
         }}>
-          {navLinks.map((link, index) => (
-            <a
-              key={link.name}
-              href={link.href}
-              onClick={handleLinkClick}
-              style={{
-                padding: '16px 32px',
-                fontSize: '1.25rem',
-                fontWeight: 500,
-                color: 'var(--text-secondary)',
-                transition: 'all 0.3s ease',
-                transform: isMobileMenuOpen ? 'translateY(0)' : 'translateY(20px)',
-                opacity: isMobileMenuOpen ? 1 : 0,
-                transitionDelay: `${index * 0.05}s`,
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.color = 'var(--purple-glow)'
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.color = 'var(--text-secondary)'
-              }}
-            >
-              {link.name}
-            </a>
-          ))}
+          {navLinks.map((link, index) => {
+            const isActive = activeSection === link.href.replace('#', '')
+            return (
+              <a
+                key={link.name}
+                href={link.href}
+                onClick={handleLinkClick}
+                style={{
+                  padding: '16px 32px',
+                  fontSize: '1.25rem',
+                  fontWeight: isActive ? 600 : 500,
+                  color: isActive ? 'var(--purple-glow)' : 'var(--text-secondary)',
+                  transition: 'all 0.3s ease',
+                  transform: isMobileMenuOpen ? 'translateY(0)' : 'translateY(20px)',
+                  opacity: isMobileMenuOpen ? 1 : 0,
+                  transitionDelay: `${index * 0.05}s`,
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = 'var(--purple-glow)'
+                }}
+                onMouseLeave={(e) => {
+                  if (!isActive) {
+                    e.currentTarget.style.color = 'var(--text-secondary)'
+                  }
+                }}
+              >
+                {link.name}
+              </a>
+            )
+          })}
           <a
             href="#contact"
             onClick={handleLinkClick}
