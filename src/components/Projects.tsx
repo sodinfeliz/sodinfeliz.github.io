@@ -10,14 +10,15 @@ const featuredProject = {
 
 const projects = [
   {
-    title: 'AI Document Verification Platform',
+    title: 'I-140 Cross Check',
     company: 'Pacston',
     description: 'End-to-end document processing system integrating LLM reasoning with OCR for complex PDF analysis.',
+    image: '/i140_cover.jpg',
     metrics: [
       { value: '80%', label: 'Time Saved' },
       { value: '32%', label: 'Efficiency Gain' },
     ],
-    tags: ['LLM', 'OCR', 'FastAPI', 'Docker'],
+    tags: ['LLM', 'OCR', 'FastAPI', 'Docker', 'AWS'],
     gradient: 'linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%)',
   },
   {
