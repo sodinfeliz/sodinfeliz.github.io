@@ -2,6 +2,7 @@ import { useScrollAnimation } from '../hooks/useScrollAnimation'
 
 const featuredProject = {
   title: 'Car Detection System',
+  company: 'GEOSAT',
   description: 'Real-time vehicle detection and tracking system using deep learning for traffic monitoring and analysis.',
   image: '/car-detection.gif',
   tags: ['Computer Vision', 'Deep Learning', 'Object Detection', 'YOLO'],
@@ -10,6 +11,7 @@ const featuredProject = {
 const projects = [
   {
     title: 'AI Document Verification Platform',
+    company: 'Pacston',
     description: 'End-to-end document processing system integrating LLM reasoning with OCR for complex PDF analysis.',
     metrics: [
       { value: '80%', label: 'Time Saved' },
@@ -20,6 +22,7 @@ const projects = [
   },
   {
     title: 'iVIT-AOI Anomaly Detection',
+    company: 'Innodisk',
     description: 'Manufacturing line anomaly detection system built with NVIDIA TAO Toolkit for industrial QA.',
     image: '/ivit_aoi_cover.png',
     metrics: [
@@ -31,6 +34,7 @@ const projects = [
   },
   {
     title: 'Palm Tree Detection System',
+    company: 'GEOSAT',
     description: 'Deep learning solution for aerial imagery analysis, accurately identifying oil palm tree locations.',
     image: '/palm_prediction_cover.png',
     metrics: [
@@ -149,10 +153,20 @@ export default function Projects() {
               fontSize: '1.5rem',
               fontWeight: 600,
               color: 'var(--text-primary)',
-              marginBottom: '12px',
+              marginBottom: '4px',
             }}>
               {featuredProject.title}
             </h3>
+            <span style={{
+              fontSize: '0.75rem',
+              color: 'var(--text-muted)',
+              textTransform: 'uppercase',
+              letterSpacing: '0.08em',
+              display: 'inline-block',
+              marginBottom: '12px',
+            }}>
+              @ {featuredProject.company}
+            </span>
 
             <p style={{
               fontSize: '1rem',
@@ -245,10 +259,20 @@ export default function Projects() {
                   fontSize: 'clamp(1.1rem, 3vw, 1.3rem)',
                   fontWeight: 600,
                   color: 'var(--text-primary)',
-                  marginBottom: '12px',
+                  marginBottom: '2px',
                 }}>
                   {project.title}
                 </h3>
+                <span style={{
+                  fontSize: '0.7rem',
+                  color: 'var(--text-muted)',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.08em',
+                  display: 'inline-block',
+                  marginBottom: '12px',
+                }}>
+                  @ {project.company}
+                </span>
 
                 <p style={{
                   fontSize: 'clamp(0.85rem, 2.5vw, 0.95rem)',
