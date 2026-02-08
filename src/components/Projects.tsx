@@ -31,11 +31,12 @@ const projects = [
   {
     title: 'Palm Tree Detection System',
     description: 'Deep learning solution for aerial imagery analysis, accurately identifying oil palm tree locations.',
+    image: '/palm_prediction_cover.png',
     metrics: [
       { value: '95%', label: 'Time Reduced' },
       { value: '98%', label: 'Accuracy' },
     ],
-    tags: ['Deep Learning', 'Computer Vision', 'PySide'],
+    tags: ['Deep Learning', 'Computer Vision', 'Aerial Image', 'PySide'],
     gradient: 'linear-gradient(135deg, #c084fc 0%, #a855f7 100%)',
   },
 ]
@@ -203,12 +204,40 @@ export default function Projects() {
                 transitionDelay: `${index * 0.15}s`,
               }}
             >
-              {/* Gradient header */}
-              <div style={{
-                height: '3px',
-                background: project.gradient,
-                boxShadow: '0 0 20px rgba(139, 92, 246, 0.6), 0 0 40px rgba(139, 92, 246, 0.3)',
-              }} />
+              {/* Header: image or gradient line */}
+              {project.image ? (
+                <div style={{
+                  width: '100%',
+                  height: 'clamp(120px, 25vw, 180px)',
+                  overflow: 'hidden',
+                  position: 'relative',
+                }}>
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      objectPosition: 'center',
+                    }}
+                  />
+                  <div style={{
+                    position: 'absolute',
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    height: '60px',
+                    background: 'linear-gradient(transparent, rgba(10, 10, 20, 0.9))',
+                  }} />
+                </div>
+              ) : (
+                <div style={{
+                  height: '3px',
+                  background: project.gradient,
+                  boxShadow: '0 0 20px rgba(139, 92, 246, 0.6), 0 0 40px rgba(139, 92, 246, 0.3)',
+                }} />
+              )}
 
               <div style={{ padding: 'clamp(20px, 4vw, 28px)' }}>
                 <h3 style={{
@@ -264,11 +293,11 @@ export default function Projects() {
                 }}>
                   {project.tags.map((tag, i) => (
                     <span key={i} style={{
-                      padding: '6px 14px',
+                      padding: '4px 10px',
                       borderRadius: '50px',
                       background: 'rgba(139, 92, 246, 0.1)',
                       border: '1px solid rgba(139, 92, 246, 0.2)',
-                      fontSize: '0.8rem',
+                      fontSize: '0.7rem',
                       color: 'var(--purple-glow)',
                     }}>
                       {tag}
