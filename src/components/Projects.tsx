@@ -21,6 +21,7 @@ const projects = [
   {
     title: 'iVIT-AOI Anomaly Detection',
     description: 'Manufacturing line anomaly detection system built with NVIDIA TAO Toolkit for industrial QA.',
+    image: '/ivit_aoi_cover.png',
     metrics: [
       { value: '99%', label: 'Accuracy' },
       { value: '10x', label: 'Faster Detection' },
