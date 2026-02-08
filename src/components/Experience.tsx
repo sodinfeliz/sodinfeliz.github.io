@@ -104,7 +104,7 @@ export default function Experience() {
           ref={timelineRef}
           style={{
             position: 'relative',
-            maxWidth: '800px',
+            maxWidth: '700px',
             margin: '0 auto',
           }}
         >
@@ -144,18 +144,9 @@ export default function Experience() {
               }} />
 
               <div
-                className="glass"
+                className="glass feature-card"
                 style={{
                   padding: 'clamp(20px, 4vw, 28px)',
-                  transition: 'all 0.3s ease',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = 'var(--bg-card-hover)'
-                  e.currentTarget.style.borderColor = 'var(--purple-primary)'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = 'var(--bg-card)'
-                  e.currentTarget.style.borderColor = 'var(--border-color)'
                 }}
               >
                 <div style={{

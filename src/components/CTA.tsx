@@ -105,8 +105,7 @@ export default function CTA() {
               margin: '0 auto 32px',
               lineHeight: 1.7,
             }}>
-              Have a project in mind or want to explore AI solutions for your business?
-              I'd love to hear from you.
+              Got an AI challenge? Let's talk.
             </p>
 
             <a href="mailto:sodinfeliz@gmail.com" className="btn btn-primary" style={{

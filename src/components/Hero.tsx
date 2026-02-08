@@ -1,10 +1,4 @@
 export default function Hero() {
-  const stats = [
-    { icon: '↗', value: '6+', label: 'Years of Experience' },
-    { icon: '↗', value: '95%', label: 'Efficiency Improvement', highlight: true },
-    { icon: '↗', value: '10+', label: 'AI Systems Deployed' },
-  ]
-
   return (
     <section id="home" style={{
       minHeight: '100vh',
@@ -15,7 +9,7 @@ export default function Hero() {
       position: 'relative',
       overflow: 'hidden',
       paddingTop: '100px',
-      paddingBottom: '60px',
+      paddingBottom: '140px',
     }}>
       {/* Fancy animated background */}
       <div style={{
@@ -91,7 +85,7 @@ export default function Hero() {
         boxSizing: 'border-box',
       }}>
         {/* Badge */}
-        <div className="animate-fade-in-up" style={{
+        <a href="#contact" className="animate-fade-in-up" style={{
           display: 'inline-flex',
           alignItems: 'center',
           gap: '10px',
@@ -102,7 +96,17 @@ export default function Hero() {
           marginBottom: '36px',
           fontSize: '0.85rem',
           color: 'var(--purple-glow)',
-        }}>
+          cursor: 'pointer',
+          transition: 'border-color 0.2s ease, background 0.2s ease',
+        }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.borderColor = 'rgba(124, 58, 237, 0.4)'
+            e.currentTarget.style.background = 'rgba(124, 58, 237, 0.15)'
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.borderColor = 'rgba(124, 58, 237, 0.2)'
+            e.currentTarget.style.background = 'rgba(124, 58, 237, 0.1)'
+          }}>
           <span style={{
             width: '8px',
             height: '8px',
@@ -111,7 +115,7 @@ export default function Hero() {
             boxShadow: '0 0 8px #22c55e',
           }} />
           Available for opportunities
-        </div>
+        </a>
 
         {/* Main headline */}
         <h1 className="animate-fade-in-up animate-delay-1" style={{
@@ -121,7 +125,7 @@ export default function Hero() {
           marginBottom: '20px',
           letterSpacing: '-0.04em',
         }}>
-          <span style={{ color: 'var(--text-primary)' }}>Building </span>
+          <span style={{ color: 'var(--text-primary)' }}>Engineering </span>
           <span className="gradient-text">Intelligent</span>
           <br />
           <span className="gradient-text">AI Systems</span>
@@ -135,8 +139,9 @@ export default function Hero() {
           margin: '0 auto 44px',
           lineHeight: 1.8,
         }}>
-          Senior AI Engineer with 6+ years designing production-grade systems.
-          Expertise in computer vision, NLP, LLMs, and scalable ML infrastructure.
+          Senior AI Engineer with 6+ years shipping production systems.
+          <br />
+          Computer vision, NLP, LLMs, and scalable ML infrastructure.
         </p>
 
         {/* CTA buttons */}
@@ -146,7 +151,6 @@ export default function Hero() {
           justifyContent: 'center',
           gap: 'clamp(12px, 3vw, 16px)',
           flexWrap: 'wrap',
-          marginBottom: 'clamp(60px, 12vw, 100px)',
         }}>
           <a href="#experience" className="btn btn-primary">
             View Experience
@@ -154,81 +158,6 @@ export default function Hero() {
           <a href="#projects" className="btn btn-secondary">
             See Projects
           </a>
-        </div>
-
-        {/* Stats row */}
-        <div className="animate-fade-in-up animate-delay-4" style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(min(180px, 100%), 1fr))',
-          gap: 'clamp(12px, 3vw, 20px)',
-          maxWidth: '900px',
-          margin: '0 auto',
-          width: '100%',
-        }}>
-          {stats.map((stat, index) => (
-            <div
-              key={index}
-              style={{
-                padding: 'clamp(20px, 4vw, 28px) clamp(16px, 4vw, 32px)',
-                borderRadius: 'clamp(16px, 3vw, 20px)',
-                background: stat.highlight
-                  ? 'linear-gradient(135deg, rgba(124, 58, 237, 0.15) 0%, rgba(124, 58, 237, 0.05) 100%)'
-                  : 'linear-gradient(135deg, rgba(10, 10, 20, 0.8) 0%, rgba(20, 10, 40, 0.6) 100%)',
-                border: stat.highlight
-                  ? '1px solid rgba(124, 58, 237, 0.3)'
-                  : '1px solid rgba(124, 58, 237, 0.1)',
-                transition: 'transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease',
-                cursor: 'default',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-6px)'
-                e.currentTarget.style.borderColor = 'rgba(124, 58, 237, 0.4)'
-                e.currentTarget.style.boxShadow = '0 20px 40px rgba(124, 58, 237, 0.15)'
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)'
-                e.currentTarget.style.borderColor = stat.highlight
-                  ? 'rgba(124, 58, 237, 0.3)'
-                  : 'rgba(124, 58, 237, 0.1)'
-                e.currentTarget.style.boxShadow = 'none'
-              }}
-            >
-              <div style={{
-                display: 'flex',
-                alignItems: 'flex-start',
-                justifyContent: 'space-between',
-                marginBottom: '14px',
-              }}>
-                <span style={{
-                  fontSize: '0.85rem',
-                  color: 'var(--text-muted)',
-                  fontWeight: 500,
-                }}>
-                  {stat.label}
-                </span>
-                <span style={{
-                  fontSize: '1.1rem',
-                  color: 'var(--purple-glow)',
-                  opacity: 0.6,
-                }}>
-                  {stat.icon}
-                </span>
-              </div>
-              <div style={{
-                fontSize: 'clamp(2rem, 6vw, 2.75rem)',
-                fontWeight: 700,
-                background: stat.highlight
-                  ? 'linear-gradient(135deg, var(--purple-glow) 0%, var(--accent-pink) 100%)'
-                  : 'linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-                letterSpacing: '-0.02em',
-              }}>
-                {stat.value}
-              </div>
-            </div>
-          ))}
         </div>
       </div>
     </section>
