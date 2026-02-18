@@ -194,7 +194,7 @@ export default function Navbar() {
               </svg>
             </a>
             <a
-              href="https://linkedin.com/in/ethan-suu"
+              href="https://www.linkedin.com/in/elliot-su/"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn"
