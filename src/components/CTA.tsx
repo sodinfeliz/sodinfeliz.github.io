@@ -171,7 +171,7 @@ export default function CTA() {
           color: 'var(--text-muted)',
           fontSize: '0.875rem',
         }}>
-          <p>&copy; {new Date().getFullYear()} Ethan Su. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Elliot Su. All rights reserved.</p>
           <p style={{
             marginTop: '12px',
             fontSize: '0.8rem',

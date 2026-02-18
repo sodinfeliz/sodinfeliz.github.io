@@ -107,7 +107,7 @@ export default function Navbar() {
             letterSpacing: '-0.02em',
             zIndex: 1001,
           }}>
-            <span className="gradient-text">Ethan Su</span>
+            <span className="gradient-text">Elliot Su</span>
           </a>
 
           {/* Desktop Navigation */}
