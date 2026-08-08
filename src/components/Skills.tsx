@@ -1,28 +1,25 @@
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
+import { SectionHeader } from './Session'
 
 const skillAreas = [
   {
-    file: 'computer_vision.md',
+    dir: 'computer_vision',
     accent: 'var(--green)',
-    title: 'Computer Vision',
     description: 'Object detection, anomaly detection, and image analysis deployed in manufacturing and aerospace.',
   },
   {
-    file: 'nlp_rag.md',
+    dir: 'nlp_rag',
     accent: 'var(--cyan)',
-    title: 'NLP & RAG',
     description: 'Document processing with OCR, LLM reasoning, and RAG powering enterprise pipelines.',
   },
   {
-    file: 'mlops_backend.md',
+    dir: 'mlops_backend',
     accent: 'var(--amber)',
-    title: 'MLOps & Backend',
     description: 'Production-grade ML infrastructure with FastAPI, Docker, PostgreSQL, and microservices.',
   },
   {
-    file: 'llm_finetuning.md',
+    dir: 'llm_finetuning',
     accent: 'var(--magenta)',
-    title: 'LLM & Fine-tuning',
     description: 'Diffusion models, LoRA, AI agents, and LangChain for production systems.',
   },
 ]
@@ -39,42 +36,39 @@ export default function Skills() {
     <section id="skills">
       <div className="container">
         <div ref={ref} className={`reveal ${isVisible ? 'visible' : ''}`}>
-          <h2 className="section-cmd">
-            <span className="prompt-symbol">$ </span>
-            <span style={{ color: 'var(--green)' }}>ls</span> ~/skills
-          </h2>
-          <p className="section-comment"># what i work with, day to day</p>
+          <SectionHeader
+            cmd={<><span style={{ color: 'var(--green)' }}>tree</span> ~/skills</>}
+            comment="what i work with, day to day"
+          />
 
-          <div className="skills-grid">
-            {skillAreas.map((area) => (
-              <div key={area.file} className="term-card">
-                <div style={{ fontSize: '12.5px', color: 'var(--text-faint)', marginBottom: '10px' }}>
-                  <span style={{ color: area.accent }}>▸ </span>
-                  {area.file}
+          <div style={{ fontSize: '14px', lineHeight: 1.9 }}>
+            <div style={{ color: 'var(--blue)', fontWeight: 700 }}>~/skills</div>
+            {skillAreas.map((area, i) => {
+              const isLast = i === skillAreas.length - 1
+              return (
+                <div key={area.dir}>
+                  <div>
+                    <span style={{ color: 'var(--text-faint)' }}>{isLast ? '└── ' : '├── '}</span>
+                    <span style={{ color: area.accent, fontWeight: 700 }}>{area.dir}/</span>
+                  </div>
+                  <div className="tree-desc" style={{ display: 'flex' }}>
+                    <span style={{ color: 'var(--text-faint)', whiteSpace: 'pre' }}>{isLast ? '    └── ' : '│   └── '}</span>
+                    <span style={{ color: 'var(--text-dim)', flex: 1 }}>{area.description}</span>
+                  </div>
                 </div>
-                <h3 style={{ fontSize: '15.5px', fontWeight: 700, color: area.accent, marginBottom: '8px' }}>
-                  {area.title}
-                </h3>
-                <p style={{ fontSize: '13.5px', color: 'var(--text-dim)', lineHeight: 1.65 }}>
-                  {area.description}
-                </p>
-              </div>
-            ))}
+              )
+            })}
+            <div style={{ color: 'var(--text-faint)', marginTop: '10px' }}>
+              4 directories, ∞ possibilities
+            </div>
           </div>
 
-          <div
-            style={{
-              marginTop: '28px',
-              padding: '16px 20px',
-              background: 'var(--bg-soft)',
-              border: '1px dashed var(--border-bright)',
-              borderRadius: '8px',
-              fontSize: '13.5px',
-            }}
-          >
-            <span style={{ color: 'var(--text-faint)' }}>$ which </span>
-            <span style={{ color: 'var(--text-dim)' }}>everything</span>
-            <div style={{ marginTop: '10px', display: 'flex', flexWrap: 'wrap' }}>
+          <div style={{ marginTop: '36px', fontSize: '14px' }}>
+            <div style={{ marginBottom: '12px' }}>
+              <span className="prompt-symbol">$ </span>
+              <span style={{ color: 'var(--green)' }}>which</span> everything
+            </div>
+            <div style={{ display: 'flex', flexWrap: 'wrap' }}>
               {toolchain.map((tool) => (
                 <span key={tool} className="tag">{tool}</span>
               ))}

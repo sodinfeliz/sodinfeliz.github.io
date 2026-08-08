@@ -1,4 +1,5 @@
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
+import { SectionHeader } from './Session'
 
 const experiences = [
   {
@@ -54,11 +55,10 @@ export default function Experience() {
     <section id="experience">
       <div className="container">
         <div ref={headerRef} className={`reveal ${headerVisible ? 'visible' : ''}`}>
-          <h2 className="section-cmd">
-            <span className="prompt-symbol">$ </span>
-            <span style={{ color: 'var(--green)' }}>git log</span> --graph experience
-          </h2>
-          <p className="section-comment"># 6+ years of commits to production AI</p>
+          <SectionHeader
+            cmd={<><span style={{ color: 'var(--green)' }}>git log</span> --graph experience</>}
+            comment="6+ years of commits to production AI"
+          />
         </div>
 
         <div ref={listRef} className={`reveal ${listVisible ? 'visible' : ''}`}>

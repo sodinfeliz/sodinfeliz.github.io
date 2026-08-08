@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
+import { Prompt } from './Session'
+import { WindowId } from '../App'
 
 type Line = {
   kind: 'cmd' | 'out' | 'ok' | 'err' | 'banner' | 'hint'
@@ -42,6 +44,8 @@ const HELP: Line[] = [
   { kind: 'out', text: '  clear         clear the terminal' },
 ]
 
+let bootedOnce = false
+
 function runCommand(raw: string): { lines: Line[]; action?: 'clear' | string } {
   const input = raw.trim()
   const [cmd, ...args] = input.split(/\s+/)
@@ -54,19 +58,20 @@ function runCommand(raw: string): { lines: Line[]; action?: 'clear' | string } {
     case 'whoami':
       return { lines: [{ kind: 'out', text: 'Elliot Su — Senior AI Engineer @ Pacston Technologies' }] }
     case 'skills':
-      return { lines: [{ kind: 'ok', text: 'navigating to ~/skills ...' }], action: '#skills' }
+      return { lines: [{ kind: 'ok', text: 'switching to window 1:skills ...' }], action: 'skills' }
     case 'experience':
-      return { lines: [{ kind: 'ok', text: 'navigating to ~/experience ...' }], action: '#experience' }
+      return { lines: [{ kind: 'ok', text: 'switching to window 2:experience ...' }], action: 'experience' }
     case 'projects':
-      return { lines: [{ kind: 'ok', text: 'navigating to ~/projects ...' }], action: '#projects' }
+      return { lines: [{ kind: 'ok', text: 'switching to window 3:projects ...' }], action: 'projects' }
     case 'contact':
       return {
         lines: [
           { kind: 'out', text: 'email    → sodinfeliz@gmail.com' },
           { kind: 'out', text: 'github   → github.com/sodinfeliz' },
           { kind: 'out', text: 'linkedin → linkedin.com/in/elliot-su' },
+          { kind: 'ok', text: 'switching to window 4:contact ...' },
         ],
-        action: '#contact',
+        action: 'contact',
       }
     case 'ls':
       return { lines: [{ kind: 'out', text: 'skills/  experience/  projects/  contact/  README.md' }] }
@@ -88,17 +93,6 @@ function runCommand(raw: string): { lines: Line[]; action?: 'clear' | string } {
   }
 }
 
-function Prompt() {
-  return (
-    <>
-      <span className="prompt-user">elliot@su</span>
-      <span className="prompt-symbol">:</span>
-      <span className="prompt-path">~</span>
-      <span className="prompt-symbol">$ </span>
-    </>
-  )
-}
-
 function LineView({ line }: { line: Line }) {
   if (line.kind === 'banner') {
     return (
@@ -106,9 +100,9 @@ function LineView({ line }: { line: Line }) {
         className="term-line"
         style={{
           color: 'var(--green)',
-          fontSize: 'clamp(7px, 2.2vw, 13px)',
+          fontSize: 'clamp(7px, 2.4vw, 14px)',
           lineHeight: 1.25,
-          margin: '4px 0 10px',
+          margin: '4px 0 14px',
           textShadow: '0 0 12px rgba(74, 222, 128, 0.35)',
         }}
       >
@@ -136,18 +130,27 @@ function LineView({ line }: { line: Line }) {
   )
 }
 
-export default function Hero() {
+export default function Hero({ onNavigate }: { onNavigate: (id: WindowId) => void }) {
   const [lines, setLines] = useState<Line[]>([{ kind: 'banner', text: BANNER }])
   const [typing, setTyping] = useState<string | null>(null)
   const [booted, setBooted] = useState(false)
   const [input, setInput] = useState('')
-  const bodyRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     let cancelled = false
     const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+    if (bootedOnce) {
+      setLines([
+        { kind: 'banner', text: BANNER },
+        ...bootScript.flatMap((s) => [{ kind: 'cmd', text: s.cmd } as Line, ...s.output]),
+        { kind: 'hint', text: "# type `help` to explore this site" },
+      ])
+      setBooted(true)
+      return
+    }
 
     const boot = async () => {
       await sleep(500)
@@ -170,6 +173,7 @@ export default function Hero() {
       if (cancelled) return
       setLines((prev) => [...prev, { kind: 'hint', text: "# type `help` to explore this site" }])
       setBooted(true)
+      bootedOnce = true
     }
 
     boot()
@@ -178,25 +182,22 @@ export default function Hero() {
     }
   }, [])
 
-  useEffect(() => {
-    const el = bodyRef.current
-    if (el) el.scrollTop = el.scrollHeight
-  }, [lines, typing])
-
   const submit = () => {
     const value = input
     setInput('')
     const { lines: out, action } = runCommand(value)
     if (action === 'clear') {
-      setLines([])
+      setLines([{ kind: 'banner', text: BANNER }])
       return
     }
     setLines((prev) => [...prev, { kind: 'cmd', text: value }, ...out])
-    if (action && action.startsWith('#')) {
+    if (action) {
       inputRef.current?.blur()
+      setTimeout(() => onNavigate(action as WindowId), 500)
+    } else {
       setTimeout(() => {
-        document.querySelector(action)?.scrollIntoView({ behavior: 'smooth' })
-      }, 450)
+        inputRef.current?.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
+      }, 50)
     }
   }
 
@@ -204,76 +205,70 @@ export default function Hero() {
     <section
       id="home"
       style={{
-        minHeight: '100vh',
+        minHeight: 'calc(100vh - 78px)',
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingTop: '90px',
+        justifyContent: 'flex-start',
+        paddingTop: '48px',
+        paddingBottom: '48px',
       }}
     >
-      <div className="container" style={{ width: '100%', maxWidth: '760px' }}>
-        <div className="term-window">
-          <div className="term-titlebar">
-            <span className="term-dot red" />
-            <span className="term-dot yellow" />
-            <span className="term-dot green" />
-            <span className="term-title">elliot@su: ~/portfolio — zsh</span>
-          </div>
-          <div
-            ref={bodyRef}
-            className="term-body"
-            onClick={() => inputRef.current?.focus()}
-            style={{ height: 'min(420px, 55vh)', overflowY: 'auto', cursor: 'text' }}
-          >
-            {lines.map((line, i) => (
-              <LineView key={i} line={line} />
-            ))}
+      <div
+        className="container"
+        style={{ width: '100%', cursor: 'text' }}
+        onClick={(e) => {
+          if (window.getSelection()?.toString()) return
+          if ((e.target as HTMLElement).closest('a, button, input')) return
+          inputRef.current?.focus()
+        }}
+      >
+        <div style={{ fontSize: '14px' }}>
+          {lines.map((line, i) => (
+            <LineView key={i} line={line} />
+          ))}
 
-            {typing !== null && (
-              <div>
+          {typing !== null && (
+            <div>
+              <Prompt />
+              <span>{typing}</span>
+              <span className="cursor" />
+            </div>
+          )}
+
+          {booted && (
+            <div style={{ display: 'flex', alignItems: 'baseline' }}>
+              <span style={{ whiteSpace: 'nowrap' }}>
                 <Prompt />
-                <span>{typing}</span>
-                <span className="cursor" />
-              </div>
-            )}
-
-            {booted && (
-              <div style={{ display: 'flex', alignItems: 'baseline' }}>
-                <span style={{ whiteSpace: 'nowrap' }}>
-                  <Prompt />
-                </span>
-                <input
-                  ref={inputRef}
-                  className="term-input"
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  onKeyDown={(e) => e.key === 'Enter' && submit()}
-                  spellCheck={false}
-                  autoCapitalize="off"
-                  autoComplete="off"
-                  aria-label="terminal input"
-                />
-              </div>
-            )}
-          </div>
+              </span>
+              <input
+                ref={inputRef}
+                className="term-input"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && submit()}
+                spellCheck={false}
+                autoCapitalize="off"
+                autoComplete="off"
+                aria-label="terminal input"
+              />
+            </div>
+          )}
         </div>
 
         <div
           style={{
             display: 'flex',
-            justifyContent: 'center',
             gap: '14px',
-            marginTop: '32px',
+            marginTop: '40px',
             flexWrap: 'wrap',
           }}
         >
-          <a href="#experience" className="btn-term primary">
+          <button onClick={() => onNavigate('experience')} className="btn-term primary">
             <span style={{ opacity: 0.7 }}>$</span> ./view_experience.sh
-          </a>
-          <a href="#projects" className="btn-term">
+          </button>
+          <button onClick={() => onNavigate('projects')} className="btn-term">
             <span style={{ opacity: 0.7 }}>$</span> ls ~/projects
-          </a>
+          </button>
         </div>
       </div>
     </section>
