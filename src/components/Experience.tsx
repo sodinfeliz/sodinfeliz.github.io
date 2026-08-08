@@ -57,7 +57,7 @@ export default function Experience() {
         <div ref={headerRef} className={`reveal ${headerVisible ? 'visible' : ''}`}>
           <SectionHeader
             cmd={<><span style={{ color: 'var(--green)' }}>git log</span> --graph experience</>}
-            comment="6+ years of commits to production AI"
+            comment="7+ years of commits to production AI"
           />
         </div>
 

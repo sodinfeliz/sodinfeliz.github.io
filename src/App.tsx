@@ -2,12 +2,13 @@ import { useCallback, useEffect, useState } from 'react'
 import TitleBar from './components/TitleBar'
 import TmuxBar from './components/TmuxBar'
 import Hero from './components/Hero'
+import About from './components/About'
 import Skills from './components/Skills'
 import Experience from './components/Experience'
 import Projects from './components/Projects'
 import Contact from './components/Contact'
 
-export const WINDOWS = ['home', 'skills', 'experience', 'projects', 'contact'] as const
+export const WINDOWS = ['home', 'about', 'skills', 'experience', 'projects', 'contact'] as const
 export type WindowId = (typeof WINDOWS)[number]
 
 function readHash(): WindowId {
@@ -51,6 +52,7 @@ function App() {
       <main style={{ position: 'relative', zIndex: 1, paddingTop: '44px', paddingBottom: '50px' }}>
         <div key={active} className="window-enter">
           {active === 'home' && <Hero onNavigate={switchTo} />}
+          {active === 'about' && <About />}
           {active === 'skills' && <Skills />}
           {active === 'experience' && <Experience />}
           {active === 'projects' && <Projects />}

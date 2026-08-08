@@ -29,6 +29,23 @@ const toolchain = [
   'AWS', 'GitHub Actions', 'OpenCV', 'LangChain', 'NVIDIA TAO',
 ]
 
+const meters = [
+  { name: 'python', pct: 95 },
+  { name: 'pytorch', pct: 90 },
+  { name: 'fastapi', pct: 88 },
+  { name: 'docker', pct: 85 },
+  { name: 'postgresql', pct: 82 },
+  { name: 'opencv', pct: 80 },
+  { name: 'langchain', pct: 78 },
+  { name: 'aws', pct: 72 },
+]
+
+function meterColor(pct: number) {
+  if (pct >= 88) return 'var(--red)'
+  if (pct >= 80) return 'var(--amber)'
+  return 'var(--green)'
+}
+
 export default function Skills() {
   const { ref, isVisible } = useScrollAnimation(0.15)
 
@@ -60,6 +77,33 @@ export default function Skills() {
             })}
             <div style={{ color: 'var(--text-faint)', marginTop: '10px' }}>
               4 directories, ∞ possibilities
+            </div>
+          </div>
+
+          <div style={{ marginTop: '44px', fontSize: '14px' }}>
+            <div style={{ marginBottom: '14px' }}>
+              <span className="prompt-symbol">$ </span>
+              <span style={{ color: 'var(--green)' }}>htop</span> --sort-key usage
+            </div>
+            <div style={{ maxWidth: '560px' }}>
+              {meters.map((m, i) => (
+                <div key={m.name} style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '7px', fontSize: '13px' }}>
+                  <span style={{ width: '100px', color: 'var(--cyan)', flexShrink: 0 }}>{m.name}</span>
+                  <span style={{ color: 'var(--text-faint)' }}>[</span>
+                  <span className="meter-track">
+                    <span
+                      className="meter-fill"
+                      style={{
+                        width: isVisible ? `${m.pct}%` : '0%',
+                        background: `repeating-linear-gradient(90deg, ${meterColor(m.pct)} 0 2px, transparent 2px 5px)`,
+                        transitionDelay: `${i * 70}ms`,
+                      }}
+                    />
+                  </span>
+                  <span style={{ color: 'var(--text-faint)' }}>]</span>
+                  <span style={{ width: '38px', textAlign: 'right', color: meterColor(m.pct), flexShrink: 0 }}>{m.pct}%</span>
+                </div>
+              ))}
             </div>
           </div>
 

@@ -101,7 +101,7 @@ export default function TmuxBar({
           whiteSpace: 'nowrap',
         }}
       >
-        <span className="tmux-keys-hint">⌨ 0-4 to switch</span>
+        <span className="tmux-keys-hint">⌨ 0-5 to switch</span>
         <span style={{ color: 'var(--cyan)' }}>elliot@su</span>
         <span>{hhmm}</span>
       </div>
