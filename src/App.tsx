@@ -1,60 +1,23 @@
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
-import Features from './components/Features'
-import Projects from './components/Projects'
+import Skills from './components/Skills'
 import Experience from './components/Experience'
-import CTA from './components/CTA'
-
-// Section Divider component
-function SectionDivider() {
-  return (
-    <div style={{
-      width: '100%',
-      height: '1px',
-      background: 'linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.3), transparent)',
-      margin: '0 auto',
-      maxWidth: '600px',
-    }} />
-  )
-}
-
-// Floating Background Orbs
-function FloatingOrbs() {
-  return (
-    <div className="floating-orbs" style={{
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      pointerEvents: 'none',
-      zIndex: 0,
-      overflow: 'hidden',
-    }}>
-      <div className="orb orb-1" />
-      <div className="orb orb-2" />
-      <div className="orb orb-3" />
-    </div>
-  )
-}
+import Projects from './components/Projects'
+import Contact from './components/Contact'
 
 function App() {
   return (
-    <>
-      <FloatingOrbs />
+    <div className="scanlines">
+      <div className="bg-glow" />
       <Navbar />
-      <main style={{ position: 'relative', zIndex: 1 }}>
+      <main>
         <Hero />
-        <SectionDivider />
-        <Features />
-        <SectionDivider />
-        <Projects />
-        <SectionDivider />
+        <Skills />
         <Experience />
-        <SectionDivider />
-        <CTA />
+        <Projects />
+        <Contact />
       </main>
-    </>
+    </div>
   )
 }
 

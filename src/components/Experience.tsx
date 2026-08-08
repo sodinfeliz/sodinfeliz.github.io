@@ -2,6 +2,9 @@ import { useScrollAnimation } from '../hooks/useScrollAnimation'
 
 const experiences = [
   {
+    hash: 'a3f9c2e',
+    branch: 'pacston',
+    head: true,
     title: 'Senior AI Engineer',
     company: 'Pacston Technologies, Inc.',
     location: 'Taipei City, Taiwan',
@@ -13,6 +16,9 @@ const experiences = [
     tags: ['LLM', 'OCR', 'FastAPI', 'Docker', 'Microservices'],
   },
   {
+    hash: '7d41b8f',
+    branch: 'innodisk',
+    head: false,
     title: 'Senior AI Engineer',
     company: 'Innodisk Corporation',
     location: 'New Taipei City, Taiwan',
@@ -25,6 +31,9 @@ const experiences = [
     tags: ['NVIDIA TAO', 'Anomaly Detection', 'FastAPI', 'PostgreSQL', 'LoRA', 'RAG'],
   },
   {
+    hash: '2c8e04a',
+    branch: 'geosat',
+    head: false,
     title: 'AI Engineer',
     company: 'GEOSAT Aerospace & Technology',
     location: 'Tainan City, Taiwan',
@@ -39,208 +48,76 @@ const experiences = [
 
 export default function Experience() {
   const { ref: headerRef, isVisible: headerVisible } = useScrollAnimation(0.2)
-  const { ref: timelineRef, isVisible: timelineVisible } = useScrollAnimation(0.05)
+  const { ref: listRef, isVisible: listVisible } = useScrollAnimation(0.05)
 
   return (
-    <section id="experience" style={{
-      position: 'relative',
-    }}>
-      {/* Background glow */}
-      <div style={{
-        position: 'absolute',
-        top: '20%',
-        right: '-10%',
-        width: '500px',
-        height: '500px',
-        borderRadius: '50%',
-        background: 'radial-gradient(circle, var(--purple-dark) 0%, transparent 70%)',
-        opacity: 0.15,
-        pointerEvents: 'none',
-        transform: 'translateZ(0)',
-      }} />
-
-      <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-        {/* Section header */}
-        <div
-          ref={headerRef}
-          className={`scroll-animate ${headerVisible ? 'visible' : ''}`}
-          style={{
-            textAlign: 'center',
-            marginBottom: 'clamp(40px, 8vw, 64px)',
-          }}
-        >
-          <span style={{
-            display: 'inline-block',
-            padding: '8px 16px',
-            borderRadius: '50px',
-            background: 'var(--bg-card)',
-            border: '1px solid var(--border-color)',
-            fontSize: '0.875rem',
-            color: 'var(--purple-glow)',
-            marginBottom: '16px',
-          }}>
-            Career Journey
-          </span>
-          <h2 style={{
-            fontSize: 'clamp(2rem, 5vw, 3rem)',
-            fontWeight: 700,
-            marginBottom: '8px',
-            letterSpacing: '-0.02em',
-          }}>
-            <span className="gradient-text">Work Experience</span>
+    <section id="experience">
+      <div className="container">
+        <div ref={headerRef} className={`reveal ${headerVisible ? 'visible' : ''}`}>
+          <h2 className="section-cmd">
+            <span className="prompt-symbol">$ </span>
+            <span style={{ color: 'var(--green)' }}>git log</span> --graph experience
           </h2>
-          <p style={{
-            fontSize: '1.1rem',
-            color: 'var(--text-secondary)',
-            maxWidth: '600px',
-            margin: '0 auto',
-          }}>
-            Building production-grade AI systems across industries
-          </p>
+          <p className="section-comment"># 6+ years of commits to production AI</p>
         </div>
 
-        {/* Timeline */}
-        <div
-          ref={timelineRef}
-          style={{
-            position: 'relative',
-            maxWidth: '700px',
-            margin: '0 auto',
-          }}
-        >
-          {/* Timeline line */}
-          <div style={{
-            position: 'absolute',
-            left: '0',
-            top: '0',
-            bottom: '0',
-            width: '2px',
-            background: 'linear-gradient(180deg, var(--purple-primary) 0%, var(--purple-dark) 100%)',
-            opacity: 0.3,
-          }} />
+        <div ref={listRef} className={`reveal ${listVisible ? 'visible' : ''}`}>
+          {experiences.map((exp) => (
+            <div key={exp.hash} className="exp-entry">
+              <div style={{ fontSize: '13.5px', marginBottom: '6px' }}>
+                <span style={{ color: 'var(--text-faint)' }}>commit </span>
+                <span className="commit-hash">{exp.hash}</span>
+                {exp.head && (
+                  <>
+                    {' '}
+                    <span style={{ color: 'var(--text-faint)' }}>(</span>
+                    <span className="commit-head">HEAD</span>
+                    <span style={{ color: 'var(--text-faint)' }}> -&gt; </span>
+                    <span className="commit-branch">{exp.branch}</span>
+                    <span style={{ color: 'var(--text-faint)' }}>)</span>
+                  </>
+                )}
+                {!exp.head && (
+                  <>
+                    {' '}
+                    <span style={{ color: 'var(--text-faint)' }}>(</span>
+                    <span className="commit-branch">{exp.branch}</span>
+                    <span style={{ color: 'var(--text-faint)' }}>)</span>
+                  </>
+                )}
+              </div>
 
-          {experiences.map((exp, index) => (
-            <div
-              key={index}
-              className={`scroll-animate ${timelineVisible ? 'visible' : ''}`}
-              style={{
-                position: 'relative',
-                paddingLeft: 'clamp(24px, 5vw, 40px)',
-                paddingBottom: index === experiences.length - 1 ? '0' : 'clamp(32px, 6vw, 48px)',
-                transitionDelay: `${index * 0.2}s`,
-              }}
-            >
-              {/* Timeline dot */}
-              <div style={{
-                position: 'absolute',
-                left: '-6px',
-                top: '8px',
-                width: '12px',
-                height: '12px',
-                borderRadius: '50%',
-                background: 'var(--purple-primary)',
-                border: '2px solid var(--bg-dark)',
-                boxShadow: '0 0 20px rgba(139, 92, 246, 0.5)',
-              }} />
+              <h3 style={{ fontSize: '17px', fontWeight: 700, color: 'var(--text)', lineHeight: 1.4 }}>
+                {exp.title}
+                <span style={{ color: 'var(--text-dim)', fontWeight: 400 }}> @ {exp.company}</span>
+              </h3>
+              <div style={{ fontSize: '12.5px', color: 'var(--text-faint)', margin: '4px 0 14px' }}>
+                Date: {exp.period} · {exp.location}
+              </div>
 
-              <div
-                className="glass feature-card"
-                style={{
-                  padding: 'clamp(20px, 4vw, 28px)',
-                }}
-              >
-                <div style={{
-                  marginBottom: '12px',
-                }}>
-                  <div style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'flex-start',
-                    flexWrap: 'wrap',
-                    gap: '4px 16px',
-                  }}>
-                    <h3 style={{
-                      fontSize: 'clamp(1.1rem, 3vw, 1.25rem)',
-                      fontWeight: 600,
-                      color: 'var(--text-primary)',
-                    }}>
-                      {exp.title}
-                    </h3>
-                    <p style={{
-                      fontSize: '0.875rem',
-                      color: 'var(--text-secondary)',
-                      whiteSpace: 'nowrap',
-                    }}>
-                      {exp.period}
-                    </p>
-                  </div>
-                  <div style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    flexWrap: 'wrap',
-                    gap: '4px 16px',
-                    marginTop: '4px',
-                  }}>
-                    <p style={{
-                      fontSize: 'clamp(0.9rem, 2.5vw, 1rem)',
-                      color: 'var(--purple-glow)',
-                      fontWeight: 500,
-                    }}>
-                      {exp.company}
-                    </p>
-                    <p style={{
-                      fontSize: '0.8rem',
-                      color: 'var(--text-muted)',
-                    }}>
-                      {exp.location}
-                    </p>
-                  </div>
-                </div>
-
-                <ul style={{
-                  listStyle: 'none',
-                  padding: 0,
-                  margin: '16px 0',
-                }}>
-                  {exp.description.map((item, i) => (
-                    <li key={i} style={{
-                      fontSize: 'clamp(0.85rem, 2.5vw, 0.95rem)',
-                      color: 'var(--text-secondary)',
+              <ul style={{ listStyle: 'none', marginBottom: '14px' }}>
+                {exp.description.map((item, i) => (
+                  <li
+                    key={i}
+                    style={{
+                      fontSize: '13.5px',
+                      color: 'var(--text-dim)',
                       lineHeight: 1.7,
-                      marginBottom: '8px',
-                      paddingLeft: '16px',
+                      paddingLeft: '18px',
                       position: 'relative',
-                    }}>
-                      <span style={{
-                        position: 'absolute',
-                        left: 0,
-                        color: 'var(--purple-primary)',
-                      }}>›</span>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
+                      marginBottom: '8px',
+                    }}
+                  >
+                    <span style={{ position: 'absolute', left: 0, color: 'var(--green-dim)' }}>+</span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
 
-                <div style={{
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  gap: '8px',
-                  marginTop: '16px',
-                }}>
-                  {exp.tags.map((tag, i) => (
-                    <span key={i} style={{
-                      padding: '4px 12px',
-                      borderRadius: '50px',
-                      background: 'rgba(139, 92, 246, 0.15)',
-                      border: '1px solid rgba(139, 92, 246, 0.3)',
-                      fontSize: '0.8rem',
-                      color: 'var(--purple-glow)',
-                    }}>
-                      {tag}
-                    </span>
-                  ))}
-                </div>
+              <div>
+                {exp.tags.map((tag) => (
+                  <span key={tag} className="tag">{tag}</span>
+                ))}
               </div>
             </div>
           ))}

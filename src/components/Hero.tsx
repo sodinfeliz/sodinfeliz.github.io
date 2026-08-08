@@ -1,162 +1,278 @@
-export default function Hero() {
+import { useEffect, useRef, useState } from 'react'
+
+type Line = {
+  kind: 'cmd' | 'out' | 'ok' | 'err' | 'banner' | 'hint'
+  text: string
+}
+
+const BANNER = String.raw`
+ _____ _ _ _       _     ____
+| ____| | (_) ___ | |_  / ___| _   _
+|  _| | | | |/ _ \| __| \___ \| | | |
+| |___| | | | (_) | |_   ___) | |_| |
+|_____|_|_|_|\___/ \__| |____/ \__,_|
+`.replace(/^\n/, '')
+
+const bootScript: { cmd: string; output: Line[] }[] = [
+  {
+    cmd: 'whoami',
+    output: [{ kind: 'out', text: 'Elliot Su — Senior AI Engineer' }],
+  },
+  {
+    cmd: 'cat ./tagline.txt',
+    output: [
+      { kind: 'out', text: '6+ years shipping production AI systems.' },
+      { kind: 'out', text: 'Computer vision · LLMs · RAG · ML infrastructure.' },
+    ],
+  },
+  {
+    cmd: './status.sh',
+    output: [{ kind: 'ok', text: '● available for opportunities' }],
+  },
+]
+
+const HELP: Line[] = [
+  { kind: 'out', text: 'available commands:' },
+  { kind: 'out', text: '  whoami        who am i' },
+  { kind: 'out', text: '  skills        jump to skills' },
+  { kind: 'out', text: '  experience    jump to work experience' },
+  { kind: 'out', text: '  projects      jump to projects' },
+  { kind: 'out', text: '  contact       how to reach me' },
+  { kind: 'out', text: '  ls            list sections' },
+  { kind: 'out', text: '  clear         clear the terminal' },
+]
+
+function runCommand(raw: string): { lines: Line[]; action?: 'clear' | string } {
+  const input = raw.trim()
+  const [cmd, ...args] = input.split(/\s+/)
+
+  switch (cmd) {
+    case '':
+      return { lines: [] }
+    case 'help':
+      return { lines: HELP }
+    case 'whoami':
+      return { lines: [{ kind: 'out', text: 'Elliot Su — Senior AI Engineer @ Pacston Technologies' }] }
+    case 'skills':
+      return { lines: [{ kind: 'ok', text: 'navigating to ~/skills ...' }], action: '#skills' }
+    case 'experience':
+      return { lines: [{ kind: 'ok', text: 'navigating to ~/experience ...' }], action: '#experience' }
+    case 'projects':
+      return { lines: [{ kind: 'ok', text: 'navigating to ~/projects ...' }], action: '#projects' }
+    case 'contact':
+      return {
+        lines: [
+          { kind: 'out', text: 'email    → sodinfeliz@gmail.com' },
+          { kind: 'out', text: 'github   → github.com/sodinfeliz' },
+          { kind: 'out', text: 'linkedin → linkedin.com/in/elliot-su' },
+        ],
+        action: '#contact',
+      }
+    case 'ls':
+      return { lines: [{ kind: 'out', text: 'skills/  experience/  projects/  contact/  README.md' }] }
+    case 'cat':
+      if (args[0] === 'README.md') {
+        return { lines: [{ kind: 'out', text: '# Elliot Su — building intelligent systems that ship.' }] }
+      }
+      return { lines: [{ kind: 'err', text: `cat: ${args[0] ?? ''}: No such file or directory` }] }
+    case 'clear':
+      return { lines: [], action: 'clear' }
+    case 'sudo':
+      return { lines: [{ kind: 'err', text: 'permission denied: nice try ;)' }] }
+    case 'pwd':
+      return { lines: [{ kind: 'out', text: '/home/elliot/portfolio' }] }
+    case 'exit':
+      return { lines: [{ kind: 'err', text: "there's no escape. try `help` instead." }] }
+    default:
+      return { lines: [{ kind: 'err', text: `zsh: command not found: ${cmd} — try \`help\`` }] }
+  }
+}
+
+function Prompt() {
   return (
-    <section id="home" style={{
-      minHeight: '100vh',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      position: 'relative',
-      overflow: 'hidden',
-      paddingTop: '100px',
-      paddingBottom: '140px',
-    }}>
-      {/* Fancy animated background */}
-      <div style={{
-        position: 'absolute',
-        inset: 0,
-        overflow: 'hidden',
-        pointerEvents: 'none',
-      }}>
-        {/* Main purple orb - top center */}
-        <div style={{
-          position: 'absolute',
-          top: '-30%',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          width: '1200px',
-          height: '1200px',
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(124, 58, 237, 0.2) 0%, rgba(91, 33, 182, 0.08) 40%, transparent 70%)',
-        }} />
+    <>
+      <span className="prompt-user">elliot@su</span>
+      <span className="prompt-symbol">:</span>
+      <span className="prompt-path">~</span>
+      <span className="prompt-symbol">$ </span>
+    </>
+  )
+}
 
-        {/* Pink accent orb - left */}
-        <div style={{
-          position: 'absolute',
-          top: '50%',
-          left: '-15%',
-          width: '500px',
-          height: '500px',
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(244, 114, 182, 0.12) 0%, transparent 70%)',
-        }} />
-
-        {/* Cyan accent orb - right */}
-        <div style={{
-          position: 'absolute',
-          top: '20%',
-          right: '-10%',
-          width: '400px',
-          height: '400px',
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(34, 211, 238, 0.08) 0%, transparent 70%)',
-        }} />
-
-        {/* Deep purple orb - bottom */}
-        <div style={{
-          position: 'absolute',
-          bottom: '-20%',
-          left: '30%',
-          width: '600px',
-          height: '600px',
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(59, 7, 100, 0.25) 0%, transparent 70%)',
-        }} />
-
-        {/* Subtle grid overlay */}
-        <div style={{
-          position: 'absolute',
-          inset: 0,
-          backgroundImage: `
-            linear-gradient(rgba(124, 58, 237, 0.02) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(124, 58, 237, 0.02) 1px, transparent 1px)
-          `,
-          backgroundSize: '100px 100px',
-          opacity: 0.6,
-        }} />
-      </div>
-
-      <div className="container" style={{
-        position: 'relative',
-        zIndex: 1,
-        textAlign: 'center',
-        maxWidth: '1000px',
-        width: '100%',
-        boxSizing: 'border-box',
-      }}>
-        {/* Badge */}
-        <a href="#contact" className="animate-fade-in-up" style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: '10px',
-          padding: '10px 20px',
-          borderRadius: '50px',
-          background: 'rgba(124, 58, 237, 0.1)',
-          border: '1px solid rgba(124, 58, 237, 0.2)',
-          marginBottom: '36px',
-          fontSize: '0.85rem',
-          color: 'var(--purple-glow)',
-          cursor: 'pointer',
-          transition: 'border-color 0.2s ease, background 0.2s ease',
+function LineView({ line }: { line: Line }) {
+  if (line.kind === 'banner') {
+    return (
+      <pre
+        className="term-line"
+        style={{
+          color: 'var(--green)',
+          fontSize: 'clamp(7px, 2.2vw, 13px)',
+          lineHeight: 1.25,
+          margin: '4px 0 10px',
+          textShadow: '0 0 12px rgba(74, 222, 128, 0.35)',
         }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.borderColor = 'rgba(124, 58, 237, 0.4)'
-            e.currentTarget.style.background = 'rgba(124, 58, 237, 0.15)'
+      >
+        {line.text}
+      </pre>
+    )
+  }
+  if (line.kind === 'cmd') {
+    return (
+      <div className="term-line">
+        <Prompt />
+        <span>{line.text}</span>
+      </div>
+    )
+  }
+  const color =
+    line.kind === 'ok' ? 'var(--green)'
+    : line.kind === 'err' ? 'var(--red)'
+    : line.kind === 'hint' ? 'var(--text-faint)'
+    : 'var(--text)'
+  return (
+    <div className="term-line" style={{ color }}>
+      {line.text}
+    </div>
+  )
+}
+
+export default function Hero() {
+  const [lines, setLines] = useState<Line[]>([{ kind: 'banner', text: BANNER }])
+  const [typing, setTyping] = useState<string | null>(null)
+  const [booted, setBooted] = useState(false)
+  const [input, setInput] = useState('')
+  const bodyRef = useRef<HTMLDivElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    let cancelled = false
+    const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+    const boot = async () => {
+      await sleep(500)
+      for (const step of bootScript) {
+        if (cancelled) return
+        if (reduced) {
+          setLines((prev) => [...prev, { kind: 'cmd', text: step.cmd }, ...step.output])
+        } else {
+          for (let i = 1; i <= step.cmd.length; i++) {
+            if (cancelled) return
+            setTyping(step.cmd.slice(0, i))
+            await sleep(38)
+          }
+          await sleep(180)
+          setTyping(null)
+          setLines((prev) => [...prev, { kind: 'cmd', text: step.cmd }, ...step.output])
+          await sleep(420)
+        }
+      }
+      if (cancelled) return
+      setLines((prev) => [...prev, { kind: 'hint', text: "# type `help` to explore this site" }])
+      setBooted(true)
+    }
+
+    boot()
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  useEffect(() => {
+    const el = bodyRef.current
+    if (el) el.scrollTop = el.scrollHeight
+  }, [lines, typing])
+
+  const submit = () => {
+    const value = input
+    setInput('')
+    const { lines: out, action } = runCommand(value)
+    if (action === 'clear') {
+      setLines([])
+      return
+    }
+    setLines((prev) => [...prev, { kind: 'cmd', text: value }, ...out])
+    if (action && action.startsWith('#')) {
+      inputRef.current?.blur()
+      setTimeout(() => {
+        document.querySelector(action)?.scrollIntoView({ behavior: 'smooth' })
+      }, 450)
+    }
+  }
+
+  return (
+    <section
+      id="home"
+      style={{
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingTop: '90px',
+      }}
+    >
+      <div className="container" style={{ width: '100%', maxWidth: '760px' }}>
+        <div className="term-window">
+          <div className="term-titlebar">
+            <span className="term-dot red" />
+            <span className="term-dot yellow" />
+            <span className="term-dot green" />
+            <span className="term-title">elliot@su: ~/portfolio — zsh</span>
+          </div>
+          <div
+            ref={bodyRef}
+            className="term-body"
+            onClick={() => inputRef.current?.focus()}
+            style={{ height: 'min(420px, 55vh)', overflowY: 'auto', cursor: 'text' }}
+          >
+            {lines.map((line, i) => (
+              <LineView key={i} line={line} />
+            ))}
+
+            {typing !== null && (
+              <div>
+                <Prompt />
+                <span>{typing}</span>
+                <span className="cursor" />
+              </div>
+            )}
+
+            {booted && (
+              <div style={{ display: 'flex', alignItems: 'baseline' }}>
+                <span style={{ whiteSpace: 'nowrap' }}>
+                  <Prompt />
+                </span>
+                <input
+                  ref={inputRef}
+                  className="term-input"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && submit()}
+                  spellCheck={false}
+                  autoCapitalize="off"
+                  autoComplete="off"
+                  aria-label="terminal input"
+                />
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            gap: '14px',
+            marginTop: '32px',
+            flexWrap: 'wrap',
           }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.borderColor = 'rgba(124, 58, 237, 0.2)'
-            e.currentTarget.style.background = 'rgba(124, 58, 237, 0.1)'
-          }}>
-          <span style={{
-            width: '8px',
-            height: '8px',
-            borderRadius: '50%',
-            background: '#22c55e',
-            boxShadow: '0 0 8px #22c55e',
-          }} />
-          Available for opportunities
-        </a>
-
-        {/* Main headline */}
-        <h1 className="animate-fade-in-up animate-delay-1" style={{
-          fontSize: 'clamp(2.5rem, 7vw, 5rem)',
-          fontWeight: 700,
-          lineHeight: 1.05,
-          marginBottom: '20px',
-          letterSpacing: '-0.04em',
-        }}>
-          <span style={{ color: 'var(--text-primary)' }}>Engineering </span>
-          <span className="gradient-text">Intelligent</span>
-          <br />
-          <span className="gradient-text">AI Systems</span>
-        </h1>
-
-        {/* Subtitle */}
-        <p className="animate-fade-in-up animate-delay-2" style={{
-          fontSize: 'clamp(1rem, 2vw, 1.15rem)',
-          color: 'var(--text-secondary)',
-          maxWidth: '580px',
-          margin: '0 auto 44px',
-          lineHeight: 1.8,
-        }}>
-          Senior AI Engineer with 6+ years shipping production systems.
-          <br />
-          Computer vision, NLP, LLMs, and scalable ML infrastructure.
-        </p>
-
-        {/* CTA buttons */}
-        <div className="animate-fade-in-up animate-delay-3" style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: 'clamp(12px, 3vw, 16px)',
-          flexWrap: 'wrap',
-        }}>
-          <a href="#experience" className="btn btn-primary">
-            View Experience
+        >
+          <a href="#experience" className="btn-term primary">
+            <span style={{ opacity: 0.7 }}>$</span> ./view_experience.sh
           </a>
-          <a href="#projects" className="btn btn-secondary">
-            See Projects
+          <a href="#projects" className="btn-term">
+            <span style={{ opacity: 0.7 }}>$</span> ls ~/projects
           </a>
         </div>
       </div>
