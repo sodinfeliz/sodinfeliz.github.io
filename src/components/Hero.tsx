@@ -112,7 +112,7 @@ function runCommand(raw: string): { lines: Line[]; action?: string } {
     case 'contact':
       return {
         lines: [
-          { kind: 'out', text: 'email    → sodinfeliz@gmail.com' },
+          { kind: 'out', text: 'email    → elliotsu.dev@gmail.com' },
           { kind: 'out', text: 'github   → github.com/sodinfeliz' },
           { kind: 'out', text: 'linkedin → linkedin.com/in/elliot-su' },
           windowSwitchLine('contact'),

@@ -2,7 +2,7 @@ import { useScrollAnimation } from '../hooks/useScrollAnimation'
 import { SectionHeader } from './Session'
 
 const links = [
-  { label: 'email', value: 'sodinfeliz@gmail.com', href: 'mailto:sodinfeliz@gmail.com' },
+  { label: 'email', value: 'elliotsu.dev@gmail.com', href: 'mailto:elliotsu.dev@gmail.com' },
   { label: 'github', value: 'github.com/sodinfeliz', href: 'https://github.com/sodinfeliz' },
   { label: 'linkedin', value: 'linkedin.com/in/elliot-su', href: 'https://www.linkedin.com/in/elliot-su/' },
   { label: 'notes', value: 'notes.elliotsu.com', href: 'https://notes.elliotsu.com/' },
@@ -51,7 +51,7 @@ export default function Contact() {
             ))}
           </div>
 
-          <a href="mailto:sodinfeliz@gmail.com" className="btn-term primary">
+          <a href="mailto:elliotsu.dev@gmail.com" className="btn-term primary">
             <span style={{ opacity: 0.7 }}>$</span> mail -s &quot;hello&quot; elliot
           </a>
 
