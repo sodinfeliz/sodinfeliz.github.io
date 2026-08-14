@@ -248,7 +248,7 @@
   .feature-text > p { color: var(--text-2); font-size: 16.5px; line-height: 1.75; max-width: 30em; }
   .feature-text ul { list-style: none; margin-top: 20px; display: grid; gap: 11px; }
   .feature-text li { display: flex; gap: 11px; align-items: baseline; color: var(--text-2); font-size: 15px; }
-  .feature-text li::before { content: "🔥"; font-size: 12px; }
+  .feature-text li::before { content: ""; width: 14px; height: 2px; flex-shrink: 0; background: linear-gradient(90deg, var(--ember), var(--glow)); border-radius: 1px; }
   .feature-shot { position: relative; display: flex; justify-content: center; }
   .feature-shot::before {
     content: ''; position: absolute; inset: 10% 16%;
@@ -256,19 +256,40 @@
     pointer-events: none;
   }
   .feature-shot img {
-    position: relative; width: min(310px, 76vw);
+    position: relative; width: min(356px, 82vw);
     filter: drop-shadow(0 22px 44px rgba(0, 0, 0, 0.5));
   }
+  .feature-row.flip .feature-shot img { transform: translateX(-28px); }
   @media (max-width: 860px) {
     .feature-row { grid-template-columns: 1fr; gap: 26px; text-align: center; }
     .feature-row.flip .feature-text { order: 0; }
     .feature-text > p, .feature-text ul { margin-left: auto; margin-right: auto; }
     .feature-text li { justify-content: center; }
+    .feature-row.flip .feature-shot img { transform: none; }
     section { padding: 48px 0; }
   }
 
   /* ---------- Card Grid ---------- */
-  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 13px; margin-top: 38px; }
+  .cards {
+    display: grid; gap: 13px; margin-top: 38px;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-areas:
+      "trial widget noads"
+      "icloud csv noads"
+      "native native noads";
+  }
+  .cards .card:nth-child(1) { grid-area: trial; }
+  .cards .card:nth-child(2) { grid-area: widget; }
+  .cards .card:nth-child(3) { grid-area: icloud; }
+  .cards .card:nth-child(4) { grid-area: csv; }
+  .cards .card:nth-child(5) { grid-area: native; }
+  .cards .card:nth-child(6) {
+    grid-area: noads;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .cards .card:nth-child(6) .icon { width: 58px; height: 58px; font-size: 28px; border-radius: 16px; }
+  .cards .card:nth-child(6) h3 { font-size: 22px; }
+  .cards .card:nth-child(6) p { font-size: 15px; max-width: 26ch; }
   .card {
     position: relative; overflow: hidden;
     background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0) 40%), var(--surface);
@@ -287,17 +308,14 @@
   .card .icon { font-size: 24px; margin-bottom: 10px; filter: drop-shadow(0 0 10px rgba(240, 98, 40, 0.3)); }
   .card h3 { font-size: 16px; font-weight: 700; letter-spacing: 0; margin-bottom: 5px; }
   .card p { font-size: 14px; line-height: 1.65; color: var(--text-2); }
-  @media (max-width: 860px) { .cards { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 860px) { .cards { grid-template-columns: repeat(2, 1fr); grid-template-areas: none; } .cards .card:nth-child(n) { grid-area: auto; } }
   @media (max-width: 560px) { .cards { grid-template-columns: 1fr; } }
 
   /* ---------- Privacy strip ---------- */
   .privacy-strip {
     text-align: center;
-    border: 1px solid var(--stroke-warm); border-radius: 24px;
-    padding: 44px 28px; position: relative; overflow: hidden;
-    background:
-      radial-gradient(ellipse at 50% -30%, rgba(212, 81, 15, 0.17), transparent 60%),
-      var(--surface-deep);
+    padding: 56px 28px; position: relative;
+    background: radial-gradient(ellipse at 50% 10%, rgba(212, 81, 15, 0.09), transparent 60%);
   }
   .privacy-strip h2 { margin-bottom: 12px; }
   .privacy-strip p { color: var(--text-2); max-width: 34em; margin: 0 auto; }
@@ -305,9 +323,9 @@
   /* ---------- Final CTA ---------- */
   .final-cta { text-align: center; padding: 80px 24px 92px; position: relative; }
   .final-cta .cta-glow {
-    position: absolute; bottom: -220px; left: 50%; transform: translateX(-50%);
-    width: 800px; height: 480px; pointer-events: none;
-    background: radial-gradient(closest-side, rgba(212, 81, 15, 0.2), transparent);
+    position: absolute; bottom: -140px; left: 50%; transform: translateX(-50%);
+    width: min(1100px, 100vw); height: 660px; pointer-events: none;
+    background: radial-gradient(closest-side, rgba(212, 81, 15, 0.26), rgba(212, 81, 15, 0.07) 55%, transparent);
   }
   .final-cta .flame { font-size: 44px; margin-bottom: 12px; filter: drop-shadow(0 0 18px rgba(240, 98, 40, 0.65)); }
   .final-cta > p { color: var(--text-2); margin: 8px 0 28px; }
@@ -361,6 +379,30 @@
   }
 
 
+  /* ---------- Composition: lighting rhythm, year moment, bento ---------- */
+  main > section:nth-of-type(1)::before {
+    content: ""; position: absolute; right: -180px; top: 12%;
+    width: min(640px, 100vw); height: 640px; pointer-events: none;
+    background: radial-gradient(closest-side, rgba(212, 81, 15, 0.10), transparent 70%);
+  }
+  main > section:nth-of-type(2)::before {
+    content: ""; position: absolute; left: -200px; top: 18%;
+    width: min(640px, 100vw); height: 640px; pointer-events: none;
+    background: radial-gradient(closest-side, rgba(212, 81, 15, 0.10), transparent 70%);
+  }
+  .year-feature::before {
+    content: ""; position: absolute; left: 50%; top: 26%; transform: translateX(-50%);
+    width: min(900px, 100vw); height: 700px; pointer-events: none;
+    background: radial-gradient(closest-side, rgba(212, 81, 15, 0.16), transparent 70%);
+  }
+  .year-sub { color: var(--text-2); font-size: 16.5px; line-height: 1.6; max-width: 52ch; margin: 0 auto; text-align: center; }
+  .year-shot { position: relative; display: flex; justify-content: center; margin-top: 40px; }
+  .year-shot img {
+    width: min(430px, 88vw);
+    filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.55));
+    -webkit-mask-image: linear-gradient(180deg, #000 76%, transparent 97%);
+    mask-image: linear-gradient(180deg, #000 76%, transparent 97%);
+  }
   /* ---------- Footer ---------- */
   footer {
     border-top: 0.5px solid var(--stroke);
@@ -484,19 +526,12 @@
     </div>
   </section>
 
-  <section>
-    <div class="wrap feature-row reveal">
-      <div class="feature-text">
-        <div class="eyebrow">03 · 年度回顧</div>
-        <h2>看見一整年的燒錢軌跡</h2>
-        <p>全年總支出、年底預估、花最多的月份，以及你取消了哪些訂閱：一份可以分享的年度總結。</p>
-        <ul>
-          <li>真實扣款加上未來月份預估</li>
-          <li>逐年比較</li>
-          <li>可分享的總結卡片</li>
-        </ul>
-      </div>
-      <div class="feature-shot">
+  <section class="year-feature">
+    <div class="wrap reveal">
+      <div class="eyebrow eyebrow--center">03 · 年度回顧</div>
+      <h2 style="text-align:center;">看見一整年的燒錢軌跡</h2>
+      <p class="year-sub">全年總支出、年底預估、花最多的月份，以及你取消了哪些訂閱：一份可以分享的年度總結。</p>
+      <div class="year-shot">
         <img src="../images/mockup-year.png" alt="年度回顧，包含全年總計與每月長條圖" loading="lazy" width="900" height="1773">
       </div>
     </div>
