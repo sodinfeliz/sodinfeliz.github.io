@@ -33,13 +33,17 @@
     --stroke-warm: rgba(240, 98, 40, 0.16);
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
+  /* clip beats hidden here: it forbids horizontal panning without creating a
+     scroll container — iOS Safari ignores overflow-x on body alone, so both
+     html and body get it (hidden first as fallback for older engines) */
+  html { scroll-behavior: smooth; overflow-x: hidden; overflow-x: clip; }
   body {
     background: var(--bg);
     color: var(--text);
     font-family: ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     line-height: 1.6;
     overflow-x: hidden;
+    overflow-x: clip;
   }
   img { max-width: 100%; height: auto; display: block; }
 
@@ -78,7 +82,7 @@
   header { position: relative; }
   .hero-glow {
     position: absolute; top: -160px; left: 50%; transform: translateX(-50%);
-    width: 920px; height: 680px; pointer-events: none;
+    width: min(920px, 100vw); height: 680px; pointer-events: none;
     background: radial-gradient(closest-side, rgba(212, 81, 15, 0.26), rgba(212, 81, 15, 0.06) 55%, transparent);
   }
   .hero {
@@ -237,7 +241,7 @@
   .final-cta { text-align: center; padding: 80px 24px 92px; position: relative; }
   .final-cta .cta-glow {
     position: absolute; bottom: -220px; left: 50%; transform: translateX(-50%);
-    width: 800px; height: 480px; pointer-events: none;
+    width: min(800px, 100vw); height: 480px; pointer-events: none;
     background: radial-gradient(closest-side, rgba(212, 81, 15, 0.2), transparent);
   }
   .final-cta .flame { font-size: 44px; margin-bottom: 12px; filter: drop-shadow(0 0 18px rgba(240, 98, 40, 0.65)); }
