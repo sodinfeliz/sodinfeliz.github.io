@@ -83,7 +83,12 @@
   }
   .hero {
     display: grid; grid-template-columns: 1.08fr 0.92fr; align-items: center;
-    gap: 32px; padding-top: 76px; padding-bottom: 28px; position: relative;
+    align-content: center;
+    gap: 32px; padding-top: 24px; padding-bottom: 40px; position: relative;
+    /* Fill exactly one viewport below the sticky nav (~60px) so the next
+       section stays under the fold; svh keeps mobile URL bars honest */
+    min-height: calc(100vh - 60px);
+    min-height: calc(100svh - 60px);
   }
   .badge {
     display: inline-flex; align-items: center; gap: 7px;
