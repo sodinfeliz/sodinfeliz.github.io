@@ -5,7 +5,6 @@ const links = [
   { label: 'email', value: 'elliotsu.dev@gmail.com', href: 'mailto:elliotsu.dev@gmail.com' },
   { label: 'github', value: 'github.com/sodinfeliz', href: 'https://github.com/sodinfeliz' },
   { label: 'linkedin', value: 'linkedin.com/in/elliot-su', href: 'https://www.linkedin.com/in/elliot-su/' },
-  { label: 'notes', value: 'notes.elliotsu.com', href: 'https://notes.elliotsu.com/' },
 ]
 
 export default function Contact() {
