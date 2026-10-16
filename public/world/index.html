@@ -6120,6 +6120,33 @@ const LAWN = (() => {
   islandB.add(new T3.ExtrudeGeometry(shape(-0.1), { depth: 0.32, bevelEnabled: false }).rotateX(-Math.PI / 2), { x: LAWN.c.x, y: y - 0.56, z: LAWN.c.z, color: "#5a4c40" });
   isl.rock = islandRock(LAWN.c.x, y, LAWN.c.z, LAWN.r, 11, LAWN.out.length, (th) => LAWN.at(th) / LAWN.r); }
 
+/* ---- trees and street lamps, the world's own, so the city reads as lived in ----
+   Lamps stand along every block's edge, facing the street; each district's small parks get a few trees; and the
+   open lawn round the districts is planted in groves, thick in places and open in others (a noise over the ground
+   decides), off the districts, the landmarks' forecourts, and the track. */
+{ const onSite = (x, z, m) => PARK_SITES.some((s) => { const dx = x - s.p.x, dz = z - s.p.z, u = dx * Math.sin(s.a) - dz * Math.cos(s.a), v = dx * Math.cos(s.a) + dz * Math.sin(s.a);
+    return Math.abs(u) < s.w / 2 + m && Math.abs(v) < s.d / 2 + m; });
+  const onTrack = (x, z, m) => { const { p, ax, half } = STATION, dx = x - p.x, dz = z - p.z, t2 = dx * ax.x + dz * ax.z;
+    return Math.abs(t2) < half + 4 + m && Math.abs(dx * ax.z - dz * ax.x) < 2.2 + m; };
+  const onLawn = (x, z, m) => { const dx = x - LAWN.c.x, dz = z - LAWN.c.z; return Math.hypot(dx, dz) < LAWN.at(Math.atan2(dz, dx)) - m; };
+  // lamps along each block's four edges, about every 6, on the pavement's edge, the arm out over the street
+  for (const D of KEEP) for (const r of D.plan.blocks) {
+    const sides = [[r.x0, r.z0, r.x1, r.z0, 0, -1], [r.x0, r.z1, r.x1, r.z1, 0, 1], [r.x0, r.z0, r.x0, r.z1, -1, 0], [r.x1, r.z0, r.x1, r.z1, 1, 0]];
+    for (const [u0, v0, u1, v1, nu, nv] of sides) { const L = Math.hypot(u1 - u0, v1 - v0), m = Math.max(1, Math.round(L / 6)), a = D.dirWorld(nu, nv);
+      for (let k = 0; k < m; k++) { const f = (k + 0.5) / m, q = D.toWorld(u0 + (u1 - u0) * f - nu * 0.25, v0 + (v1 - v0) * f - nv * 0.25);
+        if (!onTrack(q.x, q.z, 0)) streetLamp(P.near, parkG, lampsAll, q.x, y + PLATE, q.z, a); } } }
+  // the districts' small parks: a tree or two each, inside the kerb
+  KEEP.forEach((D, di) => (D.plan.parks ?? []).forEach((r, k) => { const n2 = Math.max(1, Math.round((r.x1 - r.x0) * (r.z1 - r.z0) / 9));
+    for (let q = 0; q < n2; q++) { const c = D.toWorld(r.x0 + 0.5 + hash(di, k * 7 + q, 1701) * (r.x1 - r.x0 - 1), r.z0 + 0.5 + hash(k * 7 + q, di, 1702) * (r.z1 - r.z0 - 1));
+      tree(P.near, c.x, y + PLATE + 0.02, c.z, 1710 + di * 97 + k * 7 + q); } }));
+  // the open lawn: a jittered grid, kept where a slow noise says a grove grows
+  const grove = (x, z) => { const s = 0.07; return Math.sin(x * s + 1.3) * Math.cos(z * s * 1.3 + 0.4) + 0.6 * Math.sin((x + z) * s * 2.1); };
+  for (let gx = LAWN.c.x - LAWN.r; gx < LAWN.c.x + LAWN.r; gx += 1.9) for (let gz = LAWN.c.z - LAWN.r; gz < LAWN.c.z + LAWN.r; gz += 1.9) {
+    const i = Math.round(gx * 3), j = Math.round(gz * 3), x = gx + (hash(i, j, 1720) - 0.5) * 1.4, z = gz + (hash(j, i, 1721) - 0.5) * 1.4;
+    if (!onLawn(x, z, 1.2) || KEEP.some((D) => inDist(D, x, z, 1.0)) || onSite(x, z, 1.0) || onTrack(x, z, 0.8)) continue;
+    if (grove(x, z) + (hash(i, j, 1722) - 0.5) * 0.9 < 0.15) continue;
+    tree(P.near, x, y, z, 1730 + i * 31 + j, hash(i, j, 1723) < 0.18); } }
+
 // what the builders drew, made into meshes, as the model page does
 for (const [bt, mat] of [[islandB, toonMat()], [parkB, toonMat()], [parkG, glowMat], [P.near, toonMat()], [T.d, toonMat()]]) if (bt.parts.length) scene.add(bt.mesh(mat, { shadow: false }));
 if (T.f.parts.length) finish(T.f, toonMat()); if (T.g.parts.length) finish(T.g, glowMat);
@@ -6159,11 +6186,13 @@ if (location.hash === "#__check__") {
    tilting, never by circling.
    The site's panel covers the left of a wide window and the bottom of a narrow one, so the island is drawn off centre,
    in the part the panel leaves open. */
-const fitDist = () => { const v = (camera.fov * Math.PI) / 360, h = Math.atan(Math.tan(v) * camera.aspect); return LAWN.r * 0.95 / Math.sin(Math.min(v, h)); };   // the outline is long, not round: its far reach is only at its ends
-const YAW = 0.8;   // the one bearing: the Computer Science tower on the left, the Neural Tower on the right
-// aimed a little above the lawn, so the towers' tops stay in the frame with the island
-const overviewGoal = () => ({ yaw: YAW, pitch: 0.62, dist: fitDist(), target: LAWN.c.clone().setY(y + 10) });
-const orbit = { yaw: YAW, pitch: 0.62, dist: 100, target: LAWN.c.clone() }, goal = { ...orbit, target: LAWN.c.clone() };
+const fitDist = () => { const v = (camera.fov * Math.PI) / 360, h = Math.atan(Math.tan(v) * camera.aspect); return LAWN.r * 0.6 / Math.sin(Math.min(v, h)); };   // close in: the city fills the frame, its edges run off it
+// The one bearing, looking down into the city rather than at the island from outside it: the radio telescope on
+// the left, the Computer Science and Machine Learning towers in the middle, the Neural Tower on the right, all four
+// clear of the panel. The view is aimed between the two towers, drawn a little toward the telescope, above the streets.
+const YAW = 0.7, PITCH = 0.55, AIM = PICKS.tower.focus.clone().lerp(PICKS.neural.focus, 0.6).lerp(PICKS.landmark.focus, 0.1).setY(y + 6);
+const overviewGoal = () => ({ yaw: YAW, pitch: PITCH, dist: fitDist(), target: AIM.clone() });
+const orbit = { yaw: YAW, pitch: PITCH, dist: 100, target: AIM.clone() }, goal = { ...orbit, target: AIM.clone() };
 let focused = null;
 const post = (msg) => { if (window.parent !== window) window.parent.postMessage(msg, location.origin); };
 function focus(id) { const p = PICKS[id]; if (!p) return; focused = id;
