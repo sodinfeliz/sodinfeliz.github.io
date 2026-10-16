@@ -21,3 +21,6 @@ pnpm-debug.log*
 .vscode/
 .idea/
 
+
+# superpowers plan workspaces
+.superpowers/
