@@ -6,9 +6,10 @@ import About from './components/About'
 import Skills from './components/Skills'
 import Experience from './components/Experience'
 import Projects from './components/Projects'
+import World from './components/World'
 import Contact from './components/Contact'
 
-export const WINDOWS = ['home', 'about', 'skills', 'experience', 'projects', 'contact'] as const
+export const WINDOWS = ['home', 'about', 'skills', 'experience', 'projects', 'world', 'contact'] as const
 export type WindowId = (typeof WINDOWS)[number]
 
 function readHash(): WindowId {
@@ -56,6 +57,7 @@ function App() {
           {active === 'skills' && <Skills />}
           {active === 'experience' && <Experience />}
           {active === 'projects' && <Projects />}
+          {active === 'world' && <World />}
           {active === 'contact' && <Contact />}
         </div>
       </main>

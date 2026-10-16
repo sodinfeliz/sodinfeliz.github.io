@@ -460,3 +460,70 @@ section {
   .ls-perm, .ls-owner { display: none; }
   .tree-desc { white-space: normal; }
 }
+
+/* ---------- world: the vault's island behind a floating panel ---------- */
+
+/* the stage fills the window between the title bar and the tmux bar; the island's page, in an iframe, fills it edge to
+   edge and paints the site's own background, so only the panel floats over it */
+.world-stage {
+  position: relative;
+  height: calc(100vh - 94px);
+  min-height: 420px;
+}
+
+.world-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
+.world-panel {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 360px;
+  max-height: calc(100% - 40px);
+  display: flex;
+  flex-direction: column;
+  background: rgba(15, 22, 35, 0.88);
+  backdrop-filter: blur(6px);
+}
+
+.world-body {
+  overflow-y: auto;
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+
+.world-body p { margin: 0 0 12px; }
+.world-num { color: var(--green); font-weight: 600; }
+.world-dim { color: var(--text-dim); }
+.world-label { color: var(--text-faint); margin-top: 18px !important; }
+.world-title { color: var(--cyan); font-weight: 600; }
+.world-foot { color: var(--text-faint); font-size: 12px; margin: 16px 0 0 !important; }
+
+.world-picks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.world-pick { text-align: left; width: 100%; font-family: inherit; }
+
+/* a narrow window: the panel becomes a drawer along the bottom, the island staying visible above it */
+@media (max-width: 767px) {
+  .world-panel {
+    top: auto;
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    width: auto;
+    max-height: 45%;
+  }
+}

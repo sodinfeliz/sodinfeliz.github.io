@@ -1,0 +1,34 @@
+{
+  "notes": 3726,
+  "maps": 138,
+  "islandNotes": 3084,
+  "islandMaps": 95,
+  "today": "2026-10-16",
+  "picks": [
+    {
+      "id": "tower",
+      "title": "@53 Computer Science",
+      "notes": 232
+    },
+    {
+      "id": "neural",
+      "title": "The Neural Tower",
+      "notes": 950
+    },
+    {
+      "id": "landmark",
+      "title": "The radio telescope",
+      "notes": 1449
+    },
+    {
+      "id": "office",
+      "title": "@53.20 Programming Language",
+      "notes": 326
+    },
+    {
+      "id": "station",
+      "title": "MRT station",
+      "notes": 1449
+    }
+  ]
+}
