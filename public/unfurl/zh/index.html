@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unfurl｜每天猜五面國旗</title>
+<meta name="description" content="每天猜五面國旗，和全世界的玩家玩同一組題目。每答對一面，地球儀上就多點亮一個國家。">
+<meta name="theme-color" content="#F6F3EC">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://elliotsu.com/unfurl/zh/">
+<meta property="og:title" content="Unfurl｜每天猜五面國旗">
+<meta property="og:description" content="每天猜五面國旗，和全世界的玩家玩同一組題目。每答對一面，地球儀上就多點亮一個國家。">
+<meta property="og:image" content="https://elliotsu.com/unfurl/images/app-icon.png">
+<meta property="og:locale" content="zh_TW">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Unfurl｜每天猜五面國旗">
+<meta name="twitter:description" content="每天猜五面國旗，和全世界的玩家玩同一組題目。每答對一面，地球儀上就多點亮一個國家。">
+
+<link rel="alternate" hreflang="en" href="https://elliotsu.com/unfurl/">
+<link rel="alternate" hreflang="zh-Hant" href="https://elliotsu.com/unfurl/zh/">
+<link rel="alternate" hreflang="x-default" href="https://elliotsu.com/unfurl/">
+
+<link rel="icon" type="image/png" href="/unfurl/images/app-icon.png">
+<link rel="apple-touch-icon" href="/unfurl/images/app-icon.png">
+<style>
+  /* The app's own colours: cream paper, ink, and the gold of a perfect day. */
+  :root {
+    --paper: #F6F3EC;
+    --ink: #1C212D;
+    --soft: #5D6473;
+    --hair: rgba(28, 33, 45, 0.12);
+    --card: rgba(255, 255, 255, 0.6);
+    --lip: rgba(28, 33, 45, 0.16);
+    --right: #2F7D5B;
+    --gold: #E2B33C;
+    --gold-ink: #7A5A0A;
+    --night: #1C212D;
+    --cream: #F6F3EC;
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; color-scheme: light; overflow-x: hidden; overflow-x: clip; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "PingFang TC", "Microsoft JhengHei", "Segoe UI", sans-serif;
+    line-height: 1.75;
+    overflow-x: hidden;
+    overflow-x: clip;
+    -webkit-font-smoothing: antialiased;
+  }
+  img { max-width: 100%; height: auto; display: block; }
+  ::selection { background: rgba(226, 179, 60, 0.4); }
+  :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 6px; }
+  h1, h2, h3 { text-wrap: balance; }
+  p { text-wrap: pretty; }
+  #features, #get { scroll-margin-top: 72px; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
+
+  /* ---------- Nav ---------- */
+  nav {
+    position: sticky; top: 0; z-index: 10;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    background: rgba(246, 243, 236, 0.78);
+    border-bottom: 1px solid var(--hair);
+  }
+  .nav-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 24px; max-width: 1040px; margin: 0 auto;
+  }
+  .brand {
+    display: flex; align-items: center; gap: 10px;
+    font-weight: 700; font-size: 20px; letter-spacing: -0.01em;
+    color: var(--ink); text-decoration: none;
+  }
+  .brand img { width: 30px; height: 30px; border-radius: 8px; box-shadow: 0 2px 0 var(--lip); }
+  .nav-links { display: flex; align-items: center; gap: 22px; font-size: 14.5px; }
+  .nav-links a { color: var(--soft); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-links .nav-cta {
+    color: var(--cream); font-weight: 600;
+    background: var(--ink); border-radius: 999px; padding: 7px 16px;
+    transition: transform 0.16s var(--ease-out);
+  }
+  .nav-links .nav-cta:hover { color: var(--cream); }
+  .nav-links .nav-cta:active { transform: scale(0.96); }
+  @media (max-width: 640px) { .nav-links > a.plain { display: none; } }
+
+  /* ---------- Small caps label, as in the app ---------- */
+  .label {
+    font-size: 13.5px; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--gold-ink); margin-bottom: 14px;
+  }
+
+  /* ---------- A tile with a lip under it: the app's flag tile, and its phone ---------- */
+  .tile {
+    display: block; width: 72px; height: 72px; flex-shrink: 0;
+    border-radius: 18px; overflow: hidden;
+    border: 4px solid #fff; background: #fff;
+    box-shadow: 0 5px 0 var(--lip), 0 14px 24px -10px rgba(28, 33, 45, 0.25);
+  }
+  .tile img { width: 100%; height: 100%; object-fit: cover; border-radius: 13px; }
+  .phone {
+    position: relative; width: min(330px, 76vw);
+    border-radius: 46px; padding: 9px; background: #fff;
+    box-shadow: 0 10px 0 var(--lip), 0 44px 60px -28px rgba(28, 33, 45, 0.38);
+  }
+  .phone img { border-radius: 38px; }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    display: grid; grid-template-columns: 1.05fr 0.95fr; align-items: center; gap: 40px;
+    padding-top: 64px; padding-bottom: 72px;
+  }
+  h1 {
+    font-size: clamp(40px, 5.6vw, 62px); font-weight: 700;
+    line-height: 1.22; letter-spacing: 0; margin-bottom: 20px;
+  }
+  .hero .sub { font-size: 18.5px; color: var(--soft); max-width: 40ch; margin-bottom: 30px; }
+  .store-badge {
+    display: inline-flex; align-items: center; gap: 11px;
+    padding: 11px 22px 11px 18px; border-radius: 999px;
+    background: var(--ink); color: var(--cream);
+  }
+  .store-badge svg { width: 22px; height: 22px; flex-shrink: 0; }
+  .store-badge-text { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.2; }
+  .store-badge-eyebrow { font-size: 10.5px; letter-spacing: 0.05em; text-transform: uppercase; opacity: 0.65; }
+  .store-badge-title { font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
+  .micro-proof { font-size: 13.5px; color: var(--soft); margin-top: 16px; }
+
+  .hero-shot { position: relative; display: flex; justify-content: center; }
+  /* The day's five, in a row under the words. */
+  .five { display: flex; gap: 10px; margin-bottom: 30px; }
+  .five .tile { width: 58px; height: 58px; border-radius: 15px; border-width: 3px; }
+  .five .tile img { border-radius: 11px; }
+
+  @keyframes rise { from { opacity: 0; transform: translateY(14px); } }
+  .hero-copy > * { animation: rise 0.7s var(--ease-out) backwards; }
+  .hero-copy > *:nth-child(2) { animation-delay: 0.06s; }
+  .hero-copy > *:nth-child(3) { animation-delay: 0.12s; }
+  .hero-copy > *:nth-child(4) { animation-delay: 0.18s; }
+  .hero-copy > *:nth-child(5) { animation-delay: 0.24s; }
+  .hero-shot .phone { animation: rise 0.9s var(--ease-out) 0.1s backwards; }
+  .hero-copy > *:nth-child(6) { animation-delay: 0.30s; }
+
+  @media (max-width: 860px) {
+    .hero { grid-template-columns: 1fr; text-align: center; padding-top: 44px; padding-bottom: 56px; gap: 44px; }
+    .hero .sub { margin-left: auto; margin-right: auto; }
+    .five { justify-content: center; }
+  }
+  @media (max-width: 480px) {
+    .five { gap: 8px; }
+    .five .tile { width: 50px; height: 50px; border-radius: 13px; }
+    .five .tile img { border-radius: 9px; }
+  }
+
+  /* ---------- Feature rows ---------- */
+  section { padding: 40px 0; }
+  h2 {
+    font-size: clamp(28px, 3.4vw, 38px); font-weight: 700;
+    letter-spacing: 0; line-height: 1.3; margin-bottom: 14px;
+  }
+  .feature-row { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 48px; }
+  .feature-row.flip .feature-text { order: 2; }
+  .feature-text > p { color: var(--soft); font-size: 17px; max-width: 46ch; }
+  .feature-text ul { list-style: none; margin-top: 20px; display: grid; gap: 10px; }
+  .feature-text li { display: flex; gap: 11px; align-items: baseline; color: var(--ink); font-size: 15.5px; }
+  .feature-text li::before {
+    content: ""; width: 9px; height: 9px; border-radius: 3px; flex-shrink: 0;
+    background: var(--right); transform: translateY(-1px);
+  }
+  /* Only the upper part of each screen, fading out at the foot, so a row is not a whole phone tall. */
+  .feature-shot {
+    display: flex; justify-content: center; align-items: flex-start;
+    height: 520px; overflow: hidden; padding-top: 4px;
+    -webkit-mask-image: linear-gradient(180deg, #000 84%, transparent);
+    mask-image: linear-gradient(180deg, #000 84%, transparent);
+  }
+  .feature-shot .phone { width: min(300px, 74vw); }
+  @media (max-width: 860px) {
+    section { padding: 34px 0; }
+    .feature-shot { height: 460px; }
+    .feature-row { grid-template-columns: 1fr; gap: 30px; text-align: center; }
+    .feature-row.flip .feature-text { order: 0; }
+    .feature-text > p, .feature-text ul { margin-left: auto; margin-right: auto; }
+    .feature-text ul { justify-items: center; }
+  }
+
+  /* ---------- The rest ---------- */
+  .centre { text-align: center; }
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 34px; }
+  .card {
+    background: var(--card); border: 1px solid var(--hair); border-radius: 16px;
+    padding: 20px 20px 22px; text-align: left;
+  }
+  .card svg { width: 22px; height: 22px; color: var(--ink); margin-bottom: 12px; }
+  .card h3 { font-size: 16.5px; font-weight: 700; margin-bottom: 4px; }
+  .card p { font-size: 14.5px; color: var(--soft); line-height: 1.55; }
+  @media (max-width: 860px) { .cards { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 540px) { .cards { grid-template-columns: 1fr; } }
+
+  /* ---------- Plus: the app icon's night, with cream on it ---------- */
+  .plus {
+    background: var(--night); color: var(--cream);
+    border-radius: 28px; padding: 44px 44px 46px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;
+    box-shadow: 0 10px 0 var(--lip);
+  }
+  .plus .label { color: #E8C45E; }
+  .plus h2 { margin-bottom: 10px; }
+  .plus p { color: rgba(246, 243, 236, 0.7); font-size: 16.5px; max-width: 38ch; }
+  .plus ul { list-style: none; display: grid; gap: 14px; }
+  .plus li { display: flex; gap: 12px; align-items: baseline; font-size: 16px; }
+  .plus li::before { content: ""; width: 9px; height: 9px; border-radius: 3px; background: var(--gold); flex-shrink: 0; transform: translateY(-1px); }
+  .plus .fine { font-size: 13.5px; color: rgba(246, 243, 236, 0.55); margin-top: 18px; }
+  @media (max-width: 860px) { .plus { grid-template-columns: 1fr; padding: 34px 26px 36px; gap: 26px; } }
+
+  /* ---------- Privacy: one strip under the cards ---------- */
+  .strip {
+    margin-top: 12px; padding: 18px 20px; text-align: left;
+    background: var(--card); border: 1px solid var(--hair); border-radius: 16px;
+    display: flex; gap: 8px 28px; align-items: baseline; flex-wrap: wrap;
+  }
+  .strip strong { font-size: 16.5px; white-space: nowrap; }
+  .strip span { font-size: 14.5px; color: var(--soft); flex: 1 1 320px; line-height: 1.55; }
+
+  /* ---------- Final CTA ---------- */
+  .final-cta { text-align: center; padding: 44px 24px 80px; display: flex; flex-direction: column; align-items: center; }
+  .final-cta img { width: 76px; height: 76px; border-radius: 18px; box-shadow: 0 5px 0 var(--lip); margin-bottom: 26px; }
+  .final-cta h2 { margin-bottom: 8px; }
+  .final-cta > p { color: var(--soft); margin-bottom: 26px; }
+  .final-cta .cta-note { font-size: 13.5px; margin: 16px 0 0; }
+
+  footer {
+    border-top: 1px solid var(--hair);
+    padding: 24px; text-align: center; font-size: 14px; color: var(--soft);
+  }
+  footer a { color: var(--ink); text-decoration: none; margin: 0 10px; }
+  footer a:hover { text-decoration: underline; }
+
+  .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.65s var(--ease-out), transform 0.65s var(--ease-out); }
+  .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .hero-copy > *, .hero-shot .phone { animation: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="brand" href="#top"><img src="../images/app-icon.png" alt="" width="256" height="256">Unfurl</a>
+    <div class="nav-links">
+      <a href="../" lang="en" hreflang="en">English</a>
+      <a class="plain" href="#features">功能</a>
+      <a class="plain" href="privacy/">隱私權</a>
+      <a class="plain" href="mailto:elliotsu.dev@gmail.com">支援</a>
+      <a class="nav-cta" href="#get">即將推出</a>
+    </div>
+  </div>
+</nav>
+
+<header id="top">
+  <div class="hero wrap">
+    <div class="hero-copy">
+      <div class="label">iPhone 國旗問答遊戲</div>
+      <h1>每天五面國旗<br>慢慢認識全世界</h1>
+      <p class="sub">每天，全世界的玩家都猜同一組國旗。每答對一面，你的地球儀上就多點亮一個國家。</p>
+      <div class="five" aria-hidden="true">
+        <span class="tile"><img src="../images/flag-jp.png" alt="" width="240" height="240"></span>
+        <span class="tile"><img src="../images/flag-br.png" alt="" width="240" height="240"></span>
+        <span class="tile"><img src="../images/flag-se.png" alt="" width="240" height="240"></span>
+        <span class="tile"><img src="../images/flag-ke.png" alt="" width="240" height="240"></span>
+        <span class="tile"><img src="../images/flag-ie.png" alt="" width="240" height="240"></span>
+      </div>
+      <div class="store-badge" aria-disabled="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"></rect><path d="M12 8v7"></path><path d="M8.5 12.5 12 16l3.5-3.5"></path></svg>
+        <div class="store-badge-text">
+          <span class="store-badge-eyebrow">即將上架</span>
+          <span class="store-badge-title">App Store</span>
+        </div>
+      </div>
+      <p class="micro-proof">不用註冊 · 沒有廣告 · 不追蹤</p>
+    </div>
+    <div class="hero-shot">
+      <div class="phone"><img src="../images/zh-home.png" alt="Unfurl 首頁，顯示地球儀和「開始」按鈕" width="644" height="1400" fetchpriority="high"></div>
+    </div>
+  </div>
+</header>
+
+<main id="features">
+
+  <section>
+    <div class="wrap feature-row flip reveal">
+      <div class="feature-text">
+        <div class="label">01 · 每日五題</div>
+        <h2>每天花一分鐘猜國旗</h2>
+        <p>看國旗，從四個國名裡選一個，馬上就知道有沒有答對。</p>
+        <ul>
+          <li>每天換一組新題目</li>
+          <li>答對就能看到這面旗的由來或含意</li>
+          <li>答錯也能把兩面旗放在一起比一比</li>
+        </ul>
+      </div>
+      <div class="feature-shot">
+        <div class="phone"><img src="../images/zh-quiz.png" alt="Unfurl 題目畫面，顯示一面國旗和四個國名選項" loading="lazy" width="644" height="1400"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap feature-row reveal">
+      <div class="feature-text">
+        <div class="label">02 · 收集冊與地球儀</div>
+        <h2>看著地球儀慢慢亮起來</h2>
+        <p>答對的國旗會收進各洲的收集冊，對應的國家也會在地球儀上亮起來。轉一轉，就能看看自己已經認得哪些地方。</p>
+        <ul>
+          <li>197 面國旗等你收集</li>
+          <li>每洲都有自己的收集冊</li>
+          <li>拖曳轉動、雙指縮放，還能點選國家</li>
+        </ul>
+      </div>
+      <div class="feature-shot">
+        <div class="phone"><img src="../images/zh-album.png" alt="收集冊畫面，顯示世界地圖和各洲的收集進度" loading="lazy" width="644" height="1400"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap feature-row flip reveal">
+      <div class="feature-text">
+        <div class="label">03 · 連續天數</div>
+        <h2>漏玩一天，補簽卡幫你接上</h2>
+        <p>每連續玩滿七天，就能拿到一張補簽卡。手上有卡時，漏玩一天會自動用掉一張，讓連續紀錄接著算。</p>
+        <ul>
+          <li>打開月曆，就能回顧哪天玩過</li>
+          <li>補簽卡最多存兩張</li>
+          <li>查看最長紀錄、玩過幾天和幾天全答對</li>
+        </ul>
+      </div>
+      <div class="feature-shot">
+        <div class="phone"><img src="../images/zh-streak.png" alt="連續天數頁面，顯示月曆和剩下的補簽卡" loading="lazy" width="644" height="1400"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap centre reveal">
+      <h2>更多功能</h2>
+      <div class="cards">
+        <div class="card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 8h13l-3-3"></path><path d="M17 16H4l3 3"></path></svg><h3>兩面旗太像？放一起看</h3><p>答錯時，Unfurl 會把你選的旗和正確答案並排，讓你看清楚差在哪。</p></div>
+        <div class="card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 18a4 4 0 0 1-.5-7.97A5.5 5.5 0 0 1 17.2 9.1 4.5 4.5 0 0 1 17 18z"></path></svg><h3>iCloud 備份</h3><p>進度會備份到你的 iCloud。換手機後，用同一個 Apple 帳號就能接著玩。</p></div>
+        <div class="card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"></path><path d="M10 20a2 2 0 0 0 4 0"></path></svg><h3>每日提醒</h3><p>自己選提醒時間。到了時間，今天的五題還沒玩完才會收到提醒。</p></div>
+        <div class="card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V4"></path><path d="M8 7.5 12 4l4 3.5"></path><path d="M6 12v6a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-6"></path></svg><h3>分享成績</h3><p>把今天的成績分享成一排方塊或一張圖卡，朋友還能自己猜答案。</p></div>
+        <div class="card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"></path></svg><h3>淺色和深色模式</h3><p>喜歡米白色還是深夜藍？可以跟著系統切換，也可以自己選。</p></div>
+        <div class="card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><ellipse cx="12" cy="12" rx="4.5" ry="9"></ellipse></svg><h3>繁體中文和英文</h3><p>從操作介面、國名到國旗小知識，都有繁中和英文。</p></div>
+      </div>
+      <div class="strip"><strong>你的遊戲進度由你保管</strong><span>Unfurl 不收集使用分析資料。遊戲進度保存在手機上，登入 iCloud 後也能備份。</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap reveal">
+      <div class="plus">
+        <div>
+          <div class="label">Unfurl Plus</div>
+          <h2>隨時都能練習</h2>
+          <p>每日五題一直免費。五題玩不夠，就用 Plus 再練一輪。</p>
+          <p class="fine">一次買斷 · 不用訂閱</p>
+        </div>
+        <ul>
+          <li>每輪 10 題，想玩幾輪都可以</li>
+          <li>可以按洲練習，也可以從全部 197 面旗裡出題</li>
+          <li>也能專練容易搞混的旗</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div class="final-cta" id="get">
+  <img src="../images/app-icon.png" alt="" width="256" height="256" loading="lazy">
+  <h2>每天來猜五面旗</h2>
+  <p>每日五題免費。</p>
+  <div class="store-badge" aria-disabled="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"></rect><path d="M12 8v7"></path><path d="M8.5 12.5 12 16l3.5-3.5"></path></svg>
+    <div class="store-badge-text">
+      <span class="store-badge-eyebrow">即將上架</span>
+      <span class="store-badge-title">App Store</span>
+    </div>
+  </div>
+  <p class="cta-note">適用於 iPhone · 需要 iOS 18 或以上版本</p>
+</div>
+
+<footer>
+  <a href="privacy/">隱私權政策</a> ·
+  <a href="terms/">使用條款</a> ·
+  <a href="mailto:elliotsu.dev@gmail.com">支援</a>
+  <p style="margin-top: 8px;">© 2026 Elliot Su. All rights reserved.</p>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) { e.target.classList.add("in"); observer.unobserve(e.target); }
+    }
+  }, { threshold: 0.12 });
+  document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+</script>
+
+</body>
+</html>

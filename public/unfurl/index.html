@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unfurl — A daily flag quiz</title>
+<meta name="description" content="Unfurl is a daily flag quiz for iPhone. Five flags a day, the same five for everyone, and a globe that fills in as you learn them.">
+<meta name="theme-color" content="#F6F3EC">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://elliotsu.com/unfurl/">
+<meta property="og:title" content="Unfurl — A daily flag quiz">
+<meta property="og:description" content="Unfurl is a daily flag quiz for iPhone. Five flags a day, the same five for everyone, and a globe that fills in as you learn them.">
+<meta property="og:image" content="https://elliotsu.com/unfurl/images/app-icon.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Unfurl — A daily flag quiz">
+<meta name="twitter:description" content="Unfurl is a daily flag quiz for iPhone. Five flags a day, the same five for everyone, and a globe that fills in as you learn them.">
+
+<link rel="alternate" hreflang="en" href="https://elliotsu.com/unfurl/">
+<link rel="alternate" hreflang="zh-Hant" href="https://elliotsu.com/unfurl/zh/">
+<link rel="alternate" hreflang="x-default" href="https://elliotsu.com/unfurl/">
+
+<link rel="icon" type="image/png" href="/unfurl/images/app-icon.png">
+<link rel="apple-touch-icon" href="/unfurl/images/app-icon.png">
+<style>
+  /* The app's own colours: cream paper, ink, and the gold of a perfect day. */
+  :root {
+    --paper: #F6F3EC;
+    --ink: #1C212D;
+    --soft: #5D6473;
+    --hair: rgba(28, 33, 45, 0.12);
+    --card: rgba(255, 255, 255, 0.6);
+    --lip: rgba(28, 33, 45, 0.16);
+    --right: #2F7D5B;
+    --gold: #E2B33C;
+    --gold-ink: #7A5A0A;
+    --night: #1C212D;
+    --cream: #F6F3EC;
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; color-scheme: light; overflow-x: hidden; overflow-x: clip; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+    overflow-x: clip;
+    -webkit-font-smoothing: antialiased;
+  }
+  img { max-width: 100%; height: auto; display: block; }
+  ::selection { background: rgba(226, 179, 60, 0.4); }
+  :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 6px; }
+  h1, h2, h3 { text-wrap: balance; }
+  p { text-wrap: pretty; }
+  #features, #get { scroll-margin-top: 72px; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
+
+  /* ---------- Nav ---------- */
+  nav {
+    position: sticky; top: 0; z-index: 10;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    background: rgba(246, 243, 236, 0.78);
+    border-bottom: 1px solid var(--hair);
+  }
+  .nav-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 24px; max-width: 1040px; margin: 0 auto;
+  }
+  .brand {
+    display: flex; align-items: center; gap: 10px;
+    font-weight: 700; font-size: 20px; letter-spacing: -0.01em;
+    color: var(--ink); text-decoration: none;
+  }
+  .brand img { width: 30px; height: 30px; border-radius: 8px; box-shadow: 0 2px 0 var(--lip); }
+  .nav-links { display: flex; align-items: center; gap: 22px; font-size: 14.5px; }
+  .nav-links a { color: var(--soft); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-links .nav-cta {
+    color: var(--cream); font-weight: 600;
+    background: var(--ink); border-radius: 999px; padding: 7px 16px;
+    transition: transform 0.16s var(--ease-out);
+  }
+  .nav-links .nav-cta:hover { color: var(--cream); }
+  .nav-links .nav-cta:active { transform: scale(0.96); }
+  @media (max-width: 640px) { .nav-links > a.plain { display: none; } }
+
+  /* ---------- Small caps label, as in the app ---------- */
+  .label {
+    font-size: 13.5px; font-weight: 700; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--gold-ink); margin-bottom: 14px;
+  }
+
+  /* ---------- A tile with a lip under it: the app's flag tile, and its phone ---------- */
+  .tile {
+    display: block; width: 72px; height: 72px; flex-shrink: 0;
+    border-radius: 18px; overflow: hidden;
+    border: 4px solid #fff; background: #fff;
+    box-shadow: 0 5px 0 var(--lip), 0 14px 24px -10px rgba(28, 33, 45, 0.25);
+  }
+  .tile img { width: 100%; height: 100%; object-fit: cover; border-radius: 13px; }
+  .phone {
+    position: relative; width: min(330px, 76vw);
+    border-radius: 46px; padding: 9px; background: #fff;
+    box-shadow: 0 10px 0 var(--lip), 0 44px 60px -28px rgba(28, 33, 45, 0.38);
+  }
+  .phone img { border-radius: 38px; }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    display: grid; grid-template-columns: 1.05fr 0.95fr; align-items: center; gap: 40px;
+    padding-top: 64px; padding-bottom: 72px;
+  }
+  h1 {
+    font-size: clamp(40px, 5.6vw, 62px); font-weight: 700;
+    line-height: 1.06; letter-spacing: -0.02em; margin-bottom: 20px;
+  }
+  .hero .sub { font-size: 18.5px; color: var(--soft); max-width: 40ch; margin-bottom: 30px; }
+  .store-badge {
+    display: inline-flex; align-items: center; gap: 11px;
+    padding: 11px 22px 11px 18px; border-radius: 999px;
+    background: var(--ink); color: var(--cream);
+  }
+  .store-badge svg { width: 22px; height: 22px; flex-shrink: 0; }
+  .store-badge-text { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.2; }
+  .store-badge-eyebrow { font-size: 10.5px; letter-spacing: 0.05em; text-transform: uppercase; opacity: 0.65; }
+  .store-badge-title { font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
+  .micro-proof { font-size: 13.5px; color: var(--soft); margin-top: 16px; }
+
+  .hero-shot { position: relative; display: flex; justify-content: center; }
+  /* The day's five, in a row under the words. */
+  .five { display: flex; gap: 10px; margin-bottom: 30px; }
+  .five .tile { width: 58px; height: 58px; border-radius: 15px; border-width: 3px; }
+  .five .tile img { border-radius: 11px; }
+
+  @keyframes rise { from { opacity: 0; transform: translateY(14px); } }
+  .hero-copy > * { animation: rise 0.7s var(--ease-out) backwards; }
+  .hero-copy > *:nth-child(2) { animation-delay: 0.06s; }
+  .hero-copy > *:nth-child(3) { animation-delay: 0.12s; }
+  .hero-copy > *:nth-child(4) { animation-delay: 0.18s; }
+  .hero-copy > *:nth-child(5) { animation-delay: 0.24s; }
+  .hero-shot .phone { animation: rise 0.9s var(--ease-out) 0.1s backwards; }
+  .hero-copy > *:nth-child(6) { animation-delay: 0.30s; }
+
+  @media (max-width: 860px) {
+    .hero { grid-template-columns: 1fr; text-align: center; padding-top: 44px; padding-bottom: 56px; gap: 44px; }
+    .hero .sub { margin-left: auto; margin-right: auto; }
+    .five { justify-content: center; }
+  }
+  @media (max-width: 480px) {
+    .five { gap: 8px; }
+    .five .tile { width: 50px; height: 50px; border-radius: 13px; }
+    .five .tile img { border-radius: 9px; }
+  }
+
+  /* ---------- Feature rows ---------- */
+  section { padding: 40px 0; }
+  h2 {
+    font-size: clamp(28px, 3.4vw, 38px); font-weight: 700;
+    letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 14px;
+  }
+  .feature-row { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 48px; }
+  .feature-row.flip .feature-text { order: 2; }
+  .feature-text > p { color: var(--soft); font-size: 17px; max-width: 46ch; }
+  .feature-text ul { list-style: none; margin-top: 20px; display: grid; gap: 10px; }
+  .feature-text li { display: flex; gap: 11px; align-items: baseline; color: var(--ink); font-size: 15.5px; }
+  .feature-text li::before {
+    content: ""; width: 9px; height: 9px; border-radius: 3px; flex-shrink: 0;
+    background: var(--right); transform: translateY(-1px);
+  }
+  /* Only the upper part of each screen, fading out at the foot, so a row is not a whole phone tall. */
+  .feature-shot {
+    display: flex; justify-content: center; align-items: flex-start;
+    height: 520px; overflow: hidden; padding-top: 4px;
+    -webkit-mask-image: linear-gradient(180deg, #000 84%, transparent);
+    mask-image: linear-gradient(180deg, #000 84%, transparent);
+  }
+  .feature-shot .phone { width: min(300px, 74vw); }
+  @media (max-width: 860px) {
+    section { padding: 34px 0; }
+    .feature-shot { height: 460px; }
+    .feature-row { grid-template-columns: 1fr; gap: 30px; text-align: center; }
+    .feature-row.flip .feature-text { order: 0; }
+    .feature-text > p, .feature-text ul { margin-left: auto; margin-right: auto; }
+    .feature-text ul { justify-items: center; }
+  }
+
+  /* ---------- The rest ---------- */
+  .centre { text-align: center; }
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 34px; }
+  .card {
+    background: var(--card); border: 1px solid var(--hair); border-radius: 16px;
+    padding: 20px 20px 22px; text-align: left;
+  }
+  .card svg { width: 22px; height: 22px; color: var(--ink); margin-bottom: 12px; }
+  .card h3 { font-size: 16.5px; font-weight: 700; margin-bottom: 4px; }
+  .card p { font-size: 14.5px; color: var(--soft); line-height: 1.55; }
+  @media (max-width: 860px) { .cards { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 540px) { .cards { grid-template-columns: 1fr; } }
+
+  /* ---------- Plus: the app icon's night, with cream on it ---------- */
+  .plus {
+    background: var(--night); color: var(--cream);
+    border-radius: 28px; padding: 44px 44px 46px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;
+    box-shadow: 0 10px 0 var(--lip);
+  }
+  .plus .label { color: #E8C45E; }
+  .plus h2 { margin-bottom: 10px; }
+  .plus p { color: rgba(246, 243, 236, 0.7); font-size: 16.5px; max-width: 38ch; }
+  .plus ul { list-style: none; display: grid; gap: 14px; }
+  .plus li { display: flex; gap: 12px; align-items: baseline; font-size: 16px; }
+  .plus li::before { content: ""; width: 9px; height: 9px; border-radius: 3px; background: var(--gold); flex-shrink: 0; transform: translateY(-1px); }
+  .plus .fine { font-size: 13.5px; color: rgba(246, 243, 236, 0.55); margin-top: 18px; }
+  @media (max-width: 860px) { .plus { grid-template-columns: 1fr; padding: 34px 26px 36px; gap: 26px; } }
+
+  /* ---------- Privacy: one strip under the cards ---------- */
+  .strip {
+    margin-top: 12px; padding: 18px 20px; text-align: left;
+    background: var(--card); border: 1px solid var(--hair); border-radius: 16px;
+    display: flex; gap: 8px 28px; align-items: baseline; flex-wrap: wrap;
+  }
+  .strip strong { font-size: 16.5px; white-space: nowrap; }
+  .strip span { font-size: 14.5px; color: var(--soft); flex: 1 1 320px; line-height: 1.55; }
+
+  /* ---------- Final CTA ---------- */
+  .final-cta { text-align: center; padding: 44px 24px 80px; display: flex; flex-direction: column; align-items: center; }
+  .final-cta img { width: 76px; height: 76px; border-radius: 18px; box-shadow: 0 5px 0 var(--lip); margin-bottom: 26px; }
+  .final-cta h2 { margin-bottom: 8px; }
+  .final-cta > p { color: var(--soft); margin-bottom: 26px; }
+  .final-cta .cta-note { font-size: 13.5px; margin: 16px 0 0; }
+
+  footer {
+    border-top: 1px solid var(--hair);
+    padding: 24px; text-align: center; font-size: 14px; color: var(--soft);
+  }
+  footer a { color: var(--ink); text-decoration: none; margin: 0 10px; }
+  footer a:hover { text-decoration: underline; }
+
+  .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.65s var(--ease-out), transform 0.65s var(--ease-out); }
+  .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .hero-copy > *, .hero-shot .phone { animation: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="brand" href="#top"><img src="images/app-icon.png" alt="" width="256" height="256">Unfurl</a>
+    <div class="nav-links">
+      <a href="zh/" lang="zh-Hant" hreflang="zh-Hant">繁體中文</a>
+      <a class="plain" href="#features">Features</a>
+      <a class="plain" href="privacy/">Privacy</a>
+      <a class="plain" href="mailto:elliotsu.dev@gmail.com">Support</a>
+      <a class="nav-cta" href="#get">Coming Soon</a>
+    </div>
+  </div>
+</nav>
+
+<header id="top">
+  <div class="hero wrap">
+    <div class="hero-copy">
+      <div class="label">A daily flag quiz for iPhone</div>
+      <h1>Five flags a day.<br>The whole world, in time.</h1>
+      <p class="sub">One short round each day, the same five flags for everyone. Every one you get right colours in a country on your own globe.</p>
+      <div class="five" aria-hidden="true">
+        <span class="tile"><img src="images/flag-jp.png" alt="" width="240" height="240"></span>
+        <span class="tile"><img src="images/flag-br.png" alt="" width="240" height="240"></span>
+        <span class="tile"><img src="images/flag-se.png" alt="" width="240" height="240"></span>
+        <span class="tile"><img src="images/flag-ke.png" alt="" width="240" height="240"></span>
+        <span class="tile"><img src="images/flag-ie.png" alt="" width="240" height="240"></span>
+      </div>
+      <div class="store-badge" aria-disabled="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"></rect><path d="M12 8v7"></path><path d="M8.5 12.5 12 16l3.5-3.5"></path></svg>
+        <div class="store-badge-text">
+          <span class="store-badge-eyebrow">Coming soon on the</span>
+          <span class="store-badge-title">App Store</span>
+        </div>
+      </div>
+      <p class="micro-proof">No accounts · No ads · No tracking</p>
+    </div>
+    <div class="hero-shot">
+      <div class="phone"><img src="images/en-home.png" alt="Unfurl's home screen with the player's globe and the Begin button" width="644" height="1400" fetchpriority="high"></div>
+    </div>
+  </div>
+</header>
+
+<main id="features">
+
+  <section>
+    <div class="wrap feature-row flip reveal">
+      <div class="feature-text">
+        <div class="label">01 · The daily five</div>
+        <h2>A minute a day is enough</h2>
+        <p>Five flags, four names each. Pick one and see at once whether you were right. A new round arrives every day, and it is the same one for every player.</p>
+        <ul>
+          <li>Done in about a minute</li>
+          <li>The same five flags for everyone, every day</li>
+          <li>A wrong pick is shown beside the right flag</li>
+        </ul>
+      </div>
+      <div class="feature-shot">
+        <div class="phone"><img src="images/en-quiz.png" alt="A question in Unfurl: a flag and four country names to choose from" loading="lazy" width="644" height="1400"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap feature-row reveal">
+      <div class="feature-text">
+        <div class="label">02 · Album and globe</div>
+        <h2>Watch your world fill in</h2>
+        <p>Each flag you get right is collected. The album keeps count by continent, and the globe on the home screen is yours to turn: 197 countries, coloured in one by one.</p>
+        <ul>
+          <li>197 flags to collect</li>
+          <li>A booklet for every continent</li>
+          <li>A globe you can spin, zoom, and tap</li>
+        </ul>
+      </div>
+      <div class="feature-shot">
+        <div class="phone"><img src="images/en-album.png" alt="The album, with a world map and the flags collected in each continent" loading="lazy" width="644" height="1400"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap feature-row flip reveal">
+      <div class="feature-text">
+        <div class="label">03 · Streak</div>
+        <h2>A freeze can save your streak</h2>
+        <p>Every seven days in a row earns a freeze. If you have one when you miss a day, Unfurl uses it automatically to keep your streak going.</p>
+        <ul>
+          <li>A calendar of every day you played</li>
+          <li>Up to two freezes held at a time</li>
+          <li>Best streak, days played, and perfect days</li>
+        </ul>
+      </div>
+      <div class="feature-shot">
+        <div class="phone"><img src="images/en-streak.png" alt="The streak page, with a month of played days and the freezes in hand" loading="lazy" width="644" height="1400"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap centre reveal">
+      <div class="label">04 · And the rest</div>
+      <h2>Small things, done with care</h2>
+      <div class="cards">
+        <div class="card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 8h13l-3-3"></path><path d="M17 16H4l3 3"></path></svg><h3>Lookalikes, told apart</h3><p>Mix up two similar flags and Unfurl puts them side by side, so the difference is easy to see.</p></div>
+        <div class="card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 18a4 4 0 0 1-.5-7.97A5.5 5.5 0 0 1 17.2 9.1 4.5 4.5 0 0 1 17 18z"></path></svg><h3>iCloud backup</h3><p>Your progress is kept in your own iCloud, free for everyone. A new phone picks up where you left off.</p></div>
+        <div class="card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"></path><path d="M10 20a2 2 0 0 0 4 0"></path></svg><h3>Daily reminder</h3><p>A notification at the time you choose, sent only on days you have not played yet.</p></div>
+        <div class="card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V4"></path><path d="M8 7.5 12 4l4 3.5"></path><path d="M6 12v6a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-6"></path></svg><h3>Share your result</h3><p>Send the day's score as a line of squares or as a picture card, with nothing given away.</p></div>
+        <div class="card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"></path></svg><h3>Light and dark</h3><p>Cream paper by day and night blue after dark, or whichever you prefer.</p></div>
+        <div class="card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><ellipse cx="12" cy="12" rx="4.5" ry="9"></ellipse></svg><h3>English and 繁體中文</h3><p>Every screen and every country name, in both languages.</p></div>
+      </div>
+      <div class="strip"><strong>It knows nothing about you</strong><span>Unfurl has no accounts, no ads, and no analytics. It makes no network requests of its own. Your progress stays on your phone and in your own iCloud.</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap reveal">
+      <div class="plus">
+        <div>
+          <div class="label">Unfurl Plus</div>
+          <h2>Practice any time</h2>
+          <p>The daily five are free and stay free. Plus adds practice for when five flags are not enough.</p>
+          <p class="fine">One purchase · No subscription</p>
+        </div>
+        <ul>
+          <li>Unlimited 10-question rounds</li>
+          <li>Practice by continent, or draw from all 197 flags</li>
+          <li>A round of just the lookalikes</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div class="final-cta" id="get">
+  <img src="images/app-icon.png" alt="" width="256" height="256" loading="lazy">
+  <h2>Five flags are waiting</h2>
+  <p>Free to play, every day.</p>
+  <div class="store-badge" aria-disabled="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"></rect><path d="M12 8v7"></path><path d="M8.5 12.5 12 16l3.5-3.5"></path></svg>
+    <div class="store-badge-text">
+      <span class="store-badge-eyebrow">Coming soon on the</span>
+      <span class="store-badge-title">App Store</span>
+    </div>
+  </div>
+  <p class="cta-note">iPhone · iOS 18+</p>
+</div>
+
+<footer>
+  <a href="privacy/">Privacy Policy</a> ·
+  <a href="terms/">Terms of Use</a> ·
+  <a href="mailto:elliotsu.dev@gmail.com">Support</a>
+  <p style="margin-top: 8px;">© 2026 Elliot Su. All rights reserved.</p>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) { e.target.classList.add("in"); observer.unobserve(e.target); }
+    }
+  }, { threshold: 0.12 });
+  document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+</script>
+
+</body>
+</html>
