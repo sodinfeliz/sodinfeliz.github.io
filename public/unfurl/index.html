@@ -33,7 +33,7 @@
     --lip: rgba(28, 33, 45, 0.16);
     --right: #2F7D5B;
     --gold: #E2B33C;
-    --gold-ink: #8F6B10;
+    --gold-ink: #7A5A0A;
     --night: #1C212D;
     --cream: #F6F3EC;
     --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
@@ -89,7 +89,7 @@
 
   /* ---------- Small caps label, as in the app ---------- */
   .label {
-    font-size: 12.5px; font-weight: 700; letter-spacing: 0.12em;
+    font-size: 13.5px; font-weight: 700; letter-spacing: 0.12em;
     text-transform: uppercase; color: var(--gold-ink); margin-bottom: 14px;
   }
 
@@ -156,7 +156,7 @@
   }
 
   /* ---------- Feature rows ---------- */
-  section { padding: 56px 0; }
+  section { padding: 40px 0; }
   h2 {
     font-size: clamp(28px, 3.4vw, 38px); font-weight: 700;
     letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 14px;
@@ -170,10 +170,17 @@
     content: ""; width: 9px; height: 9px; border-radius: 3px; flex-shrink: 0;
     background: var(--right); transform: translateY(-1px);
   }
-  .feature-shot { display: flex; justify-content: center; }
+  /* Only the upper part of each screen, fading out at the foot, so a row is not a whole phone tall. */
+  .feature-shot {
+    display: flex; justify-content: center; align-items: flex-start;
+    height: 520px; overflow: hidden; padding-top: 4px;
+    -webkit-mask-image: linear-gradient(180deg, #000 84%, transparent);
+    mask-image: linear-gradient(180deg, #000 84%, transparent);
+  }
   .feature-shot .phone { width: min(300px, 74vw); }
   @media (max-width: 860px) {
-    section { padding: 44px 0; }
+    section { padding: 34px 0; }
+    .feature-shot { height: 460px; }
     .feature-row { grid-template-columns: 1fr; gap: 30px; text-align: center; }
     .feature-row.flip .feature-text { order: 0; }
     .feature-text > p, .feature-text ul { margin-left: auto; margin-right: auto; }
@@ -209,12 +216,17 @@
   .plus .fine { font-size: 13.5px; color: rgba(246, 243, 236, 0.55); margin-top: 18px; }
   @media (max-width: 860px) { .plus { grid-template-columns: 1fr; padding: 34px 26px 36px; gap: 26px; } }
 
-  /* ---------- Privacy ---------- */
-  .quiet { text-align: center; }
-  .quiet p { color: var(--soft); max-width: 56ch; margin: 0 auto; font-size: 17px; }
+  /* ---------- Privacy: one strip under the cards ---------- */
+  .strip {
+    margin-top: 12px; padding: 18px 20px; text-align: left;
+    background: var(--card); border: 1px solid var(--hair); border-radius: 16px;
+    display: flex; gap: 8px 28px; align-items: baseline; flex-wrap: wrap;
+  }
+  .strip strong { font-size: 16.5px; white-space: nowrap; }
+  .strip span { font-size: 14.5px; color: var(--soft); flex: 1 1 320px; line-height: 1.55; }
 
   /* ---------- Final CTA ---------- */
-  .final-cta { text-align: center; padding: 56px 24px 88px; display: flex; flex-direction: column; align-items: center; }
+  .final-cta { text-align: center; padding: 44px 24px 80px; display: flex; flex-direction: column; align-items: center; }
   .final-cta img { width: 76px; height: 76px; border-radius: 18px; box-shadow: 0 5px 0 var(--lip); margin-bottom: 26px; }
   .final-cta h2 { margin-bottom: 8px; }
   .final-cta > p { color: var(--soft); margin-bottom: 26px; }
@@ -347,6 +359,7 @@
         <div class="card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"></path></svg><h3>Light and dark</h3><p>Cream paper by day and night blue after dark, or whichever you prefer.</p></div>
         <div class="card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><ellipse cx="12" cy="12" rx="4.5" ry="9"></ellipse></svg><h3>English and 繁體中文</h3><p>Every screen and every country name, in both languages.</p></div>
       </div>
+      <div class="strip"><strong>It knows nothing about you</strong><span>Unfurl has no accounts, no ads, and no analytics. It makes no network requests of its own. Your progress stays on your phone and in your own iCloud.</span></div>
     </div>
   </section>
 
@@ -365,14 +378,6 @@
           <li>A round of just the lookalikes</li>
         </ul>
       </div>
-    </div>
-  </section>
-
-  <section>
-    <div class="wrap quiet reveal">
-      <div class="label">Privacy</div>
-      <h2>It knows nothing about you</h2>
-      <p>Unfurl has no accounts, no ads, and no analytics. It makes no network requests of its own. Your progress stays on your phone and in your own iCloud.</p>
     </div>
   </section>
 
