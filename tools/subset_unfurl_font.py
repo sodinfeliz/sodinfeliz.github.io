@@ -3,10 +3,13 @@
 
 The app sets Chinese in GenSenRounded; the whole family is far too large for a web page, so the pages carry
 only the glyphs that appear in them. Run this again after changing any Chinese text under public/unfurl/zh/,
-or a new character falls back to the system's face.
+or a new character falls back to the system's face. Each page's links to the fonts are stamped with the files'
+hashes, so a browser that holds an earlier cut fetches the new one.
 
     uv run --with "fonttools[woff]" python tools/subset_unfurl_font.py <folder holding GenSenRounded2TW-*.otf>
 """
+import hashlib
+import re
 import sys
 from pathlib import Path
 
@@ -35,6 +38,13 @@ def main() -> None:
         target = OUT / f"gensenrounded-{name}.woff2"
         subset.save_font(font, str(target), options)
         print(f"{target.name}: {len(wanted)} characters, {target.stat().st_size // 1024} KB")
+        stamp = hashlib.sha256(target.read_bytes()).hexdigest()[:8]
+        link = re.compile(re.escape(target.name) + r"(\?v=\w+)?")
+        for page in (ROOT / "public" / "unfurl").rglob("*.html"):
+            before = page.read_text(encoding="utf-8")
+            after = link.sub(f"{target.name}?v={stamp}", before)
+            if after != before:
+                page.write_text(after, encoding="utf-8")
 
 
 if __name__ == "__main__":
