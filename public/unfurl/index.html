@@ -167,6 +167,12 @@
     box-shadow: 0 10px 0 var(--lip), 0 44px 60px -28px rgba(28, 33, 45, 0.38);
   }
   .phone img { border-radius: 38px; }
+  /* A round of play, looping over the still it starts from. It fades in once it is running. */
+  .hero-clip {
+    position: absolute; inset: 9px; width: calc(100% - 18px); height: calc(100% - 18px);
+    border-radius: 38px; object-fit: cover; opacity: 0; transition: opacity 0.4s var(--ease-out);
+  }
+  .hero-clip.on { opacity: 1; }
 
   /* ---------- Hero ---------- */
   .hero {
@@ -338,7 +344,7 @@
       <p class="micro-proof">No accounts · No ads · No tracking</p>
     </div>
     <div class="hero-shot">
-      <div class="phone"><img class="only-light" src="images/en-home.png" alt="Unfurl's home screen with the player's globe and the Begin button" width="644" height="1400" fetchpriority="high"><img class="only-dark" src="images/en-home-dark.png" alt="Unfurl's home screen with the player's globe and the Begin button" width="644" height="1400" loading="lazy"></div>
+      <div class="phone"><img class="only-light" src="images/en-hero.jpg" alt="Unfurl's home screen with the player's globe and the Begin button" width="644" height="1400" fetchpriority="high"><img class="only-dark" src="images/en-hero-dark.jpg" alt="Unfurl's home screen with the player's globe and the Begin button" width="644" height="1400" loading="lazy"><video class="hero-clip" data-clip="images/en-hero" muted loop playsinline preload="none" aria-hidden="true"></video></div>
     </div>
   </div>
 </header>
@@ -471,10 +477,28 @@
   const themeColor = document.querySelector('meta[name="theme-color"]');
   const tintBar = () => { themeColor.content = root.dataset.theme === "dark" ? "#14171F" : "#F6F3EC"; };
   tintBar();
+  // The hero's phone plays a round in the theme showing, unless the visitor asked for less motion.
+  const clip = document.querySelector(".hero-clip");
+  const wantsStill = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const playClip = () => {
+    if (wantsStill) return;
+    clip.classList.remove("on");
+    clip.src = clip.dataset.clip + (root.dataset.theme === "dark" ? "-dark" : "") + ".mp4";
+    clip.play().catch(() => {});
+  };
+  clip.addEventListener("playing", () => clip.classList.add("on"));
+  // It rests while it is off the screen.
+  new IntersectionObserver(([entry]) => {
+    if (wantsStill || !clip.src) return;
+    if (entry.isIntersecting) clip.play().catch(() => {}); else clip.pause();
+  }).observe(clip);
+  playClip();
+
   document.querySelector(".theme-toggle").addEventListener("click", () => {
     root.dataset.theme = root.dataset.theme === "dark" ? "light" : "dark";
     try { localStorage.setItem("unfurl-theme", root.dataset.theme); } catch (e) {}
     tintBar();
+    playClip();
   });
 </script>
 
