@@ -27,12 +27,12 @@
     light: {
       sea: "#A9D9F1", land: ["#FFFAEE", "#C6CAD2", "#3F9B72", "#E2B33C"],
       border: "rgba(28, 33, 45, 0.13)", grid: "rgba(255, 255, 255, 0.55)",
-      glow: [169, 217, 241], shade: [28, 33, 45],
+      glow: [169, 217, 241],
     },
     dark: {
       sea: "#234E6E", land: ["#4A5163", "#8A91A0", "#4FAE82", "#E2B33C"],
       border: "rgba(0, 0, 0, 0.35)", grid: "rgba(255, 255, 255, 0.14)",
-      glow: [110, 193, 242], shade: [0, 0, 0],
+      glow: [110, 193, 242],
     },
   };
   const rgba = ([r, g, b], a) => `rgba(${r}, ${g}, ${b}, ${a})`;
@@ -91,7 +91,7 @@
 
     // The globe is far wider than the band shows, so its edge crosses the band as a long, shallow arc. It
     // stands `--head` below the band's top, which leaves the air over its edge room to show.
-    const head = parseFloat(getComputedStyle(band).getPropertyValue("--head")) || 90;
+    const head = parseFloat(getComputedStyle(band).getPropertyValue("--head")) || Math.max(96, Math.min(200, width * 0.15));
     const radius = Math.min(980, Math.max(430, width * 0.72));
     const cx = width / 2, cy = head + radius;
 
@@ -122,16 +122,17 @@
     };
 
     // The air around the globe: at night a band hugging the edge inside a wider, fainter glow, and by day a
-    // faint haze of the sea's colour. Both are dimmer than in the app, where nothing is set above the globe.
+    // faint haze of the sea's colour. Both are much dimmer than in the app, where nothing is set above the
+    // globe: here the words stand in this light. It reaches no further than `--head`, so it ends inside the band.
     const haze = radius * (isNight ? 1.2 : 1.1);
     const air = ctx.createRadialGradient(cx, cy, radius, cx, cy, haze);
     if (isNight) {
-      air.addColorStop(0, rgba(look.glow, 0.26));
-      air.addColorStop(0.16, rgba(look.glow, 0.09));
-      air.addColorStop(0.5, rgba(look.glow, 0.03));
+      air.addColorStop(0, rgba(look.glow, 0.17));
+      air.addColorStop(0.16, rgba(look.glow, 0.065));
+      air.addColorStop(0.5, rgba(look.glow, 0.02));
       air.addColorStop(1, rgba(look.glow, 0));
     } else {
-      air.addColorStop(0, rgba(look.glow, 0.42));
+      air.addColorStop(0, rgba(look.glow, 0.3));
       air.addColorStop(1, rgba(look.glow, 0));
     }
     ctx.fillStyle = air;
@@ -200,13 +201,14 @@
       corner = { left, top };
     }
 
-    // A soft shade at the far edge rounds it. At night light is caught in the air at the edge.
-    const shade = ctx.createRadialGradient(cx, cy, radius * 0.7, cx, cy, radius);
-    shade.addColorStop(0, rgba(look.shade, 0)); shade.addColorStop(1, rgba(look.shade, 0.14));
-    ctx.fillStyle = shade; disc(); ctx.fill();
+    // The app shades the globe's far edge to round it. That is left out here: only the top of the globe is
+    // on the page, all of it inside that shade, which read as a dark veil over the horizon. At night light
+    // is still caught in the air at the edge.
     if (isNight) {
-      const limb = ctx.createRadialGradient(cx, cy, radius * 0.84, cx, cy, radius);
-      limb.addColorStop(0, rgba(look.glow, 0)); limb.addColorStop(1, rgba(look.glow, 0.3));
+      // Kept to a thin rim. The app spreads it over the outer sixth of the globe, which here is the whole
+      // upper part of the picture: with the fade at the foot it left a brighter band across the middle.
+      const limb = ctx.createRadialGradient(cx, cy, radius * 0.97, cx, cy, radius);
+      limb.addColorStop(0, rgba(look.glow, 0)); limb.addColorStop(1, rgba(look.glow, 0.24));
       ctx.fillStyle = limb; disc(); ctx.fill();
     }
     ctx.restore();

@@ -260,7 +260,8 @@
   }
 
   /* ---------- 02: the globe itself, rising like a horizon, with one country picked up ---------- */
-  .world { padding-bottom: 0; }
+  /* Room under the globe: its fade ends in the page's own colour, and what follows needs to stand clear of it. */
+  .world { padding-bottom: 64px; }
   .world > .wrap { position: relative; z-index: 1; }
   /* Two even lines under the heading, not two and a stray few words. */
   .world-lede { color: var(--soft); font-size: 17px; max-width: 40em; margin: 0 auto; text-wrap: balance; }
@@ -270,22 +271,26 @@
     background: var(--card); border: 1px solid var(--hair);
   }
   /* The globe is drawn by `globe.js` on a canvas the width of the page. `--head` is the room over its edge for
-     the light in the air, and the band is drawn up under the words by as much. */
+     the light in the air: as tall as that light reaches, so it fades out by itself and is never cut off in a
+     line. The band is drawn up under the words by as much, and the light shows through behind them. The
+     property is registered as a length so that the script reads it in pixels. */
+  @property --head { syntax: "<length>"; inherits: true; initial-value: 96px; }
   .horizon {
-    --head: 96px;
+    --head: clamp(96px, 15vw, 200px);
     position: relative; overflow: hidden;
     margin-top: calc(40px - var(--head));
     height: calc(var(--head) + clamp(300px, 44vw, 600px));
   }
   /* The globe sinks into the page as if lit from over the middle of its edge: a broad pool of light whose
      long falloff reaches furthest down in the middle and comes in from the sides, so the foot narrows
-     instead of running the full width. The falloff is long enough to read as light, not as a shape. */
+     instead of running the full width. The falloff is long enough to read as light, not as a shape, and
+     the pool is wide enough to leave the globe's edge and the upper corners at full strength. */
   .globe-canvas {
     position: absolute; inset: 0; width: 100%; height: 100%;
-    -webkit-mask-image: radial-gradient(ellipse 80% 100% at 50% 0%, #000 56%, transparent 100%);
-    mask-image: radial-gradient(ellipse 80% 100% at 50% 0%, #000 56%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 90% 100% at 50% 0%, #000 57%, transparent 100%);
+    mask-image: radial-gradient(ellipse 90% 100% at 50% 0%, #000 57%, transparent 100%);
   }
-  @media (max-width: 760px) { .horizon { --head: 72px; } }
+  @media (max-width: 760px) { .world { padding-bottom: 28px; } }
   .country-card {
     position: absolute; left: 60%; top: 40%; transform: translate(-100%, -100%);
     display: flex; align-items: center; gap: 10px; padding: 9px 14px 9px 9px;
