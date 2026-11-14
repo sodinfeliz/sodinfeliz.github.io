@@ -21,6 +21,7 @@
 <link rel="alternate" hreflang="zh-Hant" href="https://elliotsu.com/unfurl/zh/">
 <link rel="alternate" hreflang="x-default" href="https://elliotsu.com/unfurl/">
 
+<link rel="preload" href="../fonts/nunito-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="icon" type="image/png" href="/unfurl/images/app-icon.png">
 <link rel="apple-touch-icon" href="/unfurl/images/app-icon.png">
 <script>
@@ -33,6 +34,24 @@
   })();
 </script>
 <style>
+  /* Nunito, kept on this site, stands in for the app's SF Rounded: the same round letters for Latin letters and digits only, so dashes and other shared punctuation stay in the Chinese face. */
+  @font-face {
+    font-family: "Nunito";
+    font-style: normal; font-weight: 200 1000; font-display: swap;
+    src: url("../fonts/nunito-latin.woff2") format("woff2");
+    unicode-range: U+0000-00FF;
+  }
+  /* The app's own Chinese face, cut down to the characters these pages use by tools/subset_unfurl_font.py. */
+  @font-face {
+    font-family: "GenSen Rounded";
+    font-style: normal; font-weight: 400 500; font-display: swap;
+    src: url("../fonts/gensenrounded-regular.woff2") format("woff2");
+  }
+  @font-face {
+    font-family: "GenSen Rounded";
+    font-style: normal; font-weight: 600 800; font-display: swap;
+    src: url("../fonts/gensenrounded-bold.woff2") format("woff2");
+  }
   /* The app's own colours: cream paper, ink, and the gold of a perfect day. */
   :root {
     --paper: #F6F3EC;
@@ -74,7 +93,7 @@
   body {
     background: var(--paper);
     color: var(--ink);
-    font-family: ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "PingFang TC", "Microsoft JhengHei", "Segoe UI", sans-serif;
+    font-family: "Nunito", "GenSen Rounded", ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "PingFang TC", "Microsoft JhengHei", "Segoe UI", sans-serif;
     line-height: 1.75;
     overflow-x: hidden;
     overflow-x: clip;
@@ -102,7 +121,7 @@
   }
   .brand {
     display: flex; align-items: center; gap: 10px;
-    font-weight: 700; font-size: 20px; letter-spacing: -0.01em;
+    font-weight: 800; font-size: 20px; letter-spacing: 0;
     color: var(--ink); text-decoration: none;
   }
   .brand img { width: 30px; height: 30px; border-radius: 8px; box-shadow: 0 2px 0 var(--lip); }
@@ -117,6 +136,17 @@
   .nav-links .nav-cta:hover { color: var(--on-ink); }
   .nav-links .nav-cta:active { transform: scale(0.96); }
   @media (max-width: 640px) { .nav-links > a.plain { display: none; } }
+  .nav-links a { white-space: nowrap; }
+  /* On a phone the switch has to fit beside the language and the button. */
+  @media (max-width: 480px) {
+    .nav-inner { padding: 12px 16px; }
+    .nav-links { gap: 12px; font-size: 14px; }
+    .nav-links .nav-cta { padding: 7px 13px; }
+    .brand { font-size: 19px; gap: 8px; }
+  }
+  /* The narrowest phones drop the button, which only jumps to the foot of the page. */
+  @media (max-width: 360px) { .nav-links .nav-cta { display: none; } }
+  .brand { flex-shrink: 0; }
 
   /* ---------- Light and dark: the switch, and the pictures that come in both ---------- */
   .theme-toggle {
@@ -155,13 +185,17 @@
   /* ---------- Hero ---------- */
   .hero {
     display: grid; grid-template-columns: 1.05fr 0.95fr; align-items: center; gap: 40px;
-    padding-top: 64px; padding-bottom: 72px;
+    padding-top: 40px; padding-bottom: 72px;
   }
+  /* The words sit a little above the phone's middle: set dead centre against so tall a picture, they read as low. */
+  .hero-copy { padding-bottom: 64px; }
   h1 {
     font-size: clamp(40px, 5.6vw, 62px); font-weight: 700;
-    line-height: 1.22; letter-spacing: 0; margin-bottom: 20px;
+    line-height: 1.26; letter-spacing: 0.01em; margin-bottom: 18px;
   }
-  .hero .sub { font-size: 18.5px; color: var(--soft); max-width: 40ch; margin-bottom: 30px; }
+  .hero .sub { font-size: 18px; color: var(--soft); max-width: 24em; margin-bottom: 28px; }
+  /* A sentence stays whole where there is room, so a line never begins partway through one. */
+  .phrase { display: inline-block; }
   .store-badge {
     display: inline-flex; align-items: center; gap: 11px;
     padding: 11px 22px 11px 18px; border-radius: 999px;
@@ -170,7 +204,7 @@
   .store-badge svg { width: 22px; height: 22px; flex-shrink: 0; }
   .store-badge-text { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.2; }
   .store-badge-eyebrow { font-size: 10.5px; letter-spacing: 0.05em; text-transform: uppercase; opacity: 0.65; }
-  .store-badge-title { font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
+  .store-badge-title { font-size: 17px; font-weight: 800; letter-spacing: 0; }
   .micro-proof { font-size: 13.5px; color: var(--soft); margin-top: 16px; }
 
   .hero-shot { position: relative; display: flex; justify-content: center; }
@@ -189,7 +223,8 @@
   .hero-copy > *:nth-child(6) { animation-delay: 0.30s; }
 
   @media (max-width: 860px) {
-    .hero { grid-template-columns: 1fr; text-align: center; padding-top: 44px; padding-bottom: 56px; gap: 44px; }
+    .hero { grid-template-columns: 1fr; text-align: center; padding-top: 36px; padding-bottom: 56px; gap: 44px; }
+    .hero-copy { padding-bottom: 0; }
     .hero .sub { margin-left: auto; margin-right: auto; }
     .five { justify-content: center; }
   }
@@ -209,7 +244,7 @@
   .feature-row.flip .feature-text { order: 2; }
   .feature-text > p { color: var(--soft); font-size: 17px; max-width: 46ch; }
   .feature-text ul { list-style: none; margin-top: 20px; display: grid; gap: 10px; }
-  .feature-text li { display: flex; gap: 11px; align-items: baseline; color: var(--ink); font-size: 15.5px; }
+  .feature-text li { display: flex; gap: 11px; align-items: baseline; color: var(--ink); font-size: 15.5px; text-wrap: balance; }
   .feature-text li::before {
     content: ""; width: 9px; height: 9px; border-radius: 3px; flex-shrink: 0;
     background: var(--right); transform: translateY(-1px);
@@ -255,7 +290,7 @@
   .plus h2 { margin-bottom: 10px; }
   .plus p { color: rgba(246, 243, 236, 0.7); font-size: 16.5px; max-width: 38ch; }
   .plus ul { list-style: none; display: grid; gap: 14px; }
-  .plus li { display: flex; gap: 12px; align-items: baseline; font-size: 16px; }
+  .plus li { display: flex; gap: 12px; align-items: baseline; font-size: 16px; text-wrap: balance; }
   .plus li::before { content: ""; width: 9px; height: 9px; border-radius: 3px; background: var(--gold); flex-shrink: 0; transform: translateY(-1px); }
   .plus .fine { font-size: 13.5px; color: rgba(246, 243, 236, 0.55); margin-top: 18px; }
   @media (max-width: 860px) { .plus { grid-template-columns: 1fr; padding: 34px 26px 36px; gap: 26px; } }
@@ -316,7 +351,7 @@
     <div class="hero-copy">
       <div class="label">iPhone 國旗問答遊戲</div>
       <h1>每天五面國旗<br>慢慢認識全世界</h1>
-      <p class="sub">每天，全世界的玩家都猜同一組國旗。每答對一面，你的地球儀上就多點亮一個國家。</p>
+      <p class="sub"><span class="phrase">每天，全世界的玩家都猜同一組國旗。</span><span class="phrase">每答對一面，你的地球儀上就多點亮一個國家。</span></p>
       <div class="five" aria-hidden="true">
         <span class="tile"><img src="../images/flag-jp.png" alt="" width="240" height="240"></span>
         <span class="tile"><img src="../images/flag-br.png" alt="" width="240" height="240"></span>
