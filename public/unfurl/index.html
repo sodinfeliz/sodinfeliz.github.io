@@ -58,7 +58,6 @@
     --on-ink: #F6F3EC;
     --nav: rgba(246, 243, 236, 0.78);
     --bezel: #fff;
-    --plus-bg: #1C212D;
   }
   /* The app's night: its dark page, cream ink, and the lighter greens and golds it uses on them. */
   :root[data-theme="dark"] {
@@ -73,7 +72,6 @@
     --on-ink: #1C212D;
     --nav: rgba(20, 23, 31, 0.78);
     --bezel: #2A3040;
-    --plus-bg: #232836;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html[data-theme="dark"] { color-scheme: dark; }
@@ -230,7 +228,8 @@
   .feature-row.flip .feature-text { order: 2; }
   .feature-text > p { color: var(--soft); font-size: 17px; max-width: 46ch; }
   .feature-text ul { list-style: none; margin-top: 20px; display: grid; gap: 10px; }
-  .feature-text li { display: flex; gap: 11px; align-items: baseline; color: var(--ink); font-size: 15.5px; text-wrap: balance; }
+  .feature-text li { display: flex; gap: 11px; align-items: baseline; color: var(--ink); font-size: 15.5px; text-wrap: pretty; }
+  .feature-text .fine { font-size: 13.5px; margin-top: 18px; }
   .feature-text li::before {
     content: ""; width: 9px; height: 9px; border-radius: 3px; flex-shrink: 0;
     background: var(--right); transform: translateY(-1px);
@@ -264,22 +263,6 @@
   .card p { font-size: 14.5px; color: var(--soft); line-height: 1.55; }
   @media (max-width: 860px) { .cards { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 540px) { .cards { grid-template-columns: 1fr; } }
-
-  /* ---------- Plus: the app icon's night, with cream on it ---------- */
-  .plus {
-    background: var(--plus-bg); color: var(--cream);
-    border-radius: 28px; padding: 44px 44px 46px;
-    display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;
-    box-shadow: 0 10px 0 var(--lip);
-  }
-  .plus .label { color: #E8C45E; }
-  .plus h2 { margin-bottom: 10px; }
-  .plus p { color: rgba(246, 243, 236, 0.7); font-size: 16.5px; max-width: 38ch; }
-  .plus ul { list-style: none; display: grid; gap: 14px; }
-  .plus li { display: flex; gap: 12px; align-items: baseline; font-size: 16px; text-wrap: balance; }
-  .plus li::before { content: ""; width: 9px; height: 9px; border-radius: 3px; background: var(--gold); flex-shrink: 0; transform: translateY(-1px); }
-  .plus .fine { font-size: 13.5px; color: rgba(246, 243, 236, 0.55); margin-top: 18px; }
-  @media (max-width: 860px) { .plus { grid-template-columns: 1fr; padding: 34px 26px 36px; gap: 26px; } }
 
   /* ---------- Privacy: one strip under the cards ---------- */
   .strip {
@@ -402,7 +385,7 @@
     <div class="wrap feature-row flip reveal">
       <div class="feature-text">
         <div class="label">03 · Streak</div>
-        <h2>A freeze can save your streak</h2>
+        <h2>Freezes save your streak</h2>
         <p>Every seven days in a row earns a freeze. If you have one when you miss a day, Unfurl uses it automatically to keep your streak going.</p>
         <ul>
           <li>A calendar of every day you played</li>
@@ -417,8 +400,28 @@
   </section>
 
   <section>
+    <div class="wrap feature-row reveal">
+      <div class="feature-text">
+        <div class="label">04 · Unfurl Plus</div>
+        <h2>Practice any time</h2>
+        <p>The daily quiz is always free. Plus adds practice that adapts to how well you know each flag.</p>
+        <ul>
+          <li>Missed flags return tomorrow; known ones wait longer</li>
+          <li>Play unlimited rounds by continent or across all 197 flags</li>
+          <li>Practise telling similar flags apart</li>
+          <li>Two globe rounds: pick the flag, or find the place</li>
+        </ul>
+        <p class="fine">One purchase · No subscription</p>
+      </div>
+      <div class="feature-shot">
+        <div class="phone"><img class="only-light" src="images/en-practice.png" alt="The practice page, with review rounds, lookalike flags and two globe challenges" loading="lazy" width="644" height="1400"><img class="only-dark" src="images/en-practice-dark.png" alt="The practice page, with review rounds, lookalike flags and two globe challenges" loading="lazy" width="644" height="1400"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
     <div class="wrap centre reveal">
-      <div class="label">04 · And the rest</div>
+      <div class="label">05 · And the rest</div>
       <h2>Small things, done with care</h2>
       <div class="cards">
         <div class="card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 8h13l-3-3"></path><path d="M17 16H4l3 3"></path></svg><h3>Tell similar flags apart</h3><p>Mix up two similar flags and Unfurl puts them side by side, so the difference is easy to see.</p></div>
@@ -429,24 +432,6 @@
         <div class="card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><ellipse cx="12" cy="12" rx="4.5" ry="9"></ellipse></svg><h3>English and 繁體中文</h3><p>Every screen and every country name, in both languages.</p></div>
       </div>
       <div class="strip"><strong>No account required</strong><span>Unfurl has no accounts, no ads, and no analytics. It makes no network requests of its own. Your progress stays on your phone and in your own iCloud.</span></div>
-    </div>
-  </section>
-
-  <section>
-    <div class="wrap reveal">
-      <div class="plus">
-        <div>
-          <div class="label">Unfurl Plus</div>
-          <h2>Practice any time</h2>
-          <p>The daily quiz is always free. Plus adds practice that adapts to how well you know each flag.</p>
-          <p class="fine">One purchase · No subscription</p>
-        </div>
-        <ul>
-          <li>Missed flags are due the next day. Correct reviews are spaced further apart.</li>
-          <li>Play unlimited rounds by continent or across all 197 flags</li>
-          <li>Practise telling similar flags apart</li>
-        </ul>
-      </div>
     </div>
   </section>
 

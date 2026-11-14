@@ -70,7 +70,6 @@
     --on-ink: #F6F3EC;
     --nav: rgba(246, 243, 236, 0.78);
     --bezel: #fff;
-    --plus-bg: #1C212D;
   }
   /* The app's night: its dark page, cream ink, and the lighter greens and golds it uses on them. */
   :root[data-theme="dark"] {
@@ -85,7 +84,6 @@
     --on-ink: #1C212D;
     --nav: rgba(20, 23, 31, 0.78);
     --bezel: #2A3040;
-    --plus-bg: #232836;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html[data-theme="dark"] { color-scheme: dark; }
@@ -244,7 +242,8 @@
   .feature-row.flip .feature-text { order: 2; }
   .feature-text > p { color: var(--soft); font-size: 17px; max-width: 46ch; }
   .feature-text ul { list-style: none; margin-top: 20px; display: grid; gap: 10px; }
-  .feature-text li { display: flex; gap: 11px; align-items: baseline; color: var(--ink); font-size: 15.5px; text-wrap: balance; }
+  .feature-text li { display: flex; gap: 11px; align-items: baseline; color: var(--ink); font-size: 15.5px; text-wrap: pretty; }
+  .feature-text .fine { font-size: 13.5px; margin-top: 18px; }
   .feature-text li::before {
     content: ""; width: 9px; height: 9px; border-radius: 3px; flex-shrink: 0;
     background: var(--right); transform: translateY(-1px);
@@ -278,22 +277,6 @@
   .card p { font-size: 14.5px; color: var(--soft); line-height: 1.55; }
   @media (max-width: 860px) { .cards { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 540px) { .cards { grid-template-columns: 1fr; } }
-
-  /* ---------- Plus: the app icon's night, with cream on it ---------- */
-  .plus {
-    background: var(--plus-bg); color: var(--cream);
-    border-radius: 28px; padding: 44px 44px 46px;
-    display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;
-    box-shadow: 0 10px 0 var(--lip);
-  }
-  .plus .label { color: #E8C45E; }
-  .plus h2 { margin-bottom: 10px; }
-  .plus p { color: rgba(246, 243, 236, 0.7); font-size: 16.5px; max-width: 38ch; }
-  .plus ul { list-style: none; display: grid; gap: 14px; }
-  .plus li { display: flex; gap: 12px; align-items: baseline; font-size: 16px; text-wrap: balance; }
-  .plus li::before { content: ""; width: 9px; height: 9px; border-radius: 3px; background: var(--gold); flex-shrink: 0; transform: translateY(-1px); }
-  .plus .fine { font-size: 13.5px; color: rgba(246, 243, 236, 0.55); margin-top: 18px; }
-  @media (max-width: 860px) { .plus { grid-template-columns: 1fr; padding: 34px 26px 36px; gap: 26px; } }
 
   /* ---------- Privacy: one strip under the cards ---------- */
   .strip {
@@ -431,6 +414,26 @@
   </section>
 
   <section>
+    <div class="wrap feature-row reveal">
+      <div class="feature-text">
+        <div class="label">04 · Unfurl Plus</div>
+        <h2>隨時都能練習</h2>
+        <p>每日五題一直免費。想多練幾輪，Plus 會依照你的答題表現安排複習，把收集到的國旗一面一面練到精通。</p>
+        <ul>
+          <li>猜錯的旗優先複習，越熟的旗就隔越久再練</li>
+          <li>想練幾輪都可以，按洲或從全部 197 面旗裡出題</li>
+          <li>也能專練容易搞混的旗</li>
+          <li>還有兩種地球儀挑戰，看位置選國旗，或看國旗找國家</li>
+        </ul>
+        <p class="fine">一次買斷 · 不用訂閱</p>
+      </div>
+      <div class="feature-shot">
+        <div class="phone"><img class="only-light" src="../images/zh-practice.png" alt="練習頁面，顯示複習、易混淆的旗和兩種地球儀挑戰" loading="lazy" width="644" height="1400"><img class="only-dark" src="../images/zh-practice-dark.png" alt="練習頁面，顯示複習、易混淆的旗和兩種地球儀挑戰" loading="lazy" width="644" height="1400"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
     <div class="wrap centre reveal">
       <h2>更多功能</h2>
       <div class="cards">
@@ -442,24 +445,6 @@
         <div class="card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><ellipse cx="12" cy="12" rx="4.5" ry="9"></ellipse></svg><h3>繁體中文和英文</h3><p>從操作介面、國名到國旗小知識，都有繁中和英文。</p></div>
       </div>
       <div class="strip"><strong>你的遊戲進度由你保管</strong><span>Unfurl 不收集使用分析資料。遊戲進度保存在手機上，登入 iCloud 後也能同步。</span></div>
-    </div>
-  </section>
-
-  <section>
-    <div class="wrap reveal">
-      <div class="plus">
-        <div>
-          <div class="label">Unfurl Plus</div>
-          <h2>隨時都能練習</h2>
-          <p>每日五題一直免費。想多練幾輪，Plus 會依照你的答題表現安排複習。</p>
-          <p class="fine">一次買斷 · 不用訂閱</p>
-        </div>
-        <ul>
-          <li>猜錯的旗優先複習，越熟的旗就隔越久再練</li>
-          <li>想練幾輪都可以，按洲或從全部 197 面旗裡出題</li>
-          <li>也能專練容易搞混的旗</li>
-        </ul>
-      </div>
     </div>
   </section>
 
