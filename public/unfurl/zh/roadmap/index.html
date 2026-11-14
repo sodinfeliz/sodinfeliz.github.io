@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>接下來的規劃｜Unfurl</title>
+<meta name="description" content="每日國旗問答 Unfurl 接下來想做的事。">
+<meta name="theme-color" content="#F6F3EC">
+<script>
+  // Before anything is drawn: the visitor's saved choice on this site, or else what their system uses.
+  (function () {
+    var saved = null;
+    try { saved = localStorage.getItem("unfurl-theme"); } catch (e) {}
+    var dark = saved ? saved === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+    document.documentElement.dataset.theme = dark ? "dark" : "light";
+    document.querySelector('meta[name="theme-color"]').content = dark ? "#14171F" : "#F6F3EC";
+  })();
+</script>
+<link rel="icon" type="image/png" href="/unfurl/images/app-icon.png">
+<link rel="alternate" hreflang="en" href="../../roadmap/">
+<style>
+  /* Nunito, kept on this site, stands in for the app's SF Rounded: the same round letters for Latin letters and digits only, so dashes and other shared punctuation stay in the Chinese face. */
+  @font-face {
+    font-family: "Nunito";
+    font-style: normal; font-weight: 200 1000; font-display: swap;
+    src: url("../../fonts/nunito-latin.woff2") format("woff2");
+    unicode-range: U+0000-00FF;
+  }
+  /* The app's own Chinese face, cut down to the characters these pages use by tools/subset_unfurl_font.py. */
+  @font-face {
+    font-family: "GenSen Rounded";
+    font-style: normal; font-weight: 400 500; font-display: swap;
+    src: url("../../fonts/gensenrounded-regular.woff2?v=fd88558f") format("woff2");
+  }
+  @font-face {
+    font-family: "GenSen Rounded";
+    font-style: normal; font-weight: 600 800; font-display: swap;
+    src: url("../../fonts/gensenrounded-bold.woff2?v=b95b419d") format("woff2");
+  }
+  :root {
+    --paper: #F6F3EC; --ink: #1C212D; --text: #414856; --soft: #5D6473; --link: #8F6B10;
+    --card: rgba(255,255,255,0.6); --hair: rgba(28,33,45,0.12);
+    --now: #2F7D5B; --now-ink: #1F5C42; --gold: #E2B33C; --later: rgba(28,33,45,0.34); --lip: rgba(28,33,45,0.16);
+  }
+  /* The app's night, as on the app's page: its dark page, cream ink, and the lighter greens and golds it uses on them. */
+  :root[data-theme="dark"] {
+    --paper: #14171F; --ink: #F1EEE7; --text: #C9CDD6; --soft: #9BA2B0; --link: #E8C45E;
+    --card: rgba(255,255,255,0.06); --hair: rgba(241,238,231,0.12);
+    --now: #4FAE82; --now-ink: #7CCBA4; --later: rgba(241,238,231,0.4); --lip: rgba(241,238,231,0.16);
+  }
+  html { color-scheme: light; }
+  html[data-theme="dark"] { color-scheme: dark; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--paper); color: var(--ink);
+    font-family: "Nunito", "GenSen Rounded", ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "PingFang TC", "Microsoft JhengHei", "Segoe UI", sans-serif;
+    line-height: 1.7; -webkit-font-smoothing: antialiased;
+  }
+  main { max-width: 640px; margin: 0 auto; padding: 48px 24px 64px; }
+  a { color: var(--link); }
+  a.back { text-decoration: none; font-size: 14px; font-weight: 600; }
+  h1 { font-size: 32px; font-weight: 700; margin: 16px 0 4px; }
+  .date { color: var(--soft); font-size: 14px; margin-bottom: 24px; }
+  p { font-size: 16px; color: var(--text); }
+  /* A path, nearest at the top: a square of the game's for each plan, green for what is being made, gold for what
+     comes next, and an empty dashed one for what is further off, as on the page's own card. */
+  .path { list-style: none; position: relative; margin: 32px 0 28px; padding-left: 34px; }
+  .path li { position: relative; padding-bottom: 28px; }
+  .path li:last-child { padding-bottom: 0; }
+  .path li::before {
+    content: ""; position: absolute; left: -34px; top: 5px; width: 18px; height: 18px; border-radius: 5px;
+    background: var(--now); box-shadow: 0 2px 0 var(--lip);
+  }
+  .path li.next::before { background: var(--gold); }
+  /* The line runs from one square down to the next, and stops at the last. */
+  .path li:not(:last-child)::after { content: ""; position: absolute; left: -26px; top: 27px; bottom: -1px; width: 2px; border-radius: 1px; background: var(--hair); }
+  .path li.later::before { background: transparent; border: 2px dashed var(--later); box-shadow: none; }
+  .path .when { display: block; font-size: 12.5px; font-weight: 700; letter-spacing: 0.08em; }
+  .path .now .when { color: var(--now-ink); }
+  .path .next .when { color: var(--link); }
+  .path .later .when { color: var(--soft); }
+  .path h2 { font-size: 21px; font-weight: 700; line-height: 1.3; margin: 2px 0 4px; }
+  .path p { font-size: 16px; line-height: 1.6; }
+  .fine { font-size: 14px; color: var(--soft); }
+</style>
+</head>
+<body>
+<main>
+  <a class="back" href="/unfurl/zh/">← Unfurl</a> · <a href="../../roadmap/" lang="en" hreflang="en">English</a>
+  <h1>接下來的規劃</h1>
+  <p class="date">更新日期 2026 年 11 月 15 日</p>
+  <ol class="path">
+    <li class="next"><span class="when">下一個</span><h2>小工具</h2><p>把今天的成績和連續天數放上主畫面，不用打開 app 也看得到今天玩了沒。</p></li>
+    <li class="later"><span class="when">之後</span><h2>成就</h2><p>連續玩滿一段日子、集滿一本收集冊，都會拿到一枚徽章。</p></li>
+    <li class="later"><span class="when">之後</span><h2>補玩卡</h2><p>連續玩下去會拿到補玩卡，用來補玩漏掉的那一天，旗幟照常收集。</p></li>
+    <li class="later"><span class="when">之後</span><h2>iPad</h2><p>為大螢幕重新設計的版面，直著拿、橫著拿都能玩。</p></li>
+  </ol>
+
+  <p class="fine">有想法嗎？寫信到 <a href="mailto:elliotsu.dev@gmail.com">elliotsu.dev@gmail.com</a>。</p>
+</main>
+</body>
+</html>

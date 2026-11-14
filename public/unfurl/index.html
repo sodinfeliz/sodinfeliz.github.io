@@ -394,7 +394,34 @@
   .art .note i { width: 80px; background: var(--soft); opacity: 0.45; }
   .card h3 { font-size: 16.5px; font-weight: 700; margin-bottom: 4px; }
   .card p { font-size: 14.5px; color: var(--soft); line-height: 1.55; }
+  /* The last row: two more cards in the same pieces, and one that is a door to what is planned. */
+  /* No account: the person, with the round mark the cloud's tile has, here saying there is none. */
+  .tile.key svg.solid { width: 23px; height: 23px; }
+  .tile.key .tick.none { background: var(--gold); }
+  .tile.key .tick.none svg { color: #1C212D; }
+  /* Offline: a corner of the status bar with the aeroplane showing, set as the reminder's note is. */
+  .art .bar {
+    display: flex; align-items: center; gap: 8px; padding: 8px 14px 8px 11px; border-radius: 13px;
+    background: var(--card-strong); border: 1px solid var(--hair); box-shadow: 0 3px 0 var(--lip);
+    font-size: 15px; font-weight: 800; color: var(--ink); line-height: 1; font-variant-numeric: tabular-nums;
+  }
+  .art .bar svg { width: 18px; height: 18px; margin: 0; color: #F09A37; transform: rotate(90deg); }
+  /* The door to what is planned: the app's own tile, and beside it an empty one waiting to be filled. It names
+     nothing, so it does not have to change when the plans do. */
+  .tile.key svg.mark { width: 27px; height: 27px; }
+  .tile.mini.empty {
+    display: grid; place-items: center; background: transparent; box-shadow: none;
+    border: 2.5px dashed color-mix(in srgb, var(--ink) 38%, transparent);
+    color: var(--soft); font-size: 21px; font-weight: 700; line-height: 1;
+  }
+  /* It is a card like the others: what marks it as a door is the empty tile and the arrow after its title. */
+  a.card { display: block; color: inherit; text-decoration: none; transition: transform 0.18s var(--ease-out); }
+  a.card h3::after { content: " \2192"; color: var(--gold-ink); }
+  @media (hover: hover) { a.card:hover { transform: translateY(-2px); } }
+  @media (prefers-reduced-motion: reduce) { a.card { transition: none; } a.card:hover { transform: none; } }
   @media (max-width: 860px) { .cards { grid-template-columns: repeat(2, 1fr); } }
+  /* Nine cards in two columns leave one over: the last, the door, takes the whole row. */
+  @media (min-width: 541px) and (max-width: 860px) { .cards > :last-child { grid-column: 1 / -1; } }
   @media (max-width: 540px) { .cards { grid-template-columns: 1fr; } }
 
   /* ---------- 04: Plus stands in a panel of the page's night, apart from what is free ---------- */
@@ -433,13 +460,6 @@
   }
 
   /* ---------- Privacy: one strip under the cards ---------- */
-  .strip {
-    margin-top: 12px; padding: 18px 20px; text-align: left;
-    background: var(--card); border: 1px solid var(--hair); border-radius: 16px;
-    display: flex; gap: 8px 28px; align-items: baseline; flex-wrap: wrap;
-  }
-  .strip strong { font-size: 16.5px; white-space: nowrap; }
-  .strip span { font-size: 14.5px; color: var(--soft); flex: 1 1 320px; line-height: 1.55; }
 
   /* ---------- The ending: the page's night, whatever the theme ---------- */
   /* Inside the ending, and inside the Plus panel above, the colours are set to those of a night page, so
@@ -474,6 +494,8 @@
     padding: 24px; text-align: center; font-size: 14px; color: var(--soft);
   }
   footer a { color: var(--ink); text-decoration: none; margin: 0 10px; }
+  /* Four links: a touch smaller on a narrow phone, so they stay on one row. */
+  @media (max-width: 400px) { footer { font-size: 13px; } footer a { margin: 0 4px; } }
   footer a:hover { text-decoration: underline; }
 
   .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.65s var(--ease-out), transform 0.65s var(--ease-out); }
@@ -622,8 +644,10 @@
         <div class="card"><div class="art" aria-hidden="true"><i class="square"></i><i class="square miss"></i><i class="square"></i><i class="square"></i><i class="square miss"></i></div><h3>Share your result</h3><p>Share the day's score as squares or a picture card, with no spoilers.</p></div>
         <div class="card"><div class="art" aria-hidden="true"><span class="tile mini split"></span></div><h3>Light and dark</h3><p>Cream paper by day and night blue after dark, or whichever you prefer.</p></div>
         <div class="card"><div class="art" aria-hidden="true"><span class="tile mini key">A</span><span class="tile mini key" lang="zh-Hant">文</span></div><h3>English and 繁體中文</h3><p>Every screen and every country name, in both languages.</p></div>
+        <div class="card"><div class="art" aria-hidden="true"><span class="tile mini key"><svg class="solid" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8.4" r="4.1"></circle><path d="M4.4 21a7.6 7.6 0 0 1 15.2 0z"></path></svg><span class="tick none"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M3.2 3.2l5.6 5.6M8.8 3.2 3.2 8.8"></path></svg></span></span></div><h3>No account required</h3><p>No ads, no analytics, no tracking, and nothing to sign up for.</p></div>
+        <div class="card"><div class="art" aria-hidden="true"><span class="bar"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 15.5v-2l-7.5-4.6V4a1.5 1.5 0 0 0-3 0v4.9L3 13.5v2l7.5-2.3v4.3l-2 1.5v1.5l3.5-1 3.5 1V19l-2-1.5v-4.3z"></path></svg>9:41</span></div><h3>Plays offline</h3><p>Every flag and map is in the app, so it plays on a plane or with no signal.</p></div>
+        <a class="card" href="roadmap/"><div class="art" aria-hidden="true"><span class="tile mini key"><svg class="mark" viewBox="36 34 112 112"><g transform="rotate(-7 92 90)"><path fill="#E2B33C" d="M38 78C48 68 59 64 70 65L71 123C57 121 47 125 38 134Z"></path><path fill="#AA7825" d="M70 65Q66 62 60.8 61L60.8 111Q66 116 71 123Z"></path><path fill="currentColor" d="M60.8 49C88 36 115 62 143.6 56Q145.8 55.5 144.7 57.1L126.600 81.200Q125.9 82.1 126.7 83L144.400 102Q145.4 103.1 143.8 103.5C113 115 82 95 60.8 111Z"></path></g></svg></span><span class="tile mini empty">+</span></div><h3>What’s next</h3><p>Still growing. See what is being worked on.</p></a>
       </div>
-      <div class="strip"><strong>No account required</strong><span>Unfurl has no ads, no analytics, and no tracking. There is nothing to sign up for. Download it and play.</span></div>
     </div>
   </section>
 
@@ -644,6 +668,7 @@
 </div>
 
 <footer>
+  <a href="roadmap/">Roadmap</a> ·
   <a href="privacy/">Privacy Policy</a> ·
   <a href="terms/">Terms of Use</a> ·
   <a href="mailto:elliotsu.dev@gmail.com">Support</a>

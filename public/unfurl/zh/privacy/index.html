@@ -18,6 +18,24 @@
 <link rel="icon" type="image/png" href="../../images/app-icon.png">
 <link rel="alternate" hreflang="en" href="../../privacy/">
 <style>
+  /* Nunito, kept on this site, stands in for the app's SF Rounded: the same round letters for Latin letters and digits only, so dashes and other shared punctuation stay in the Chinese face. */
+  @font-face {
+    font-family: "Nunito";
+    font-style: normal; font-weight: 200 1000; font-display: swap;
+    src: url("../../fonts/nunito-latin.woff2") format("woff2");
+    unicode-range: U+0000-00FF;
+  }
+  /* The app's own Chinese face, cut down to the characters these pages use by tools/subset_unfurl_font.py. */
+  @font-face {
+    font-family: "GenSen Rounded";
+    font-style: normal; font-weight: 400 500; font-display: swap;
+    src: url("../../fonts/gensenrounded-regular.woff2?v=fd88558f") format("woff2");
+  }
+  @font-face {
+    font-family: "GenSen Rounded";
+    font-style: normal; font-weight: 600 800; font-display: swap;
+    src: url("../../fonts/gensenrounded-bold.woff2?v=b95b419d") format("woff2");
+  }
   :root {
     --paper: #F6F3EC; --ink: #1C212D; --text: #414856; --soft: #5D6473; --link: #8F6B10;
     --card: rgba(255,255,255,0.6); --hair: rgba(28,33,45,0.12);
@@ -32,7 +50,7 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
     background: var(--paper); color: var(--ink);
-    font-family: ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-family: "Nunito", "GenSen Rounded", ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "PingFang TC", "Microsoft JhengHei", "Segoe UI", sans-serif;
     line-height: 1.7; -webkit-font-smoothing: antialiased;
   }
   main { max-width: 640px; margin: 0 auto; padding: 48px 24px 64px; }
