@@ -5,25 +5,46 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Terms of Use — Unfurl</title>
 <meta name="theme-color" content="#F6F3EC">
+<script>
+  // Before anything is drawn: the visitor's saved choice on this site, or else what their system uses.
+  (function () {
+    var saved = null;
+    try { saved = localStorage.getItem("unfurl-theme"); } catch (e) {}
+    var dark = saved ? saved === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+    document.documentElement.dataset.theme = dark ? "dark" : "light";
+    document.querySelector('meta[name="theme-color"]').content = dark ? "#14171F" : "#F6F3EC";
+  })();
+</script>
 <link rel="icon" type="image/png" href="/unfurl/images/app-icon.png">
 <link rel="alternate" hreflang="zh-Hant" href="../zh/terms/">
 <style>
+  :root {
+    --paper: #F6F3EC; --ink: #1C212D; --text: #414856; --soft: #5D6473; --link: #8F6B10;
+    --card: rgba(255,255,255,0.6); --hair: rgba(28,33,45,0.12);
+  }
+  /* The app's night, as on the app's page: its dark page, cream ink, and the lighter gold it uses on them. */
+  :root[data-theme="dark"] {
+    --paper: #14171F; --ink: #F1EEE7; --text: #C9CDD6; --soft: #9BA2B0; --link: #E8C45E;
+    --card: rgba(255,255,255,0.06); --hair: rgba(241,238,231,0.12);
+  }
+  html { color-scheme: light; }
+  html[data-theme="dark"] { color-scheme: dark; }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
-    background: #F6F3EC; color: #1C212D;
+    background: var(--paper); color: var(--ink);
     font-family: ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     line-height: 1.7; -webkit-font-smoothing: antialiased;
   }
   main { max-width: 640px; margin: 0 auto; padding: 48px 24px 64px; }
-  a { color: #8F6B10; }
+  a { color: var(--link); }
   a.back { text-decoration: none; font-size: 14px; font-weight: 600; }
   h1 { font-size: 32px; font-weight: 700; margin: 16px 0 4px; }
-  .date { color: #5D6473; font-size: 14px; margin-bottom: 32px; }
+  .date { color: var(--soft); font-size: 14px; margin-bottom: 32px; }
   h2 { font-size: 20px; font-weight: 700; margin: 32px 0 8px; }
-  p, li { font-size: 16px; color: #414856; }
+  p, li { font-size: 16px; color: var(--text); }
   ul { padding-left: 22px; margin: 8px 0; }
   li { margin-bottom: 6px; }
-  strong { color: #1C212D; }
+  strong { color: var(--ink); }
 </style>
 </head>
 <body>
