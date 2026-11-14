@@ -61,6 +61,7 @@
     --card: rgba(255, 255, 255, 0.6);
     --lip: rgba(28, 33, 45, 0.16);
     --right: #2F7D5B;
+    --sky: #2F78D0;
     --gold: #E2B33C;
     --gold-ink: #7A5A0A;
     --night: #1C212D;
@@ -83,6 +84,7 @@
     --card: rgba(255, 255, 255, 0.06);
     --lip: rgba(241, 238, 231, 0.16);
     --right: #4FAE82;
+    --sky: #5B9FEA;
     --gold-ink: #E8C45E;
     --on-ink: #1C212D;
     --nav: rgba(20, 23, 31, 0.78);
@@ -374,6 +376,9 @@
     background: var(--night); color: var(--cream); font-size: 19px; font-weight: 800; line-height: 1;
   }
   .tile.key svg { width: 21px; height: 21px; color: var(--cream); }
+  /* iCloud's tile is the blue of a sky, with its cloud in white. */
+  .tile.key.sky { background: var(--sky); }
+  .tile.key.sky > svg { color: #fff; }
   /* The tick an answer gets in the game. */
   .tile.key .tick {
     position: absolute; right: -7px; bottom: -6px; width: 18px; height: 18px; border-radius: 50%;
@@ -408,7 +413,18 @@
   .plus-panel .feature-text { padding: 44px 0; }
   /* The panel's padding narrows its columns, so the words get the wider one and each point keeps to a line. */
   @media (min-width: 861px) { .plus-panel.feature-row { grid-template-columns: 1.25fr 0.75fr; gap: 28px; } }
+  /* Plus, as the app marks it: a capsule of faint gold, the word in its own case. */
+  .label .plus-badge {
+    display: inline-block; vertical-align: 1px; margin-left: 4px; padding: 1px 9px; border-radius: 999px;
+    background: rgba(226, 179, 60, 0.16); text-transform: none; letter-spacing: 0.02em; font-size: 13px; line-height: 1.4;
+  }
   .plus-panel .feature-text li { color: var(--ink); }
+  /* How Plus is paid for, said once and quietly: the two halves in the ink, a gold dot between them. */
+  .plus-panel .once {
+    display: inline-flex; align-items: center; gap: 12px; margin-top: 26px;
+    font-size: 14.5px; font-weight: 700; letter-spacing: 0.04em; color: var(--ink);
+  }
+  .plus-panel .once i { width: 5px; height: 5px; border-radius: 50%; background: var(--gold); }
   /* The phone fades out at its foot as in the other rows, into the panel's own colour. */
   .plus-panel .feature-shot { height: 548px; padding-top: 28px; }
   @media (max-width: 860px) {
@@ -580,16 +596,16 @@
     <div class="wrap reveal">
     <div class="plus-panel night feature-row">
       <div class="feature-text">
-        <div class="label">04 · Unfurl Plus</div>
+        <div class="label">04 · Unfurl <span class="plus-badge">Plus</span></div>
         <h2>隨時都能練習</h2>
         <p>每日挑戰一直免費。想多練幾輪，Plus 會依照你的答題表現安排複習，把收集到的國旗一面一面練到精通。</p>
         <ul>
           <li>猜錯的旗優先複習，越熟的旗就隔越久再練</li>
           <li>想練幾輪都可以。挑一洲來練，也能把 197 面旗混在一起練</li>
-          <li>也能專練容易搞混的旗</li>
+          <li>也能專練容易搞混的旗，一次把長得像的分清楚</li>
           <li>地球儀挑戰有兩種，看位置選國旗，或反過來拿著國旗找國家</li>
         </ul>
-        <p class="fine">一次買斷 · 不用訂閱</p>
+        <p class="fine once"><span>一次買斷</span><i></i><span>不用訂閱</span></p>
       </div>
       <div class="feature-shot">
         <div class="phone"><img class="only-light" src="../images/zh-practice.png" alt="練習頁面，顯示複習、易混淆的旗和兩種地球儀挑戰" loading="lazy" width="644" height="1400"><img class="only-dark" src="../images/zh-practice-dark.png" alt="練習頁面，顯示複習、易混淆的旗和兩種地球儀挑戰" loading="lazy" width="644" height="1400"></div>
@@ -603,7 +619,7 @@
       <h2>更多功能</h2>
       <div class="cards">
         <div class="card"><div class="art" aria-hidden="true"><span class="tile mini"><img src="../images/flag-id.png" alt="" width="240" height="240" loading="lazy"></span><span class="versus">≠</span><span class="tile mini"><img src="../images/flag-pl.png" alt="" width="240" height="240" loading="lazy"></span></div><h3>兩面旗太像？放一起看</h3><p>答錯時，Unfurl 會把你選的旗和正確答案並排，讓你看清楚差在哪。</p></div>
-        <div class="card"><div class="art" aria-hidden="true"><span class="tile mini key"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a4 4 0 0 1-.5-7.97A5.5 5.5 0 0 1 17.2 9.1 4.5 4.5 0 0 1 17 18z"></path></svg><span class="tick"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.4 5 8.8l4.6-5.4"></path></svg></span></span></div><h3>iCloud 同步</h3><p>換手機後，登入同一個 Apple 帳號，就能透過 iCloud 同步遊戲進度。</p></div>
+        <div class="card"><div class="art" aria-hidden="true"><span class="tile mini key sky"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a4 4 0 0 1-.5-7.97A5.5 5.5 0 0 1 17.2 9.1 4.5 4.5 0 0 1 17 18z"></path></svg><span class="tick"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.4 5 8.8l4.6-5.4"></path></svg></span></span></div><h3>iCloud 同步</h3><p>換手機後，登入同一個 Apple 帳號，就能透過 iCloud 同步遊戲進度。</p></div>
         <div class="card"><div class="art" aria-hidden="true"><span class="note"><img class="only-light" src="../images/app-icon.png" alt="" width="256" height="256" loading="lazy"><img class="only-dark" src="../images/app-icon-dark.png" alt="" width="256" height="256" loading="lazy"><span><b></b><i></i></span></span></div><h3>每日提醒</h3><p>提醒時間自己選。今天的五題還沒答完，App 才會提醒你。</p></div>
         <div class="card"><div class="art" aria-hidden="true"><i class="square"></i><i class="square miss"></i><i class="square"></i><i class="square"></i><i class="square miss"></i></div><h3>分享成績</h3><p>用一排方塊或一張圖卡跟朋友分享今天的成績，讓他們也能自己猜，不會先看到答案。</p></div>
         <div class="card"><div class="art" aria-hidden="true"><span class="tile mini split"></span></div><h3>淺色和深色模式</h3><p>喜歡米白色還是深夜藍？可以跟著系統切換，也可以自己選。</p></div>

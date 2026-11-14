@@ -49,6 +49,7 @@
     --card: rgba(255, 255, 255, 0.6);
     --lip: rgba(28, 33, 45, 0.16);
     --right: #2F7D5B;
+    --sky: #2F78D0;
     --gold: #E2B33C;
     --gold-ink: #7A5A0A;
     --night: #1C212D;
@@ -71,6 +72,7 @@
     --card: rgba(255, 255, 255, 0.06);
     --lip: rgba(241, 238, 231, 0.16);
     --right: #4FAE82;
+    --sky: #5B9FEA;
     --gold-ink: #E8C45E;
     --on-ink: #1C212D;
     --nav: rgba(20, 23, 31, 0.78);
@@ -360,6 +362,9 @@
     background: var(--night); color: var(--cream); font-size: 19px; font-weight: 800; line-height: 1;
   }
   .tile.key svg { width: 21px; height: 21px; color: var(--cream); }
+  /* iCloud's tile is the blue of a sky, with its cloud in white. */
+  .tile.key.sky { background: var(--sky); }
+  .tile.key.sky > svg { color: #fff; }
   /* The tick an answer gets in the game. */
   .tile.key .tick {
     position: absolute; right: -7px; bottom: -6px; width: 18px; height: 18px; border-radius: 50%;
@@ -394,7 +399,18 @@
   .plus-panel .feature-text { padding: 44px 0; }
   /* The panel's padding narrows its columns, so the words get the wider one and each point keeps to a line. */
   @media (min-width: 861px) { .plus-panel.feature-row { grid-template-columns: 1.25fr 0.75fr; gap: 28px; } }
+  /* Plus, as the app marks it: a capsule of faint gold, the word in its own case. */
+  .label .plus-badge {
+    display: inline-block; vertical-align: 1px; margin-left: 4px; padding: 1px 9px; border-radius: 999px;
+    background: rgba(226, 179, 60, 0.16); text-transform: none; letter-spacing: 0.02em; font-size: 13px; line-height: 1.4;
+  }
   .plus-panel .feature-text li { color: var(--ink); }
+  /* How Plus is paid for, said once and quietly: the two halves in the ink, a gold dot between them. */
+  .plus-panel .once {
+    display: inline-flex; align-items: center; gap: 12px; margin-top: 26px;
+    font-size: 14.5px; font-weight: 700; letter-spacing: 0.04em; color: var(--ink);
+  }
+  .plus-panel .once i { width: 5px; height: 5px; border-radius: 50%; background: var(--gold); }
   /* The phone fades out at its foot as in the other rows, into the panel's own colour. */
   .plus-panel .feature-shot { height: 548px; padding-top: 28px; }
   @media (max-width: 860px) {
@@ -566,7 +582,7 @@
     <div class="wrap reveal">
     <div class="plus-panel night feature-row">
       <div class="feature-text">
-        <div class="label">04 · Unfurl Plus</div>
+        <div class="label">04 · Unfurl <span class="plus-badge">Plus</span></div>
         <h2>Practice any time</h2>
         <p>The daily quiz is always free. Plus adds practice that adapts to how well you know each flag.</p>
         <ul>
@@ -575,7 +591,7 @@
           <li>Practise telling similar flags apart</li>
           <li>Two globe rounds: pick the flag, or find the place</li>
         </ul>
-        <p class="fine">One purchase · No subscription</p>
+        <p class="fine once"><span>One purchase</span><i></i><span>No subscription</span></p>
       </div>
       <div class="feature-shot">
         <div class="phone"><img class="only-light" src="images/en-practice.png" alt="The practice page, with review rounds, lookalike flags and two globe challenges" loading="lazy" width="644" height="1400"><img class="only-dark" src="images/en-practice-dark.png" alt="The practice page, with review rounds, lookalike flags and two globe challenges" loading="lazy" width="644" height="1400"></div>
@@ -590,7 +606,7 @@
       <h2>Small things, done with care</h2>
       <div class="cards">
         <div class="card"><div class="art" aria-hidden="true"><span class="tile mini"><img src="images/flag-id.png" alt="" width="240" height="240" loading="lazy"></span><span class="versus">≠</span><span class="tile mini"><img src="images/flag-pl.png" alt="" width="240" height="240" loading="lazy"></span></div><h3>Tell similar flags apart</h3><p>Mix up two similar flags and Unfurl puts them side by side, so the difference is easy to see.</p></div>
-        <div class="card"><div class="art" aria-hidden="true"><span class="tile mini key"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a4 4 0 0 1-.5-7.97A5.5 5.5 0 0 1 17.2 9.1 4.5 4.5 0 0 1 17 18z"></path></svg><span class="tick"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.4 5 8.8l4.6-5.4"></path></svg></span></span></div><h3>iCloud sync</h3><p>When you’re signed in to iCloud, your progress can sync to your other devices.</p></div>
+        <div class="card"><div class="art" aria-hidden="true"><span class="tile mini key sky"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a4 4 0 0 1-.5-7.97A5.5 5.5 0 0 1 17.2 9.1 4.5 4.5 0 0 1 17 18z"></path></svg><span class="tick"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.4 5 8.8l4.6-5.4"></path></svg></span></span></div><h3>iCloud sync</h3><p>When you’re signed in to iCloud, your progress can sync to your other devices.</p></div>
         <div class="card"><div class="art" aria-hidden="true"><span class="note"><img class="only-light" src="images/app-icon.png" alt="" width="256" height="256" loading="lazy"><img class="only-dark" src="images/app-icon-dark.png" alt="" width="256" height="256" loading="lazy"><span><b></b><i></i></span></span></div><h3>Daily reminder</h3><p>Choose a reminder time for days when you haven’t finished the daily quiz.</p></div>
         <div class="card"><div class="art" aria-hidden="true"><i class="square"></i><i class="square miss"></i><i class="square"></i><i class="square"></i><i class="square miss"></i></div><h3>Share your result</h3><p>Send the day's score as a line of squares or as a picture card, with nothing given away.</p></div>
         <div class="card"><div class="art" aria-hidden="true"><span class="tile mini split"></span></div><h3>Light and dark</h3><p>Cream paper by day and night blue after dark, or whichever you prefer.</p></div>
