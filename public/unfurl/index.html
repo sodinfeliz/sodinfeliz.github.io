@@ -22,6 +22,15 @@
 
 <link rel="icon" type="image/png" href="/unfurl/images/app-icon.png">
 <link rel="apple-touch-icon" href="/unfurl/images/app-icon.png">
+<script>
+  // Before anything is drawn: the visitor's saved choice, or else what their system uses.
+  (function () {
+    var saved = null;
+    try { saved = localStorage.getItem("unfurl-theme"); } catch (e) {}
+    var dark = saved ? saved === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+    document.documentElement.dataset.theme = dark ? "dark" : "light";
+  })();
+</script>
 <style>
   /* The app's own colours: cream paper, ink, and the gold of a perfect day. */
   :root {
@@ -37,8 +46,29 @@
     --night: #1C212D;
     --cream: #F6F3EC;
     --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    /* What changes with the theme and has no name in the app. */
+    --on-ink: #F6F3EC;
+    --nav: rgba(246, 243, 236, 0.78);
+    --bezel: #fff;
+    --plus-bg: #1C212D;
+  }
+  /* The app's night: its dark page, cream ink, and the lighter greens and golds it uses on them. */
+  :root[data-theme="dark"] {
+    --paper: #14171F;
+    --ink: #F1EEE7;
+    --soft: #9BA2B0;
+    --hair: rgba(241, 238, 231, 0.12);
+    --card: rgba(255, 255, 255, 0.06);
+    --lip: rgba(241, 238, 231, 0.16);
+    --right: #4FAE82;
+    --gold-ink: #E8C45E;
+    --on-ink: #1C212D;
+    --nav: rgba(20, 23, 31, 0.78);
+    --bezel: #2A3040;
+    --plus-bg: #232836;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
+  html[data-theme="dark"] { color-scheme: dark; }
   html { scroll-behavior: smooth; color-scheme: light; overflow-x: hidden; overflow-x: clip; }
   body {
     background: var(--paper);
@@ -62,7 +92,7 @@
     position: sticky; top: 0; z-index: 10;
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
-    background: rgba(246, 243, 236, 0.78);
+    background: var(--nav);
     border-bottom: 1px solid var(--hair);
   }
   .nav-inner {
@@ -79,13 +109,26 @@
   .nav-links a { color: var(--soft); text-decoration: none; transition: color 0.2s; }
   .nav-links a:hover { color: var(--ink); }
   .nav-links .nav-cta {
-    color: var(--cream); font-weight: 600;
+    color: var(--on-ink); font-weight: 600;
     background: var(--ink); border-radius: 999px; padding: 7px 16px;
     transition: transform 0.16s var(--ease-out);
   }
-  .nav-links .nav-cta:hover { color: var(--cream); }
+  .nav-links .nav-cta:hover { color: var(--on-ink); }
   .nav-links .nav-cta:active { transform: scale(0.96); }
   @media (max-width: 640px) { .nav-links > a.plain { display: none; } }
+
+  /* ---------- Light and dark: the switch, and the pictures that come in both ---------- */
+  .theme-toggle {
+    width: 34px; height: 34px; border-radius: 999px; flex-shrink: 0;
+    display: grid; place-items: center; cursor: pointer;
+    border: 1px solid var(--hair); background: var(--card); color: var(--ink);
+    transition: transform 0.16s var(--ease-out);
+  }
+  .theme-toggle:active { transform: scale(0.94); }
+  .theme-toggle svg { width: 17px; height: 17px; }
+  .theme-toggle .sun, .only-dark { display: none; }
+  [data-theme="dark"] .theme-toggle .moon, [data-theme="dark"] .only-light { display: none; }
+  [data-theme="dark"] .theme-toggle .sun, [data-theme="dark"] .only-dark { display: block; }
 
   /* ---------- Small caps label, as in the app ---------- */
   .label {
@@ -103,7 +146,7 @@
   .tile img { width: 100%; height: 100%; object-fit: cover; border-radius: 13px; }
   .phone {
     position: relative; width: min(330px, 76vw);
-    border-radius: 46px; padding: 9px; background: #fff;
+    border-radius: 46px; padding: 9px; background: var(--bezel);
     box-shadow: 0 10px 0 var(--lip), 0 44px 60px -28px rgba(28, 33, 45, 0.38);
   }
   .phone img { border-radius: 38px; }
@@ -121,7 +164,7 @@
   .store-badge {
     display: inline-flex; align-items: center; gap: 11px;
     padding: 11px 22px 11px 18px; border-radius: 999px;
-    background: var(--ink); color: var(--cream);
+    background: var(--ink); color: var(--on-ink);
   }
   .store-badge svg { width: 22px; height: 22px; flex-shrink: 0; }
   .store-badge-text { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.2; }
@@ -202,7 +245,7 @@
 
   /* ---------- Plus: the app icon's night, with cream on it ---------- */
   .plus {
-    background: var(--night); color: var(--cream);
+    background: var(--plus-bg); color: var(--cream);
     border-radius: 28px; padding: 44px 44px 46px;
     display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;
     box-shadow: 0 10px 0 var(--lip);
@@ -252,12 +295,16 @@
 
 <nav>
   <div class="nav-inner">
-    <a class="brand" href="#top"><img src="images/app-icon.png" alt="" width="256" height="256">Unfurl</a>
+    <a class="brand" href="#top"><img class="only-light" src="images/app-icon.png" alt="" width="256" height="256"><img class="only-dark" src="images/app-icon-dark.png" alt="" width="256" height="256" loading="lazy">Unfurl</a>
     <div class="nav-links">
       <a href="zh/" lang="zh-Hant" hreflang="zh-Hant">繁體中文</a>
       <a class="plain" href="#features">Features</a>
       <a class="plain" href="privacy/">Privacy</a>
       <a class="plain" href="mailto:elliotsu.dev@gmail.com">Support</a>
+      <button class="theme-toggle" type="button" aria-label="Switch between light and dark">
+        <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"></path></svg>
+        <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"></path></svg>
+      </button>
       <a class="nav-cta" href="#get">Coming Soon</a>
     </div>
   </div>
@@ -286,7 +333,7 @@
       <p class="micro-proof">No accounts · No ads · No tracking</p>
     </div>
     <div class="hero-shot">
-      <div class="phone"><img src="images/en-home.png" alt="Unfurl's home screen with the player's globe and the Begin button" width="644" height="1400" fetchpriority="high"></div>
+      <div class="phone"><img class="only-light" src="images/en-home.png" alt="Unfurl's home screen with the player's globe and the Begin button" width="644" height="1400" fetchpriority="high"><img class="only-dark" src="images/en-home-dark.png" alt="Unfurl's home screen with the player's globe and the Begin button" width="644" height="1400" loading="lazy"></div>
     </div>
   </div>
 </header>
@@ -306,7 +353,7 @@
         </ul>
       </div>
       <div class="feature-shot">
-        <div class="phone"><img src="images/en-quiz.png" alt="A question in Unfurl: a flag and four country names to choose from" loading="lazy" width="644" height="1400"></div>
+        <div class="phone"><img class="only-light" src="images/en-quiz.png" alt="A question in Unfurl: a flag and four country names to choose from" loading="lazy" width="644" height="1400"><img class="only-dark" src="images/en-quiz-dark.png" alt="A question in Unfurl: a flag and four country names to choose from" loading="lazy" width="644" height="1400"></div>
       </div>
     </div>
   </section>
@@ -324,7 +371,7 @@
         </ul>
       </div>
       <div class="feature-shot">
-        <div class="phone"><img src="images/en-album.png" alt="The album, with a world map and the flags collected in each continent" loading="lazy" width="644" height="1400"></div>
+        <div class="phone"><img class="only-light" src="images/en-album.png" alt="The album, with a world map and the flags collected in each continent" loading="lazy" width="644" height="1400"><img class="only-dark" src="images/en-album-dark.png" alt="The album, with a world map and the flags collected in each continent" loading="lazy" width="644" height="1400"></div>
       </div>
     </div>
   </section>
@@ -342,7 +389,7 @@
         </ul>
       </div>
       <div class="feature-shot">
-        <div class="phone"><img src="images/en-streak.png" alt="The streak page, with a month of played days and the freezes in hand" loading="lazy" width="644" height="1400"></div>
+        <div class="phone"><img class="only-light" src="images/en-streak.png" alt="The streak page, with a month of played days and the freezes in hand" loading="lazy" width="644" height="1400"><img class="only-dark" src="images/en-streak-dark.png" alt="The streak page, with a month of played days and the freezes in hand" loading="lazy" width="644" height="1400"></div>
       </div>
     </div>
   </section>
@@ -384,7 +431,7 @@
 </main>
 
 <div class="final-cta" id="get">
-  <img src="images/app-icon.png" alt="" width="256" height="256" loading="lazy">
+  <img class="only-light" src="images/app-icon.png" alt="" width="256" height="256" loading="lazy"><img class="only-dark" src="images/app-icon-dark.png" alt="" width="256" height="256" loading="lazy">
   <h2>Five flags are waiting</h2>
   <p>Free to play, every day.</p>
   <div class="store-badge" aria-disabled="true">
@@ -411,6 +458,17 @@
     }
   }, { threshold: 0.12 });
   document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+
+  // The switch flips the theme, remembers it, and tints the browser's bar to match.
+  const root = document.documentElement;
+  const themeColor = document.querySelector('meta[name="theme-color"]');
+  const tintBar = () => { themeColor.content = root.dataset.theme === "dark" ? "#14171F" : "#F6F3EC"; };
+  tintBar();
+  document.querySelector(".theme-toggle").addEventListener("click", () => {
+    root.dataset.theme = root.dataset.theme === "dark" ? "light" : "dark";
+    try { localStorage.setItem("unfurl-theme", root.dataset.theme); } catch (e) {}
+    tintBar();
+  });
 </script>
 
 </body>
