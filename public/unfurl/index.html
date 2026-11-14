@@ -314,6 +314,39 @@
     padding: 20px 20px 22px; text-align: left;
   }
   .card svg { width: 22px; height: 22px; color: var(--ink); margin-bottom: 12px; }
+  /* Each card opens with a small picture made of the game's own pieces: flag tiles with a white rim and a lip,
+     the squares a result is shared as, the tile of the icon. They are the same height, so the titles line up. */
+  .art { display: flex; align-items: center; gap: 8px; height: 46px; margin-bottom: 14px; }
+  .art svg { margin: 0; }
+  /* A hairline round the white rim, as on the app's tiles: without it the rim is lost on a pale card. */
+  .tile.mini { width: 40px; height: 40px; border-radius: 11px; border-width: 2.5px; box-shadow: 0 0 0 0.5px var(--hair), 0 3px 0 var(--lip); }
+  .tile.mini img { border-radius: 8px; }
+  /* A tile of the icon's night, carrying one mark in paper. */
+  .tile.key {
+    position: relative; overflow: visible; display: grid; place-items: center;
+    background: var(--night); color: var(--cream); font-size: 19px; font-weight: 800; line-height: 1;
+  }
+  .tile.key svg { width: 21px; height: 21px; color: var(--cream); }
+  /* The tick an answer gets in the game. */
+  .tile.key .tick {
+    position: absolute; right: -7px; bottom: -6px; width: 18px; height: 18px; border-radius: 50%;
+    display: grid; place-items: center; background: var(--right); border: 2px solid var(--paper);
+  }
+  .tile.key .tick svg { width: 10px; height: 10px; color: #fff; }
+  .tile.split { background: linear-gradient(115deg, #F6F3EC 50%, #1C212D 50%); }
+  .art .versus { font-size: 15px; font-weight: 800; color: var(--soft); }
+  .art .square { width: 18px; height: 18px; border-radius: 5px; background: var(--right); box-shadow: 0 2px 0 var(--lip); }
+  .art .square.miss { background: color-mix(in srgb, var(--ink) 24%, transparent); }
+  /* A reminder as it arrives: the icon and two lines. */
+  .art .note {
+    display: flex; align-items: center; gap: 9px; padding: 7px 14px 7px 8px; border-radius: 13px;
+    background: var(--card-strong); border: 1px solid var(--hair); box-shadow: 0 3px 0 var(--lip);
+  }
+  .art .note img { width: 26px; height: 26px; border-radius: 7px; }
+  .art .note span { display: grid; gap: 5px; }
+  .art .note b, .art .note i { display: block; height: 5px; border-radius: 3px; }
+  .art .note b { width: 52px; background: var(--ink); opacity: 0.7; }
+  .art .note i { width: 80px; background: var(--soft); opacity: 0.45; }
   .card h3 { font-size: 16.5px; font-weight: 700; margin-bottom: 4px; }
   .card p { font-size: 14.5px; color: var(--soft); line-height: 1.55; }
   @media (max-width: 860px) { .cards { grid-template-columns: repeat(2, 1fr); } }
@@ -478,12 +511,12 @@
       <div class="label">05 · And the rest</div>
       <h2>Small things, done with care</h2>
       <div class="cards">
-        <div class="card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 8h13l-3-3"></path><path d="M17 16H4l3 3"></path></svg><h3>Tell similar flags apart</h3><p>Mix up two similar flags and Unfurl puts them side by side, so the difference is easy to see.</p></div>
-        <div class="card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 18a4 4 0 0 1-.5-7.97A5.5 5.5 0 0 1 17.2 9.1 4.5 4.5 0 0 1 17 18z"></path></svg><h3>iCloud sync</h3><p>When you’re signed in to iCloud, your progress can sync to your other devices.</p></div>
-        <div class="card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"></path><path d="M10 20a2 2 0 0 0 4 0"></path></svg><h3>Daily reminder</h3><p>Choose a reminder time for days when you haven’t finished the daily quiz.</p></div>
-        <div class="card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V4"></path><path d="M8 7.5 12 4l4 3.5"></path><path d="M6 12v6a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-6"></path></svg><h3>Share your result</h3><p>Send the day's score as a line of squares or as a picture card, with nothing given away.</p></div>
-        <div class="card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"></path></svg><h3>Light and dark</h3><p>Cream paper by day and night blue after dark, or whichever you prefer.</p></div>
-        <div class="card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><ellipse cx="12" cy="12" rx="4.5" ry="9"></ellipse></svg><h3>English and 繁體中文</h3><p>Every screen and every country name, in both languages.</p></div>
+        <div class="card"><div class="art" aria-hidden="true"><span class="tile mini"><img src="images/flag-id.png" alt="" width="240" height="240" loading="lazy"></span><span class="versus">≠</span><span class="tile mini"><img src="images/flag-pl.png" alt="" width="240" height="240" loading="lazy"></span></div><h3>Tell similar flags apart</h3><p>Mix up two similar flags and Unfurl puts them side by side, so the difference is easy to see.</p></div>
+        <div class="card"><div class="art" aria-hidden="true"><span class="tile mini key"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a4 4 0 0 1-.5-7.97A5.5 5.5 0 0 1 17.2 9.1 4.5 4.5 0 0 1 17 18z"></path></svg><span class="tick"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.4 5 8.8l4.6-5.4"></path></svg></span></span></div><h3>iCloud sync</h3><p>When you’re signed in to iCloud, your progress can sync to your other devices.</p></div>
+        <div class="card"><div class="art" aria-hidden="true"><span class="note"><img class="only-light" src="images/app-icon.png" alt="" width="256" height="256" loading="lazy"><img class="only-dark" src="images/app-icon-dark.png" alt="" width="256" height="256" loading="lazy"><span><b></b><i></i></span></span></div><h3>Daily reminder</h3><p>Choose a reminder time for days when you haven’t finished the daily quiz.</p></div>
+        <div class="card"><div class="art" aria-hidden="true"><i class="square"></i><i class="square miss"></i><i class="square"></i><i class="square"></i><i class="square miss"></i></div><h3>Share your result</h3><p>Send the day's score as a line of squares or as a picture card, with nothing given away.</p></div>
+        <div class="card"><div class="art" aria-hidden="true"><span class="tile mini split"></span></div><h3>Light and dark</h3><p>Cream paper by day and night blue after dark, or whichever you prefer.</p></div>
+        <div class="card"><div class="art" aria-hidden="true"><span class="tile mini key">A</span><span class="tile mini key" lang="zh-Hant">文</span></div><h3>English and 繁體中文</h3><p>Every screen and every country name, in both languages.</p></div>
       </div>
       <div class="strip"><strong>No account required</strong><span>Unfurl has no accounts, no ads, and no analytics. It makes no network requests of its own. Your progress stays on your phone and in your own iCloud.</span></div>
     </div>

@@ -328,6 +328,39 @@
     padding: 20px 20px 22px; text-align: left;
   }
   .card svg { width: 22px; height: 22px; color: var(--ink); margin-bottom: 12px; }
+  /* Each card opens with a small picture made of the game's own pieces: flag tiles with a white rim and a lip,
+     the squares a result is shared as, the tile of the icon. They are the same height, so the titles line up. */
+  .art { display: flex; align-items: center; gap: 8px; height: 46px; margin-bottom: 14px; }
+  .art svg { margin: 0; }
+  /* A hairline round the white rim, as on the app's tiles: without it the rim is lost on a pale card. */
+  .tile.mini { width: 40px; height: 40px; border-radius: 11px; border-width: 2.5px; box-shadow: 0 0 0 0.5px var(--hair), 0 3px 0 var(--lip); }
+  .tile.mini img { border-radius: 8px; }
+  /* A tile of the icon's night, carrying one mark in paper. */
+  .tile.key {
+    position: relative; overflow: visible; display: grid; place-items: center;
+    background: var(--night); color: var(--cream); font-size: 19px; font-weight: 800; line-height: 1;
+  }
+  .tile.key svg { width: 21px; height: 21px; color: var(--cream); }
+  /* The tick an answer gets in the game. */
+  .tile.key .tick {
+    position: absolute; right: -7px; bottom: -6px; width: 18px; height: 18px; border-radius: 50%;
+    display: grid; place-items: center; background: var(--right); border: 2px solid var(--paper);
+  }
+  .tile.key .tick svg { width: 10px; height: 10px; color: #fff; }
+  .tile.split { background: linear-gradient(115deg, #F6F3EC 50%, #1C212D 50%); }
+  .art .versus { font-size: 15px; font-weight: 800; color: var(--soft); }
+  .art .square { width: 18px; height: 18px; border-radius: 5px; background: var(--right); box-shadow: 0 2px 0 var(--lip); }
+  .art .square.miss { background: color-mix(in srgb, var(--ink) 24%, transparent); }
+  /* A reminder as it arrives: the icon and two lines. */
+  .art .note {
+    display: flex; align-items: center; gap: 9px; padding: 7px 14px 7px 8px; border-radius: 13px;
+    background: var(--card-strong); border: 1px solid var(--hair); box-shadow: 0 3px 0 var(--lip);
+  }
+  .art .note img { width: 26px; height: 26px; border-radius: 7px; }
+  .art .note span { display: grid; gap: 5px; }
+  .art .note b, .art .note i { display: block; height: 5px; border-radius: 3px; }
+  .art .note b { width: 52px; background: var(--ink); opacity: 0.7; }
+  .art .note i { width: 80px; background: var(--soft); opacity: 0.45; }
   .card h3 { font-size: 16.5px; font-weight: 700; margin-bottom: 4px; }
   .card p { font-size: 14.5px; color: var(--soft); line-height: 1.55; }
   @media (max-width: 860px) { .cards { grid-template-columns: repeat(2, 1fr); } }
@@ -491,12 +524,12 @@
     <div class="wrap centre reveal">
       <h2>更多功能</h2>
       <div class="cards">
-        <div class="card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 8h13l-3-3"></path><path d="M17 16H4l3 3"></path></svg><h3>兩面旗太像？放一起看</h3><p>答錯時，Unfurl 會把你選的旗和正確答案並排，讓你看清楚差在哪。</p></div>
-        <div class="card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 18a4 4 0 0 1-.5-7.97A5.5 5.5 0 0 1 17.2 9.1 4.5 4.5 0 0 1 17 18z"></path></svg><h3>iCloud 同步</h3><p>換手機後，登入同一個 Apple 帳號，就能透過 iCloud 同步遊戲進度。</p></div>
-        <div class="card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"></path><path d="M10 20a2 2 0 0 0 4 0"></path></svg><h3>每日提醒</h3><p>提醒時間自己選。今天的五題還沒答完，App 才會提醒你。</p></div>
-        <div class="card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V4"></path><path d="M8 7.5 12 4l4 3.5"></path><path d="M6 12v6a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-6"></path></svg><h3>分享成績</h3><p>用一排方塊或一張圖卡跟朋友分享今天的成績，讓他們也能自己猜，不會先看到答案。</p></div>
-        <div class="card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"></path></svg><h3>淺色和深色模式</h3><p>喜歡米白色還是深夜藍？可以跟著系統切換，也可以自己選。</p></div>
-        <div class="card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><ellipse cx="12" cy="12" rx="4.5" ry="9"></ellipse></svg><h3>繁體中文和英文</h3><p>從操作介面、國名到國旗小知識，都有繁中和英文。</p></div>
+        <div class="card"><div class="art" aria-hidden="true"><span class="tile mini"><img src="../images/flag-id.png" alt="" width="240" height="240" loading="lazy"></span><span class="versus">≠</span><span class="tile mini"><img src="../images/flag-pl.png" alt="" width="240" height="240" loading="lazy"></span></div><h3>兩面旗太像？放一起看</h3><p>答錯時，Unfurl 會把你選的旗和正確答案並排，讓你看清楚差在哪。</p></div>
+        <div class="card"><div class="art" aria-hidden="true"><span class="tile mini key"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a4 4 0 0 1-.5-7.97A5.5 5.5 0 0 1 17.2 9.1 4.5 4.5 0 0 1 17 18z"></path></svg><span class="tick"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.4 5 8.8l4.6-5.4"></path></svg></span></span></div><h3>iCloud 同步</h3><p>換手機後，登入同一個 Apple 帳號，就能透過 iCloud 同步遊戲進度。</p></div>
+        <div class="card"><div class="art" aria-hidden="true"><span class="note"><img class="only-light" src="../images/app-icon.png" alt="" width="256" height="256" loading="lazy"><img class="only-dark" src="../images/app-icon-dark.png" alt="" width="256" height="256" loading="lazy"><span><b></b><i></i></span></span></div><h3>每日提醒</h3><p>提醒時間自己選。今天的五題還沒答完，App 才會提醒你。</p></div>
+        <div class="card"><div class="art" aria-hidden="true"><i class="square"></i><i class="square miss"></i><i class="square"></i><i class="square"></i><i class="square miss"></i></div><h3>分享成績</h3><p>用一排方塊或一張圖卡跟朋友分享今天的成績，讓他們也能自己猜，不會先看到答案。</p></div>
+        <div class="card"><div class="art" aria-hidden="true"><span class="tile mini split"></span></div><h3>淺色和深色模式</h3><p>喜歡米白色還是深夜藍？可以跟著系統切換，也可以自己選。</p></div>
+        <div class="card"><div class="art" aria-hidden="true"><span class="tile mini key">A</span><span class="tile mini key" lang="zh-Hant">文</span></div><h3>繁體中文和英文</h3><p>從操作介面、國名到國旗小知識，都有繁中和英文。</p></div>
       </div>
       <div class="strip"><strong>你的遊戲進度由你保管</strong><span>Unfurl 不收集使用分析資料。遊戲進度保存在手機上，登入 iCloud 後也能同步。</span></div>
     </div>
