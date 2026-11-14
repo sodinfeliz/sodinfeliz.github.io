@@ -296,7 +296,9 @@
     .feature-row { grid-template-columns: 1fr; gap: 30px; text-align: center; }
     .feature-row.flip .feature-text { order: 0; }
     .feature-text > p, .feature-text ul { margin-left: auto; margin-right: auto; }
-    .feature-text ul { justify-items: center; }
+    /* The dots stand in one column, the words set from the left, and the column is the same distance from the screen's edge
+       in every list: the panel's own words start 35 px in, so these start there too. */
+    .feature-text ul { justify-items: start; text-align: left; width: 100%; padding: 0 0 0 11px; }
   }
 
   /* ---------- 02: the globe itself, rising like a horizon, with one country picked up ---------- */
@@ -427,7 +429,7 @@
     .plus-panel .feature-text { padding: 36px 0 0; }
     .plus-panel .feature-shot { height: 430px; padding-top: 8px; }
     /* In the narrower panel the points wrap; set from the left they keep a clean edge. */
-    .plus-panel .feature-text ul { justify-items: start; text-align: left; }
+    .plus-panel .feature-text ul { justify-items: start; text-align: left; padding: 0; }
   }
 
   /* ---------- Privacy: one strip under the cards ---------- */
