@@ -58,6 +58,8 @@
     --on-ink: #F6F3EC;
     --nav: rgba(246, 243, 236, 0.78);
     --bezel: #fff;
+    --panel: #1C212D; --panel-edge: transparent;
+    --band: #1C212D; --band-edge: transparent; --band-light: linear-gradient(transparent, transparent);
     --card-strong: rgba(255, 255, 255, 0.9);
   }
   /* The app's night: its dark page, cream ink, and the lighter greens and golds it uses on them. */
@@ -73,6 +75,9 @@
     --on-ink: #1C212D;
     --nav: rgba(20, 23, 31, 0.78);
     --bezel: #2A3040;
+    --panel: #1E2431; --panel-edge: rgba(241, 238, 231, 0.08);
+    --band: #1A1F2A; --band-edge: rgba(110, 193, 242, 0.26);
+    --band-light: radial-gradient(ellipse 40% 90px at 50% 0, rgba(110, 193, 242, 0.07), transparent 100%);
     --card-strong: rgba(35, 40, 54, 0.94);
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -352,6 +357,26 @@
   @media (max-width: 860px) { .cards { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 540px) { .cards { grid-template-columns: 1fr; } }
 
+  /* ---------- 04: Plus stands in a panel of the page's night, apart from what is free ---------- */
+  .plus-panel {
+    background: var(--panel); border-radius: 28px; overflow: hidden;
+    padding: 0 48px; box-shadow: 0 10px 0 var(--lip);
+    border: 1px solid var(--panel-edge);
+  }
+  .plus-panel .feature-text { padding: 44px 0; }
+  /* The panel's padding narrows its columns, so the words get the wider one and each point keeps to a line. */
+  @media (min-width: 861px) { .plus-panel.feature-row { grid-template-columns: 1.25fr 0.75fr; gap: 28px; } }
+  .plus-panel .feature-text li { color: var(--ink); }
+  /* The phone fades out at its foot as in the other rows, into the panel's own colour. */
+  .plus-panel .feature-shot { height: 548px; padding-top: 28px; }
+  @media (max-width: 860px) {
+    .plus-panel { padding: 0 24px; border-radius: 24px; }
+    .plus-panel .feature-text { padding: 36px 0 0; }
+    .plus-panel .feature-shot { height: 430px; padding-top: 8px; }
+    /* In the narrower panel the points wrap; set from the left they keep a clean edge. */
+    .plus-panel .feature-text ul { justify-items: start; text-align: left; }
+  }
+
   /* ---------- Privacy: one strip under the cards ---------- */
   .strip {
     margin-top: 12px; padding: 18px 20px; text-align: left;
@@ -361,12 +386,33 @@
   .strip strong { font-size: 16.5px; white-space: nowrap; }
   .strip span { font-size: 14.5px; color: var(--soft); flex: 1 1 320px; line-height: 1.55; }
 
-  /* ---------- Final CTA ---------- */
-  .final-cta { text-align: center; padding: 44px 24px 80px; display: flex; flex-direction: column; align-items: center; }
-  .final-cta img { width: 76px; height: 76px; border-radius: 18px; box-shadow: 0 5px 0 var(--lip); margin-bottom: 26px; }
+  /* ---------- The ending: the page's night, whatever the theme ---------- */
+  /* Inside the ending, and inside the Plus panel above, the colours are set to those of a night page, so
+     everything in them follows without a rule of its own. */
+  .night, .final-cta, footer {
+    --ink: #F1EEE7; --soft: rgba(241, 238, 231, 0.68); --hair: rgba(241, 238, 231, 0.12);
+    --on-ink: #1C212D; --gold-ink: #E8C45E; --right: #E2B33C; --bezel: #2A3040;
+    color: var(--ink);
+  }
+  .final-cta, footer { background: var(--band); }
+  .final-cta {
+    text-align: center; padding: 76px 24px 72px; margin-top: 40px;
+    display: flex; flex-direction: column; align-items: center;
+    /* By day a plain night. At night, one step lighter than the page under a line of light, the same light
+       that stands over the globe's edge. */
+    background: var(--band-light), var(--band);
+    border-top: 1px solid var(--band-edge);
+  }
+  /* The icon alone, large, as the last thing on the page. */
+  .waiting { display: flex; justify-content: center; margin-bottom: 28px; }
+  .waiting img { width: 92px; height: 92px; border-radius: 23px; box-shadow: 0 6px 0 rgba(0, 0, 0, 0.4); }
   .final-cta h2 { margin-bottom: 8px; }
   .final-cta > p { color: var(--soft); margin-bottom: 26px; }
   .final-cta .cta-note { font-size: 13.5px; margin: 16px 0 0; }
+  @media (max-width: 480px) {
+    .final-cta { padding: 60px 20px 56px; }
+    .waiting img { width: 80px; height: 80px; border-radius: 20px; }
+  }
 
   footer {
     border-top: 1px solid var(--hair);
@@ -406,7 +452,7 @@
 <header id="top">
   <div class="hero wrap">
     <div class="hero-copy">
-      <div class="label">A daily flag quiz for iPhone</div>
+      <div class="label">A daily flag quiz</div>
       <h1>Five flags a day.<br>The whole world, in time.</h1>
       <p class="sub">One short round each day, the same five flags for everyone. Each new flag you get right lights up its country on your globe.</p>
       <div class="five" aria-hidden="true">
@@ -487,7 +533,8 @@
   </section>
 
   <section>
-    <div class="wrap feature-row reveal">
+    <div class="wrap reveal">
+    <div class="plus-panel night feature-row">
       <div class="feature-text">
         <div class="label">04 · Unfurl Plus</div>
         <h2>Practice any time</h2>
@@ -503,6 +550,7 @@
       <div class="feature-shot">
         <div class="phone"><img class="only-light" src="images/en-practice.png" alt="The practice page, with review rounds, lookalike flags and two globe challenges" loading="lazy" width="644" height="1400"><img class="only-dark" src="images/en-practice-dark.png" alt="The practice page, with review rounds, lookalike flags and two globe challenges" loading="lazy" width="644" height="1400"></div>
       </div>
+    </div>
     </div>
   </section>
 
@@ -525,7 +573,7 @@
 </main>
 
 <div class="final-cta" id="get">
-  <img class="only-light" src="images/app-icon.png" alt="" width="256" height="256" loading="lazy"><img class="only-dark" src="images/app-icon-dark.png" alt="" width="256" height="256" loading="lazy">
+  <div class="waiting" aria-hidden="true"><img src="images/app-icon.png" alt="" width="256" height="256" loading="lazy"></div>
   <h2>Five flags are waiting</h2>
   <p>Free to play, every day.</p>
   <div class="store-badge" aria-disabled="true">
