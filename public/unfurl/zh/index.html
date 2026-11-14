@@ -70,6 +70,7 @@
     --on-ink: #F6F3EC;
     --nav: rgba(246, 243, 236, 0.78);
     --bezel: #fff;
+    --card-strong: rgba(255, 255, 255, 0.9);
   }
   /* The app's night: its dark page, cream ink, and the lighter greens and golds it uses on them. */
   :root[data-theme="dark"] {
@@ -84,6 +85,7 @@
     --on-ink: #1C212D;
     --nav: rgba(20, 23, 31, 0.78);
     --bezel: #2A3040;
+    --card-strong: rgba(35, 40, 54, 0.94);
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html[data-theme="dark"] { color-scheme: dark; }
@@ -271,6 +273,48 @@
     .feature-text ul { justify-items: center; }
   }
 
+  /* ---------- 02: the globe itself, rising like a horizon, with one country picked up ---------- */
+  .world { padding-bottom: 0; }
+  .world > .wrap { position: relative; z-index: 1; }
+  /* Two even lines under the heading, not two and a stray few words. */
+  .world-lede { color: var(--soft); font-size: 17px; max-width: 40em; margin: 0 auto; text-wrap: balance; }
+  .world-points { list-style: none; display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+  .world-points li {
+    font-size: 14.5px; padding: 6px 14px; border-radius: 999px;
+    background: var(--card); border: 1px solid var(--hair);
+  }
+  /* The globe is drawn by `globe.js` on a canvas the width of the page. `--head` is the room over its edge for
+     the light in the air, and the band is drawn up under the words by as much. */
+  .horizon {
+    --head: 96px;
+    position: relative; overflow: hidden;
+    margin-top: calc(40px - var(--head));
+    height: calc(var(--head) + clamp(300px, 44vw, 600px));
+  }
+  /* The globe sinks into the page as if lit from over the middle of its edge: a broad pool of light whose
+     long falloff reaches furthest down in the middle and comes in from the sides, so the foot narrows
+     instead of running the full width. The falloff is long enough to read as light, not as a shape. */
+  .globe-canvas {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    -webkit-mask-image: radial-gradient(ellipse 80% 100% at 50% 0%, #000 56%, transparent 100%);
+    mask-image: radial-gradient(ellipse 80% 100% at 50% 0%, #000 56%, transparent 100%);
+  }
+  @media (max-width: 760px) { .horizon { --head: 72px; } }
+  .country-card {
+    position: absolute; left: 60%; top: 40%; transform: translate(-100%, -100%);
+    display: flex; align-items: center; gap: 10px; padding: 9px 14px 9px 9px;
+    background: var(--card-strong); border: 1px solid var(--hair); border-radius: 16px;
+    box-shadow: 0 14px 30px -14px rgba(28, 33, 45, 0.45); text-align: left; white-space: nowrap;
+    /* It comes up as its country is picked up and goes as the globe turns on; `globe.js` says when. */
+    opacity: 0; translate: 0 6px; transition: opacity 0.3s var(--ease-out), translate 0.3s var(--ease-out);
+  }
+  .country-card.is-shown { opacity: 1; translate: 0 0; }
+  .country-card .tile { width: 40px; height: 40px; border-radius: 11px; border-width: 2.5px; border-color: var(--gold); box-shadow: none; }
+  .country-card .tile img { border-radius: 8px; }
+  .country-card strong { display: block; font-size: 15px; line-height: 1.25; }
+  .country-card small { display: block; font-size: 12.5px; color: var(--soft); line-height: 1.3; }
+  .country-card i { width: 10px; height: 10px; border-radius: 50%; background: var(--gold); margin-left: 8px; }
+
   /* ---------- The rest ---------- */
   .centre { text-align: center; }
   .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 34px; }
@@ -383,20 +427,19 @@
     </div>
   </section>
 
-  <section>
-    <div class="wrap feature-row reveal">
-      <div class="feature-text">
-        <div class="label">02 · 收集冊與地球儀</div>
-        <h2>看著地球儀慢慢亮起來</h2>
-        <p>答對的國旗會收進各洲的收集冊，對應的國家也會在地球儀上亮起來。轉一轉，就能看看自己已經認得哪些地方。</p>
-        <ul>
-          <li>197 面國旗等你收集</li>
-          <li>每洲都有自己的收集冊</li>
-          <li>拖曳轉動、雙指縮放，還能點選國家</li>
-        </ul>
-      </div>
-      <div class="feature-shot">
-        <div class="phone"><img class="only-light" src="../images/zh-album.png" alt="收集冊畫面，顯示世界地圖和各洲的收集進度" loading="lazy" width="644" height="1400"><img class="only-dark" src="../images/zh-album-dark.png" alt="收集冊畫面，顯示世界地圖和各洲的收集進度" loading="lazy" width="644" height="1400"></div>
+  <section class="world">
+    <div class="wrap centre reveal">
+      <div class="label">02 · 收集冊與地球儀</div>
+      <h2>看著地球儀慢慢亮起來</h2>
+      <p class="world-lede">答對的國旗會收進各洲的收集冊，對應的國家也會在地球儀上亮起來。轉一轉，就能看看自己已經認得哪些地方。</p>
+      <ul class="world-points"><li>197 面國旗等你收集</li><li>每洲都有自己的收集冊</li><li>拖曳轉動、雙指縮放，還能點選國家</li></ul>
+    </div>
+    <div class="horizon reveal">
+      <canvas class="globe-canvas" role="img" aria-label="App 裡的地球儀，各國依照你對國旗的熟悉程度上色，衣索比亞被拿了起來"></canvas>
+      <div class="country-card" aria-hidden="true" data-stops='[{"code": "ET", "name": "衣索比亞", "stage": 3, "label": "已精通"}, {"code": "JP", "name": "日本", "stage": 2, "label": "已收集"}, {"code": "BR", "name": "巴西", "stage": 3, "label": "已精通"}, {"code": "SE", "name": "瑞典", "stage": 1, "label": "還沒答對"}, {"code": "KE", "name": "肯亞", "stage": 2, "label": "已收集"}, {"code": "IE", "name": "愛爾蘭", "stage": 2, "label": "已收集"}]'>
+        <span class="tile"><img src="../images/flag-et.png" alt="" width="240" height="240" loading="lazy"></span>
+        <span><strong>衣索比亞</strong><small>已精通</small></span>
+        <i></i>
       </div>
     </div>
   </section>
@@ -477,6 +520,7 @@
   <p style="margin-top: 8px;">© 2026 Elliot Su. All rights reserved.</p>
 </footer>
 
+<script src="../globe.js" defer></script>
 <script>
   const observer = new IntersectionObserver((entries) => {
     for (const e of entries) {
