@@ -9,12 +9,15 @@
   const card = band.querySelector(".country-card");
   const root = document.documentElement;
   const source = new URL("globe.json", document.currentScript.src);
+  /** The finer outlines, read once the coarse ones are drawn: the app's own close-up set, which a globe this large is. */
+  const closeSource = new URL("globe-close.json", document.currentScript.src);
 
   /** The countries it goes round, written into the page so their names are in its language. */
   const stops = JSON.parse(card.dataset.stops);
   /** How far a picked country stands up, and the width of its white rim, as in the app. */
   const RISE = 3;
-  const RIM = 1.8;
+  const RIM = 1;
+  const RIM_ALPHA = 0.85;
   /** A picked country stands this far below the globe's edge, in degrees round the globe, and this far to the
       right of the middle, so its card has room at its upper left. */
   const BELOW = 46;
@@ -70,6 +73,49 @@
     gridLines.push(line);
   }
 
+  /** An outline as points on the sphere, with its middle and reach, to leave it out when it cannot be seen, and
+      the edges that lie on the date line, which are no coast: a country across it is cut in two there. */
+  const ringOf = (flat) => {
+    const points = [];
+    let sx = 0, sy = 0, sz = 0;
+    for (let i = 0; i < flat.length; i += 2) {
+      const point = onSphere(flat[i], flat[i + 1]);
+      points.push(point);
+      sx += point[0]; sy += point[1]; sz += point[2];
+    }
+    const length = Math.hypot(sx, sy, sz) || 1;
+    const centre = [sx / length, sy / length, sz / length];
+    let nearest = 1;
+    for (const point of points) nearest = Math.min(nearest, dot(point, centre));
+    points.centre = centre;
+    points.sinReach = nearest > 0 ? Math.sqrt(1 - nearest * nearest) : 1;
+    let seam = null;
+    const n = points.length;
+    for (let i = 0; i < n; i++) {
+      const a = flat[2 * i], b = flat[2 * ((i + 1) % n)];
+      if (Math.abs(a) >= 179.99 && Math.abs(b) >= 179.99 && a * b > 0) {
+        seam = seam || new Array(n).fill(false);
+        seam[i] = true;
+      }
+    }
+    points.seam = seam;
+    return points;
+  };
+  const box = (ring) => {
+    let left = 180, right = -180, foot = 90, top = -90;
+    for (let i = 0; i < ring.length; i += 2) {
+      left = Math.min(left, ring[i]); right = Math.max(right, ring[i]);
+      foot = Math.min(foot, ring[i + 1]); top = Math.max(top, ring[i + 1]);
+    }
+    return { size: (right - left) * (top - foot), centre: [(left + right) / 2, (foot + top) / 2] };
+  };
+  /** A country's outlines, the largest first, with whether any lies on the date line. */
+  const outlines = (rings) => {
+    const measured = rings.map((ring) => ({ ring, ...box(ring) })).sort((a, b) => b.size - a.size);
+    const made = measured.map(({ ring }) => ringOf(ring));
+    return { measured, made, hasSeam: made.some((ring) => ring.seam) };
+  };
+
   let countries = [];
   let byCode = {};
   let dots = [];
@@ -103,7 +149,17 @@
 
     // Adds one outline as seen from this side. A point round the back is pulled to the globe's edge, so an
     // outline that straddles the edge closes along it; one wholly round the back is left out.
+    // An outline wholly round the back, or wholly off the canvas, is left out before any of its points is tried.
+    const isOut = (points, rise) => {
+      if (!points.centre) return false;
+      if (dot(points.centre, out) < -points.sinReach) return true;
+      if (points.sinReach >= 1) return false;
+      const x = cx + radius * dot(points.centre, east), y = cy - radius * dot(points.centre, north) - rise;
+      const reach = radius * points.sinReach + 4;
+      return x + reach < 0 || x - reach > width || y + reach < 0 || y - reach > height;
+    };
     const trace = (points, rise = 0) => {
+      if (isOut(points, rise)) return false;
       if (!points.some((point) => dot(point, out) > 0)) return false;
       let isFirst = true;
       for (const point of points) {
@@ -119,6 +175,51 @@
       }
       ctx.closePath();
       return true;
+    };
+
+    // The coast of an outline, as open runs with the date line left out; an outline not on it is drawn whole.
+    const coast = (points, rise = 0) => {
+      const seam = points.seam;
+      if (!seam) return trace(points, rise);
+      if (isOut(points, rise) || !points.some((point) => dot(point, out) > 0)) return false;
+      const n = points.length;
+      let start = 0;
+      for (let i = 0; i < n; i++) if (seam[(i + n - 1) % n]) { start = i; break; }
+      let isFirst = true;
+      for (let k = 0; k < n; k++) {
+        const i = (start + k) % n;
+        let x = dot(points[i], east), y = dot(points[i], north);
+        if (dot(points[i], out) < 0) {
+          const reach = Math.hypot(x, y);
+          if (reach < 1e-6) continue;
+          x /= reach; y /= reach;
+        }
+        if (isFirst || seam[(i + n - 1) % n]) ctx.moveTo(cx + radius * x, cy - radius * y - rise);
+        else ctx.lineTo(cx + radius * x, cy - radius * y - rise);
+        isFirst = false;
+      }
+      return true;
+    };
+
+    // The walls under a lifted outline: for each edge that faces down the screen and is on the near side, the strip
+    // between it and the same edge raised by `rise`.
+    const walls = (points, rise) => {
+      const n = points.length;
+      if (isOut(points, 0) || !points.some((point) => dot(point, out) > 0)) return;
+      const xs = points.map((point) => cx + radius * dot(point, east));
+      const ys = points.map((point) => cy - radius * dot(point, north));
+      let area = 0;
+      for (let i = 0; i < n; i++) { const j = (i + 1) % n; area += xs[i] * ys[j] - xs[j] * ys[i]; }
+      for (let i = 0; i < n; i++) {
+        const j = (i + 1) % n;
+        if (dot(points[i], out) <= 0 || dot(points[j], out) <= 0) continue;
+        const dx = xs[j] - xs[i];
+        // The outward normal's downward part: positive area is clockwise on the screen.
+        if ((area > 0 ? -dx : dx) <= 0) continue;
+        ctx.moveTo(xs[i], ys[i]); ctx.lineTo(xs[j], ys[j]);
+        ctx.lineTo(xs[j], ys[j] - rise); ctx.lineTo(xs[i], ys[i] - rise);
+        ctx.closePath();
+      }
     };
 
     // The air around the globe: at night a band hugging the edge inside a wider, fainter glow, and by day a
@@ -166,7 +267,9 @@
       for (const ring of country.rings) isSeen = trace(ring) || isSeen;
       if (!isSeen) continue;
       ctx.globalAlpha = others; ctx.fillStyle = look.land[country.stage]; ctx.fill();
-      ctx.globalAlpha = 1; ctx.strokeStyle = look.border; ctx.lineWidth = 0.6; ctx.stroke();
+      ctx.globalAlpha = 1; ctx.strokeStyle = look.border; ctx.lineWidth = 0.6;
+      if (country.hasSeam) { ctx.beginPath(); for (const ring of country.rings) coast(ring); }
+      ctx.stroke();
     }
     // The smallest states, each a dot.
     for (const state of dots) {
@@ -182,14 +285,24 @@
     let corner = null;
     if (chosen) {
       const colour = look.land[chosen.stage];
+      const shade = `rgba(0, 0, 0, ${0.42 * lift})`;
+      // Where it lay stays under it, darker, as its thickness.
       ctx.beginPath(); for (const ring of chosen.rings) trace(ring);
       ctx.fillStyle = colour; ctx.fill();
-      ctx.fillStyle = `rgba(0, 0, 0, ${0.42 * lift})`; ctx.fill();
-      ctx.strokeStyle = look.border; ctx.lineWidth = 0.6; ctx.stroke();
+      ctx.fillStyle = shade; ctx.fill();
+      ctx.strokeStyle = look.border; ctx.lineWidth = 0.6;
+      if (chosen.hasSeam) { ctx.beginPath(); for (const ring of chosen.rings) coast(ring); }
+      ctx.stroke();
+      // Its sides are solid, so the sea does not show between the two at a bay or a strait.
+      ctx.beginPath(); for (const ring of chosen.rings) walls(ring, RISE * lift);
+      ctx.fillStyle = colour; ctx.fill();
+      ctx.fillStyle = shade; ctx.fill();
+      // The piece itself, with a thin white rim drawn inside it only: it clips the line, which is twice as wide.
       ctx.beginPath(); for (const ring of chosen.rings) trace(ring, RISE * lift);
       ctx.fillStyle = colour; ctx.fill();
       ctx.save(); ctx.clip();
-      ctx.strokeStyle = `rgba(255, 255, 255, ${lift})`; ctx.lineWidth = RIM * 2; ctx.stroke();
+      if (chosen.hasSeam) { ctx.beginPath(); for (const ring of chosen.rings) coast(ring, RISE * lift); }
+      ctx.strokeStyle = `rgba(255, 255, 255, ${RIM_ALPHA * lift})`; ctx.lineWidth = RIM * 2; ctx.stroke();
       ctx.restore();
 
       let left = Infinity, top = Infinity;
@@ -294,25 +407,10 @@
   };
 
   fetch(source).then((response) => response.json()).then((globe) => {
-    const box = (ring) => {
-      let left = 180, right = -180, foot = 90, top = -90;
-      for (let i = 0; i < ring.length; i += 2) {
-        left = Math.min(left, ring[i]); right = Math.max(right, ring[i]);
-        foot = Math.min(foot, ring[i + 1]); top = Math.max(top, ring[i + 1]);
-      }
-      return { size: (right - left) * (top - foot), centre: [(left + right) / 2, (foot + top) / 2] };
-    };
     countries = Object.entries(globe.countries).map(([code, rings]) => {
       // The largest outline first: it is the mainland, whose middle the globe turns to.
-      const measured = rings.map((ring) => ({ ring, ...box(ring) })).sort((a, b) => b.size - a.size);
-      return {
-        code, stage: stageOf(code), size: measured[0].size, centre: measured[0].centre,
-        rings: measured.map(({ ring }) => {
-          const points = [];
-          for (let i = 0; i < ring.length; i += 2) points.push(onSphere(ring[i], ring[i + 1]));
-          return points;
-        }),
-      };
+      const { measured, made, hasSeam } = outlines(rings);
+      return { code, stage: stageOf(code), size: measured[0].size, centre: measured[0].centre, rings: made, hasSeam };
     // The largest country first, so one that lies inside another is drawn over it.
     }).sort((a, b) => b.size - a.size);
     byCode = Object.fromEntries(countries.map((country) => [country.code, country]));
@@ -321,6 +419,17 @@
     }));
 
     rest();
+    // The finer outlines follow, and take the coarse ones' place: the same countries, the same middles.
+    fetch(closeSource).then((response) => response.json()).then((close) => {
+      for (const [code, rings] of Object.entries(close.countries)) {
+        const country = byCode[code];
+        if (!country) continue;
+        const { made, hasSeam } = outlines(rings);
+        country.rings = made;
+        country.hasSeam = hasSeam;
+      }
+      if (view) render();
+    }).catch(() => {});
     // Set again when the band changes size or the theme is switched; the round goes on from there.
     const again = () => { rest(); if (isSeen && !wantsStill) timer = setTimeout(leave, HOLD); };
     new ResizeObserver(again).observe(band);
