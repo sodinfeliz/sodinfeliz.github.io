@@ -222,6 +222,9 @@
   .store-badge-text { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.2; }
   .store-badge-eyebrow { font-size: 10.5px; letter-spacing: 0.05em; text-transform: uppercase; opacity: 0.65; }
   .store-badge-title { font-size: 17px; font-weight: 800; letter-spacing: 0; }
+  a.store-badge { text-decoration: none; transition: transform 0.16s var(--ease-out); }
+  a.store-badge:hover { color: var(--on-ink); }
+  a.store-badge:active { transform: scale(0.97); }
   .micro-proof { font-size: 13.5px; color: var(--soft); margin-top: 16px; }
 
   /* The phone stands at the right edge of the page's column, under the end of the bar above it. */
@@ -523,7 +526,7 @@
           <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"></path></svg>
           <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"></path></svg>
         </button>
-        <!-- When the app is in the store, the way to it goes here: <a class="nav-cta" href="…">Download</a>. Its styles are kept. -->
+        <a class="nav-cta" href="https://apps.apple.com/app/id6834737314">Download</a>
       </div>
     </div>
   </div>
@@ -542,13 +545,13 @@
         <span class="tile"><img src="images/flag-ke.png" alt="" width="240" height="240"></span>
         <span class="tile"><img src="images/flag-ie.png" alt="" width="240" height="240"></span>
       </div>
-      <div class="store-badge" aria-disabled="true">
+      <a class="store-badge" href="https://apps.apple.com/app/id6834737314">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"></rect><path d="M12 8v7"></path><path d="M8.5 12.5 12 16l3.5-3.5"></path></svg>
         <div class="store-badge-text">
-          <span class="store-badge-eyebrow">Coming soon on the</span>
+          <span class="store-badge-eyebrow">Download on the</span>
           <span class="store-badge-title">App Store</span>
         </div>
-      </div>
+      </a>
       <p class="micro-proof">No accounts · No ads · No tracking</p>
     </div>
     <div class="hero-shot">
@@ -658,13 +661,13 @@
   <div class="waiting" aria-hidden="true"><img src="images/app-icon.png" alt="" width="256" height="256" loading="lazy"></div>
   <h2>Five flags are waiting</h2>
   <p>A minute a day, the world in your pocket</p>
-  <div class="store-badge" aria-disabled="true">
+  <a class="store-badge" href="https://apps.apple.com/app/id6834737314">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"></rect><path d="M12 8v7"></path><path d="M8.5 12.5 12 16l3.5-3.5"></path></svg>
     <div class="store-badge-text">
-      <span class="store-badge-eyebrow">Coming soon on the</span>
+      <span class="store-badge-eyebrow">Download on the</span>
       <span class="store-badge-title">App Store</span>
     </div>
-  </div>
+  </a>
   <p class="cta-note">iPhone · iOS 18+</p>
 </div>
 
