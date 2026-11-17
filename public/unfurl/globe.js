@@ -116,6 +116,17 @@
     return { measured, made, hasSeam: made.some((ring) => ring.seam) };
   };
 
+  /** The band's size and the room over the globe's edge, read when the band changes and not on every frame: reading
+      them makes the browser lay the page out again, which a turning globe cannot afford 60 times a second. */
+  let size = null;
+  const measure = () => {
+    const width = band.clientWidth;
+    size = {
+      width, height: band.clientHeight,
+      head: parseFloat(getComputedStyle(band).getPropertyValue("--head")) || Math.max(96, Math.min(200, width * 0.15)),
+    };
+  };
+
   let countries = [];
   let byCode = {};
   let dots = [];
@@ -125,7 +136,8 @@
   const draw = (view, picked, lift) => {
     const look = lookNow();
     const isNight = look === LOOKS.dark;
-    const width = band.clientWidth, height = band.clientHeight;
+    if (!size) measure();
+    const { width, height, head } = size;
     const density = Math.min(window.devicePixelRatio || 1, 2);
     if (canvas.width !== Math.round(width * density) || canvas.height !== Math.round(height * density)) {
       canvas.width = Math.round(width * density);
@@ -137,7 +149,6 @@
 
     // The globe is far wider than the band shows, so its edge crosses the band as a long, shallow arc. It
     // stands `--head` below the band's top, which leaves the air over its edge room to show.
-    const head = parseFloat(getComputedStyle(band).getPropertyValue("--head")) || Math.max(96, Math.min(200, width * 0.15));
     const radius = Math.min(980, Math.max(430, width * 0.72));
     const cx = width / 2, cy = head + radius;
 
@@ -431,7 +442,7 @@
       if (view) render();
     }).catch(() => {});
     // Set again when the band changes size or the theme is switched; the round goes on from there.
-    const again = () => { rest(); if (isSeen && !wantsStill) timer = setTimeout(leave, HOLD); };
+    const again = () => { measure(); rest(); if (isSeen && !wantsStill) timer = setTimeout(leave, HOLD); };
     new ResizeObserver(again).observe(band);
     new MutationObserver(again).observe(root, { attributes: true, attributeFilter: ["data-theme"] });
     // It goes round only while it is on the screen.
