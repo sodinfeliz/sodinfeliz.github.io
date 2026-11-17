@@ -140,6 +140,8 @@
     box-shadow: 0 10px 0 var(--lip), 0 44px 60px -28px rgba(28, 33, 45, 0.38);
   }
   .phone img { border-radius: 38px; }
+  /* At night there is no soft shadow: on a page this dark a blurred one takes only a few steps of brightness, and they show as hard bands round the phone, in its own navy as a pale halo and in black as a dark one. The lip under the phone is enough. */
+  :root[data-theme="dark"] .phone { box-shadow: 0 10px 0 var(--lip); }
   /* A round of play, looping over the still it starts from. It fades in once it is running. */
   .hero-clip {
     position: absolute; inset: 9px; width: calc(100% - 18px); height: calc(100% - 18px);
