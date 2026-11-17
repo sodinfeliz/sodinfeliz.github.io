@@ -179,7 +179,7 @@
   .hero-copy > *:nth-child(3) { animation-delay: 0.12s; }
   .hero-copy > *:nth-child(4) { animation-delay: 0.18s; }
   .hero-copy > *:nth-child(5) { animation-delay: 0.24s; }
-  .hero-shot .phone { animation: rise 0.9s var(--ease-out) 0.1s backwards; }
+  /* The phone does not rise in: a video starting inside a running opacity and transform animation made its base colour flash on reload. */
   .hero-copy > *:nth-child(6) { animation-delay: 0.30s; }
 
   @media (max-width: 860px) {
