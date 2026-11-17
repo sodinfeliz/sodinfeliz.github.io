@@ -57,7 +57,7 @@
   .path li { position: relative; padding-bottom: 28px; }
   .path li:last-child { padding-bottom: 0; }
   .path li::before {
-    content: ""; position: absolute; left: -34px; top: 5px; width: 18px; height: 18px; border-radius: 5px;
+    content: ""; position: absolute; left: -34px; top: 5px; width: 18px; height: 18px; border-radius: 5px; box-sizing: border-box;
     background: var(--now); box-shadow: 0 2px 0 var(--lip);
   }
   .path li.next::before { background: var(--gold); }
