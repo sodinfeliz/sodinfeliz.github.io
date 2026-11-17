@@ -75,6 +75,15 @@
   /* The line runs from one square down to the next, and stops at the last. */
   .path li:not(:last-child)::after { content: ""; position: absolute; left: -26px; top: 27px; bottom: -1px; width: 2px; border-radius: 1px; background: var(--hair); }
   .path li.later::before { background: transparent; border: 2px dashed var(--later); box-shadow: none; }
+  /* A pointer over a plan makes its square grow a little, with a halo in the square's own colour, and a far-off one takes the gold. */
+  .path li::before { transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease; }
+  @media (hover: hover) {
+    .path li:hover::before { transform: scale(1.18); }
+    .path li.later:hover::before { border-color: var(--gold); }
+    .path li.now:hover::before { box-shadow: 0 0 0 4px color-mix(in srgb, var(--now) 28%, transparent), 0 2px 0 var(--lip); }
+    .path li.next:hover::before { box-shadow: 0 0 0 4px color-mix(in srgb, var(--gold) 28%, transparent), 0 2px 0 var(--lip); }
+  }
+  @media (prefers-reduced-motion: reduce) { .path li::before { transition: none; } .path li:hover::before { transform: none; } }
   .path .when { display: block; font-size: 12.5px; font-weight: 700; letter-spacing: 0.08em; }
   .path .now .when { color: var(--now-ink); }
   .path .next .when { color: var(--link); }
