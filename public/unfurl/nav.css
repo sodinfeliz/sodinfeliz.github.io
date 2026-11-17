@@ -53,9 +53,10 @@ nav {
   transition: transform 0.16s var(--nav-ease), background-color 0.2s, color 0.2s, border-color 0.2s;
 }
 /* The letters sit a little high in the capsule as the line box centres them: the room above them was smaller than
-   the room below. A little room added above takes them down, Chinese a touch more than Latin. */
+   the room below. A little room added above takes them down. The Chinese is set a touch higher than its measured
+   middle, since its heavier strokes are in the lower half and look low when it is exactly centred. */
 .nav-links .nav-cta { padding-top: 1.5px; }
-.nav-links .nav-cta:lang(zh) { padding-top: 2px; }
+.nav-links .nav-cta:lang(zh) { padding-top: 1px; }
 .nav-links .nav-cta:hover { color: var(--nav-on); background: var(--ink); border-color: var(--ink); }
 .nav-links .nav-cta:active { transform: scale(0.96); }
 
