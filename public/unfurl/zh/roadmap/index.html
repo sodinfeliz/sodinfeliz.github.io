@@ -18,6 +18,7 @@
 </script>
 <link rel="icon" type="image/png" href="/unfurl/images/app-icon.png">
 <link rel="alternate" hreflang="en" href="../../roadmap/">
+<link rel="stylesheet" href="/unfurl/nav.css">
 <style>
   /* Nunito, kept on this site, stands in for the app's SF Rounded: the same round letters for Latin letters and digits only, so dashes and other shared punctuation stay in the Chinese face. */
   @font-face {
@@ -30,12 +31,12 @@
   @font-face {
     font-family: "GenSen Rounded";
     font-style: normal; font-weight: 400 500; font-display: swap;
-    src: url("../../fonts/gensenrounded-regular.woff2?v=f431917c") format("woff2");
+    src: url("../../fonts/gensenrounded-regular.woff2?v=659c39ea") format("woff2");
   }
   @font-face {
     font-family: "GenSen Rounded";
     font-style: normal; font-weight: 600 800; font-display: swap;
-    src: url("../../fonts/gensenrounded-bold.woff2?v=d7c7a982") format("woff2");
+    src: url("../../fonts/gensenrounded-bold.woff2?v=4782723f") format("woff2");
   }
   :root {
     --paper: #F6F3EC; --ink: #1C212D; --text: #414856; --soft: #5D6473; --link: #8F6B10;
@@ -58,7 +59,6 @@
   }
   main { max-width: 640px; margin: 0 auto; padding: 48px 24px 64px; }
   a { color: var(--link); }
-  a.back { text-decoration: none; font-size: 14px; font-weight: 600; }
   h1 { font-size: 32px; font-weight: 700; margin: 16px 0 4px; }
   .date { color: var(--soft); font-size: 14px; margin-bottom: 24px; }
   p { font-size: 16px; color: var(--text); }
@@ -85,8 +85,27 @@
 </style>
 </head>
 <body>
+<nav>
+  <div class="nav-inner">
+    <a class="brand" href="/unfurl/zh/"><img class="only-light" src="/unfurl/images/app-icon.png" alt="" width="256" height="256"><img class="only-dark" src="/unfurl/images/app-icon-dark.png" alt="" width="256" height="256" loading="lazy">Unfurl</a>
+    <div class="nav-links">
+      <a class="plain" href="/unfurl/zh/#features">功能</a>
+      <a class="plain" href="/unfurl/zh/roadmap/" aria-current="page">開發計畫</a>
+      <a class="plain" href="/unfurl/zh/changelog/">更新紀錄</a>
+      <a class="plain" href="/unfurl/zh/privacy/">隱私權</a>
+      <a class="plain" href="mailto:elliotsu.dev@gmail.com">支援</a>
+      <div class="nav-tools">
+        <a href="/unfurl/roadmap/" lang="en" hreflang="en" class="lang" aria-label="English">EN</a>
+        <button class="theme-toggle" type="button" aria-label="切換淺色或深色">
+          <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"></path></svg>
+          <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"></path></svg>
+        </button>
+        <a class="nav-cta" href="https://apps.apple.com/app/id6834737314">下載</a>
+      </div>
+    </div>
+  </div>
+</nav>
 <main>
-  <a class="back" href="/unfurl/zh/">← Unfurl</a> · <a href="../../roadmap/" lang="en" hreflang="en">English</a>
   <h1>開發計畫</h1>
   <p class="date">更新日期 2026 年 11 月 15 日</p>
   <ol class="path">
@@ -99,5 +118,6 @@
 
   <p class="fine">有想法嗎？寫信到 <a href="mailto:elliotsu.dev@gmail.com">elliotsu.dev@gmail.com</a>。</p>
 </main>
+<script src="/unfurl/nav.js"></script>
 </body>
 </html>

@@ -1,0 +1,84 @@
+/* The top bar every Unfurl page shares: the page's name and icon, where to go, then, past a hairline, the three
+   controls, which are one height and one family: the other language, the theme, and the way to the store.
+   It reads the page's own --ink, --soft, --hair, --card and --lip, and brings the rest of what it needs. */
+/* A short page has no scrollbar and a long one has, so the bar, which is centred, would stand a scrollbar's width
+   to the right on the short ones and jump as a visitor goes from one to the next. The room is kept on every page. */
+html { scrollbar-gutter: stable; }
+@supports not (scrollbar-gutter: stable) { html { overflow-y: scroll; } }
+
+nav {
+  --nav-bg: rgba(246, 243, 236, 0.78);
+  --nav-on: #F6F3EC;
+  --nav-line: rgba(28, 33, 45, 0.32);
+  --nav-ease: cubic-bezier(0.23, 1, 0.32, 1);
+  position: sticky; top: 0; z-index: 10;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  background: var(--nav-bg);
+  border-bottom: 1px solid var(--hair);
+}
+:root[data-theme="dark"] nav { --nav-bg: rgba(20, 23, 31, 0.78); --nav-on: #1C212D; --nav-line: rgba(241, 238, 231, 0.34); }
+
+.nav-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  /* A set height, so the bar is the same on every page whatever line height its text has. */
+  height: 58px; padding: 0 24px; max-width: 1040px; margin: 0 auto;
+}
+.brand {
+  display: flex; align-items: center; gap: 10px; flex-shrink: 0;
+  font-weight: 800; font-size: 21px; letter-spacing: 0;
+  color: var(--ink); text-decoration: none;
+}
+.brand img { width: 32px; height: 32px; border-radius: 9px; box-shadow: 0 2px 0 var(--lip); }
+
+.nav-links { display: flex; align-items: center; gap: 26px; font-size: 14.5px; }
+.nav-links a { color: var(--soft); text-decoration: none; white-space: nowrap; transition: color 0.2s; }
+.nav-links a:hover, .nav-links a[aria-current="page"] { color: var(--ink); }
+.nav-tools { display: flex; align-items: center; gap: 8px; padding-left: 22px; border-left: 1px solid var(--hair); }
+.nav-links .lang {
+  /* One width for every page, whichever of EN and 中 it says. */
+  width: 46px; height: 34px; display: inline-grid; place-items: center; padding: 0; border-radius: 999px;
+  border: 1px solid var(--hair); background: var(--card); color: var(--ink);
+  font-size: 13px; font-weight: 700; letter-spacing: 0.02em;
+  transition: transform 0.16s var(--nav-ease);
+}
+.nav-links .lang:active { transform: scale(0.96); }
+/* The way to the store is drawn as an outline, one of the family of the language and theme buttons: the page's
+   big badge is the loud one, and this one only fills as it is pointed at. */
+.nav-links .nav-cta {
+  box-sizing: border-box; height: 34px; display: inline-flex; align-items: center; padding: 0 16px; margin-left: 4px;
+  color: var(--ink); font-weight: 600;
+  background: transparent; border: 1px solid var(--nav-line); border-radius: 999px;
+  transition: transform 0.16s var(--nav-ease), background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+.nav-links .nav-cta:hover { color: var(--nav-on); background: var(--ink); border-color: var(--ink); }
+.nav-links .nav-cta:active { transform: scale(0.96); }
+
+/* The switch between light and dark, and the icon that comes in both. */
+.theme-toggle {
+  width: 34px; height: 34px; border-radius: 999px; flex-shrink: 0;
+  display: grid; place-items: center; cursor: pointer;
+  border: 1px solid var(--hair); background: var(--card); color: var(--ink);
+  transition: transform 0.16s var(--nav-ease);
+}
+.theme-toggle:active { transform: scale(0.94); }
+.theme-toggle svg { width: 17px; height: 17px; }
+.theme-toggle .sun, nav .only-dark { display: none; }
+[data-theme="dark"] .theme-toggle .moon, [data-theme="dark"] nav .only-light { display: none; }
+[data-theme="dark"] .theme-toggle .sun, [data-theme="dark"] nav .only-dark { display: block; }
+
+/* With five places to go the bar fills a narrow window early: they come closer first, then drop away, and the
+   switch has to fit beside the language and the button. */
+@media (max-width: 900px) { .nav-links { gap: 22px; } }
+@media (max-width: 800px) {
+  .nav-links > a.plain { display: none; }
+  .nav-tools { padding-left: 0; border-left: 0; }
+}
+@media (max-width: 480px) {
+  .nav-inner { padding: 0 16px; }
+  .nav-links { gap: 12px; font-size: 14px; }
+  .nav-links .nav-cta { padding: 0 13px; }
+  .brand { font-size: 19px; gap: 8px; }
+}
+/* The narrowest phones drop the button, which only jumps to the store. */
+@media (max-width: 360px) { .nav-links .nav-cta { display: none; } }

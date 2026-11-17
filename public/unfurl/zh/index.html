@@ -33,6 +33,7 @@
     document.documentElement.dataset.theme = dark ? "dark" : "light";
   })();
 </script>
+<link rel="stylesheet" href="../nav.css">
 <style>
   /* Nunito, kept on this site, stands in for the app's SF Rounded: the same round letters for Latin letters and digits only, so dashes and other shared punctuation stay in the Chinese face. */
   @font-face {
@@ -45,12 +46,12 @@
   @font-face {
     font-family: "GenSen Rounded";
     font-style: normal; font-weight: 400 500; font-display: swap;
-    src: url("../fonts/gensenrounded-regular.woff2?v=f431917c") format("woff2");
+    src: url("../fonts/gensenrounded-regular.woff2?v=659c39ea") format("woff2");
   }
   @font-face {
     font-family: "GenSen Rounded";
     font-style: normal; font-weight: 600 800; font-display: swap;
-    src: url("../fonts/gensenrounded-bold.woff2?v=d7c7a982") format("woff2");
+    src: url("../fonts/gensenrounded-bold.woff2?v=4782723f") format("woff2");
   }
   /* The app's own colours: cream paper, ink, and the gold of a perfect day. */
   :root {
@@ -114,77 +115,10 @@
   #features, #get { scroll-margin-top: 72px; }
   .wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
 
-  /* ---------- Nav ---------- */
-  nav {
-    position: sticky; top: 0; z-index: 10;
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    background: var(--nav);
-    border-bottom: 1px solid var(--hair);
-  }
-  .nav-inner {
-    display: flex; align-items: center; justify-content: space-between;
-    /* A set height, so the bar is the same on both pages whatever line height their text has. */
-    height: 58px; padding: 0 24px; max-width: 1040px; margin: 0 auto;
-  }
-  .brand {
-    display: flex; align-items: center; gap: 10px;
-    font-weight: 800; font-size: 20px; letter-spacing: 0;
-    color: var(--ink); text-decoration: none;
-  }
-  .brand img { width: 30px; height: 30px; border-radius: 8px; box-shadow: 0 2px 0 var(--lip); }
-  .nav-links { display: flex; align-items: center; gap: 22px; font-size: 14.5px; }
-  .nav-links a { color: var(--soft); text-decoration: none; transition: color 0.2s; }
-  .nav-links a:hover { color: var(--ink); }
-  .nav-links .nav-cta {
-    color: var(--on-ink); font-weight: 600;
-    background: var(--ink); border-radius: 999px; padding: 7px 16px;
-    transition: transform 0.16s var(--ease-out);
-  }
-  .nav-links .nav-cta:hover { color: var(--on-ink); }
-  .nav-links .nav-cta:active { transform: scale(0.96); }
-  @media (max-width: 640px) { .nav-links > a.plain { display: none; } }
-  .nav-links a { white-space: nowrap; }
-  /* On a phone the switch has to fit beside the language and the button. */
-  @media (max-width: 480px) {
-    .nav-inner { padding: 0 16px; }
-    .nav-links { gap: 12px; font-size: 14px; }
-    .nav-links .nav-cta { padding: 7px 13px; }
-    .brand { font-size: 19px; gap: 8px; }
-  }
-  /* The narrowest phones drop the button, which only jumps to the foot of the page. */
-  /* The bar reads in two parts: where to go on the page, then, past a hairline, the three controls, which
-     are one height and one family: the other language, the theme, and the way to the store. */
-  .nav-links { gap: 26px; }
-  .nav-tools { display: flex; align-items: center; gap: 8px; padding-left: 22px; border-left: 1px solid var(--hair); }
-  .nav-links .lang {
-    /* One width for both pages, whichever of EN and 中 it says. */
-    width: 46px; height: 34px; display: inline-grid; place-items: center; padding: 0; border-radius: 999px;
-    border: 1px solid var(--hair); background: var(--card); color: var(--ink);
-    font-size: 13px; font-weight: 700; letter-spacing: 0.02em;
-    transition: transform 0.16s var(--ease-out);
-  }
-  .nav-links .lang:active { transform: scale(0.96); }
-  .nav-links .nav-cta { height: 34px; display: inline-flex; align-items: center; padding: 0 17px; margin-left: 4px; }
-  .brand img { width: 32px; height: 32px; border-radius: 9px; }
-  .brand { font-weight: 800; font-size: 21px; }
-  @media (max-width: 640px) { .nav-tools { padding-left: 0; border-left: 0; } }
-  @media (max-width: 480px) { .nav-links .nav-cta { padding: 0 14px; } .brand { font-size: 19px; } }
-  @media (max-width: 360px) { .nav-links .nav-cta { display: none; } }
-  .brand { flex-shrink: 0; }
-
-  /* ---------- Light and dark: the switch, and the pictures that come in both ---------- */
-  .theme-toggle {
-    width: 34px; height: 34px; border-radius: 999px; flex-shrink: 0;
-    display: grid; place-items: center; cursor: pointer;
-    border: 1px solid var(--hair); background: var(--card); color: var(--ink);
-    transition: transform 0.16s var(--ease-out);
-  }
-  .theme-toggle:active { transform: scale(0.94); }
-  .theme-toggle svg { width: 17px; height: 17px; }
-  .theme-toggle .sun, .only-dark { display: none; }
-  [data-theme="dark"] .theme-toggle .moon, [data-theme="dark"] .only-light { display: none; }
-  [data-theme="dark"] .theme-toggle .sun, [data-theme="dark"] .only-dark { display: block; }
+  /* ---------- Light and dark: the pictures that come in both (the switch is in nav.css) ---------- */
+  .only-dark { display: none; }
+  [data-theme="dark"] .only-light { display: none; }
+  [data-theme="dark"] .only-dark { display: block; }
 
   /* ---------- Small caps label, as in the app ---------- */
   .label {
@@ -532,6 +466,7 @@
     <div class="nav-links">
       <a class="plain" href="#features">功能</a>
       <a class="plain" href="roadmap/">開發計畫</a>
+      <a class="plain" href="changelog/">更新紀錄</a>
       <a class="plain" href="privacy/">隱私權</a>
       <a class="plain" href="mailto:elliotsu.dev@gmail.com">支援</a>
       <div class="nav-tools">
@@ -687,6 +622,7 @@
 
 <footer>
   <a href="roadmap/">開發計畫</a> ·
+  <a href="changelog/">更新紀錄</a> ·
   <a href="privacy/">隱私權政策</a> ·
   <a href="terms/">使用條款</a> ·
   <a href="mailto:elliotsu.dev@gmail.com">支援</a>
@@ -694,6 +630,7 @@
 </footer>
 
 <script src="../globe.js" defer></script>
+<script src="../nav.js"></script>
 <script>
   const observer = new IntersectionObserver((entries) => {
     for (const e of entries) {
@@ -722,11 +659,7 @@
     const box = all[at].getBoundingClientRect();
     try { sessionStorage.setItem("unfurl-place", JSON.stringify({ block: at, part: (bar - box.top) / box.height })); } catch (e) {}
   });
-  // The switch flips the theme, remembers it, and tints the browser's bar to match.
   const root = document.documentElement;
-  const themeColor = document.querySelector('meta[name="theme-color"]');
-  const tintBar = () => { themeColor.content = root.dataset.theme === "dark" ? "#14171F" : "#F6F3EC"; };
-  tintBar();
   // The hero's phone plays a round in the theme showing, unless the visitor asked for less motion.
   const clip = document.querySelector(".hero-clip");
   const wantsStill = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -744,12 +677,8 @@
   }).observe(clip);
   playClip();
 
-  document.querySelector(".theme-toggle").addEventListener("click", () => {
-    root.dataset.theme = root.dataset.theme === "dark" ? "light" : "dark";
-    try { localStorage.setItem("unfurl-theme", root.dataset.theme); } catch (e) {}
-    tintBar();
-    playClip();
-  });
+  // The switch itself is `nav.js`; the clip is played again in the theme it now shows.
+  document.addEventListener("unfurl-theme", playClip);
 </script>
 
 </body>

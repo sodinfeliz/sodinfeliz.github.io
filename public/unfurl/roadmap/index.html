@@ -18,6 +18,7 @@
 </script>
 <link rel="icon" type="image/png" href="/unfurl/images/app-icon.png">
 <link rel="alternate" hreflang="zh-Hant" href="../zh/roadmap/">
+<link rel="stylesheet" href="/unfurl/nav.css">
 <style>
   /* Nunito, kept on this site, stands in for the app's SF Rounded: the same round letters in every browser. */
   @font-face {
@@ -47,7 +48,6 @@
   }
   main { max-width: 640px; margin: 0 auto; padding: 48px 24px 64px; }
   a { color: var(--link); }
-  a.back { text-decoration: none; font-size: 14px; font-weight: 600; }
   h1 { font-size: 32px; font-weight: 700; margin: 16px 0 4px; }
   .date { color: var(--soft); font-size: 14px; margin-bottom: 24px; }
   p { font-size: 16px; color: var(--text); }
@@ -74,8 +74,27 @@
 </style>
 </head>
 <body>
+<nav>
+  <div class="nav-inner">
+    <a class="brand" href="/unfurl/"><img class="only-light" src="/unfurl/images/app-icon.png" alt="" width="256" height="256"><img class="only-dark" src="/unfurl/images/app-icon-dark.png" alt="" width="256" height="256" loading="lazy">Unfurl</a>
+    <div class="nav-links">
+      <a class="plain" href="/unfurl/#features">Features</a>
+      <a class="plain" href="/unfurl/roadmap/" aria-current="page">Roadmap</a>
+      <a class="plain" href="/unfurl/changelog/">Changelog</a>
+      <a class="plain" href="/unfurl/privacy/">Privacy</a>
+      <a class="plain" href="mailto:elliotsu.dev@gmail.com">Support</a>
+      <div class="nav-tools">
+        <a href="/unfurl/zh/roadmap/" lang="zh-Hant" hreflang="zh-Hant" class="lang" aria-label="繁體中文">中</a>
+        <button class="theme-toggle" type="button" aria-label="Switch between light and dark">
+          <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"></path></svg>
+          <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"></path></svg>
+        </button>
+        <a class="nav-cta" href="https://apps.apple.com/app/id6834737314">Download</a>
+      </div>
+    </div>
+  </div>
+</nav>
 <main>
-  <a class="back" href="/unfurl/">← Unfurl</a> · <a href="../zh/roadmap/" lang="zh-Hant" hreflang="zh-Hant">繁體中文</a>
   <h1>Roadmap</h1>
   <p class="date">Updated November 15, 2026</p>
   <ol class="path">
@@ -88,5 +107,6 @@
 
   <p class="fine">Have an idea? Email <a href="mailto:elliotsu.dev@gmail.com">elliotsu.dev@gmail.com</a>.</p>
 </main>
+<script src="/unfurl/nav.js"></script>
 </body>
 </html>

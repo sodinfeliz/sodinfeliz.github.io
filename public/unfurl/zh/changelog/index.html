@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>更新紀錄｜Unfurl</title>
+<meta name="description" content="每日國旗問答 Unfurl 每一版做了什麼。">
+<meta name="theme-color" content="#F6F3EC">
+<script>
+  // Before anything is drawn: the visitor's saved choice on this site, or else what their system uses.
+  (function () {
+    var saved = null;
+    try { saved = localStorage.getItem("unfurl-theme"); } catch (e) {}
+    var dark = saved ? saved === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+    document.documentElement.dataset.theme = dark ? "dark" : "light";
+    document.querySelector('meta[name="theme-color"]').content = dark ? "#14171F" : "#F6F3EC";
+  })();
+</script>
+<link rel="icon" type="image/png" href="/unfurl/images/app-icon.png">
+<link rel="alternate" hreflang="en" href="../../changelog/">
+<link rel="stylesheet" href="/unfurl/nav.css">
+<style>
+  /* Nunito, kept on this site, stands in for the app's SF Rounded: the same round letters for Latin letters and digits only, so dashes and other shared punctuation stay in the Chinese face. */
+  @font-face {
+    font-family: "Nunito";
+    font-style: normal; font-weight: 200 1000; font-display: swap;
+    src: url("../../fonts/nunito-latin.woff2") format("woff2");
+    unicode-range: U+0000-00FF;
+  }
+  /* The app's own Chinese face, cut down to the characters these pages use by tools/subset_unfurl_font.py. */
+  @font-face {
+    font-family: "GenSen Rounded";
+    font-style: normal; font-weight: 400 500; font-display: swap;
+    src: url("../../fonts/gensenrounded-regular.woff2?v=659c39ea") format("woff2");
+  }
+  @font-face {
+    font-family: "GenSen Rounded";
+    font-style: normal; font-weight: 600 800; font-display: swap;
+    src: url("../../fonts/gensenrounded-bold.woff2?v=4782723f") format("woff2");
+  }
+  :root {
+    --paper: #F6F3EC; --ink: #1C212D; --text: #414856; --soft: #5D6473; --link: #8F6B10;
+    --card: rgba(255,255,255,0.6); --hair: rgba(28,33,45,0.12);
+    --now: #2F7D5B; --now-ink: #1F5C42; --gold: #E2B33C; --later: rgba(28,33,45,0.34); --lip: rgba(28,33,45,0.16);
+  }
+  /* The app's night, as on the app's page: its dark page, cream ink, and the lighter greens and golds it uses on them. */
+  :root[data-theme="dark"] {
+    --paper: #14171F; --ink: #F1EEE7; --text: #C9CDD6; --soft: #9BA2B0; --link: #E8C45E;
+    --card: rgba(255,255,255,0.06); --hair: rgba(241,238,231,0.12);
+    --now: #4FAE82; --now-ink: #7CCBA4; --later: rgba(241,238,231,0.4); --lip: rgba(241,238,231,0.16);
+  }
+  html { color-scheme: light; }
+  html[data-theme="dark"] { color-scheme: dark; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--paper); color: var(--ink);
+    font-family: "Nunito", "GenSen Rounded", ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "PingFang TC", "Microsoft JhengHei", "Segoe UI", sans-serif;
+    line-height: 1.7; -webkit-font-smoothing: antialiased;
+  }
+  main { max-width: 640px; margin: 0 auto; padding: 48px 24px 64px; }
+  a { color: var(--link); }
+  h1 { font-size: 32px; font-weight: 700; margin: 16px 0 4px; }
+  .date { color: var(--soft); font-size: 14px; margin-bottom: 24px; }
+  p { font-size: 16px; color: var(--text); }
+  /* A log, newest first: the date to the left of each version, its words to the right. */
+  .log { margin: 32px 0 28px; }
+  .entry { display: grid; grid-template-columns: 104px minmax(0, 1fr); gap: 20px; padding: 26px 0; border-top: 1px solid var(--hair); }
+  .entry:last-child { border-bottom: 1px solid var(--hair); }
+  .entry time { display: block; font-size: 26px; font-weight: 700; line-height: 1.15; color: var(--ink); }
+  .entry time small { display: block; margin-top: 4px; font-size: 13px; font-weight: 600; color: var(--soft); }
+  .entry .meta { font-size: 13.5px; font-weight: 700; color: var(--soft); letter-spacing: 0.02em; }
+  .entry .meta b { color: var(--ink); margin-right: 8px; }
+  .entry h2 { font-size: 22px; font-weight: 700; line-height: 1.3; margin: 2px 0 6px; }
+  .entry p { font-size: 16px; line-height: 1.65; }
+  /* A version still in review: set quieter than the ones out, and marked. */
+  .entry .pill { display: inline-block; margin-left: 8px; padding: 0 9px; border: 1px solid var(--hair); border-radius: 999px; font-size: 12px; font-weight: 700; line-height: 1.7; color: var(--soft); vertical-align: 1px; }
+  .entry.pending h2, .entry.pending p:not(.meta) { color: var(--soft); }
+  @media (max-width: 520px) {
+    .entry { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+    .entry time { font-size: 22px; }
+    .entry time small { display: inline; margin: 0 0 0 8px; font-size: 13px; }
+  }
+  .fine { font-size: 14px; color: var(--soft); }
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a class="brand" href="/unfurl/zh/"><img class="only-light" src="/unfurl/images/app-icon.png" alt="" width="256" height="256"><img class="only-dark" src="/unfurl/images/app-icon-dark.png" alt="" width="256" height="256" loading="lazy">Unfurl</a>
+    <div class="nav-links">
+      <a class="plain" href="/unfurl/zh/#features">功能</a>
+      <a class="plain" href="/unfurl/zh/roadmap/">開發計畫</a>
+      <a class="plain" href="/unfurl/zh/changelog/" aria-current="page">更新紀錄</a>
+      <a class="plain" href="/unfurl/zh/privacy/">隱私權</a>
+      <a class="plain" href="mailto:elliotsu.dev@gmail.com">支援</a>
+      <div class="nav-tools">
+        <a href="/unfurl/changelog/" lang="en" hreflang="en" class="lang" aria-label="English">EN</a>
+        <button class="theme-toggle" type="button" aria-label="切換淺色或深色">
+          <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"></path></svg>
+          <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"></path></svg>
+        </button>
+        <a class="nav-cta" href="https://apps.apple.com/app/id6834737314">下載</a>
+      </div>
+    </div>
+  </div>
+</nav>
+<main>
+  <h1>更新紀錄</h1>
+  <p class="date">Unfurl 每一版做了什麼。</p>
+  <div class="log">
+    <article class="entry pending">
+      <time datetime="2026-11-17">11.17<small>星期二</small></time>
+      <div>
+        <p class="meta"><b>1.0.1</b>iPhone<span class="pill">審核中</span></p>
+        <h2>地球儀更細緻，也能回頭看每天玩過的題目</h2>
+        <p>拉近就能看到更細的海岸線，選到的國家會浮起來。點日曆上玩過的一天，卡片會翻面，看當天每面旗和你選的答案。</p>
+      </div>
+    </article>
+    <article class="entry">
+      <time datetime="2026-11-17">11.17<small>星期二</small></time>
+      <div>
+        <p class="meta"><b>1.0.0</b>iPhone</p>
+        <h2>Unfurl 開放了</h2>
+        <p>每天五面國旗，全世界猜同一組。猜對的旗會收進你的收集冊，地球儀也會一個國家一個國家亮起來。練習有間隔複習、易混淆的旗和地球儀挑戰，要用 Unfurl Plus 解鎖。</p>
+      </div>
+    </article>
+  </div>
+
+  <p class="fine">接下來想做什麼，看<a href="../../zh/roadmap/">開發計畫</a>。</p>
+</main>
+<script src="/unfurl/nav.js"></script>
+</body>
+</html>
