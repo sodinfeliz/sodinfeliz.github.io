@@ -142,12 +142,14 @@
   .phone img { border-radius: 38px; }
   /* At night there is no soft shadow: on a page this dark a blurred one takes only a few steps of brightness, and they show as hard bands round the phone, in its own navy as a pale halo and in black as a dark one. The lip under the phone is enough. */
   :root[data-theme="dark"] .phone { box-shadow: 0 10px 0 var(--lip); }
-  /* A round of play, looping over the still it starts from. It fades in once it is running. */
+  /* The still covers the player until the video has a frame ready to show. */
+  .hero-shot .phone img { position: relative; z-index: 1; background: #F5F2EB; }
+  [data-theme="dark"] .hero-shot .phone img { background: #11181E; }
+  .hero-shot .phone.is-playing img { opacity: 0; transition: opacity 80ms ease-out; }
   .hero-clip {
     position: absolute; inset: 9px; width: calc(100% - 18px); height: calc(100% - 18px);
-    border-radius: 38px; object-fit: cover; opacity: 0; transition: opacity 0.4s var(--ease-out);
+    border-radius: 38px; object-fit: cover;
   }
-  .hero-clip.on { opacity: 1; }
 
   /* ---------- Hero ---------- */
   .hero {
@@ -488,12 +490,46 @@
         <span class="tile"><img src="../images/flag-ke.png" alt="" width="240" height="240"></span>
         <span class="tile"><img src="../images/flag-ie.png" alt="" width="240" height="240"></span>
       </div>
-      <script src="../hero-flags.js"></script>
+      <script src="../hero-flags.js" defer></script>
       <a class="store-badge" href="https://apps.apple.com/app/id6834737314"><img src="../images/app-store-badge-zh.svg" alt="在 App Store 下載"></a>
       <p class="micro-proof">不用註冊 · 沒有廣告 · 不追蹤</p>
     </div>
     <div class="hero-shot">
-      <div class="phone"><img class="only-light" src="../images/zh-hero.jpg" alt="Unfurl 首頁，顯示地球儀和「開始」按鈕" width="644" height="1400" fetchpriority="high"><img class="only-dark" src="../images/zh-hero-dark.jpg" alt="Unfurl 首頁，顯示地球儀和「開始」按鈕" width="644" height="1400" loading="lazy"><video class="hero-clip" data-clip="../images/zh-hero" muted loop playsinline preload="none" aria-hidden="true"></video></div>
+      <div class="phone"><img class="only-light" src="../images/zh-hero.jpg" alt="Unfurl 首頁，顯示地球儀和「開始」按鈕" width="644" height="1400" fetchpriority="high"><img class="only-dark" src="../images/zh-hero-dark.jpg" alt="Unfurl 首頁，顯示地球儀和「開始」按鈕" width="644" height="1400"><video class="hero-clip" data-clip="../images/zh-hero" muted loop playsinline preload="auto" aria-hidden="true"></video></div>
+      <script>
+        (() => {
+          const root = document.documentElement;
+          // The hero's phone plays a round in the theme showing, unless the visitor asked for less motion.
+          const clip = document.querySelector(".hero-clip");
+          const phone = clip.parentElement;
+          const wantsStill = matchMedia("(prefers-reduced-motion: reduce)").matches;
+          const showVideo = () => phone.classList.add("is-playing");
+          const showStill = () => phone.classList.remove("is-playing");
+          let frameRequest;
+          const playClip = () => {
+            if (wantsStill) return;
+            showStill();
+            if (frameRequest !== undefined) clip.cancelVideoFrameCallback(frameRequest);
+            clip.src = clip.dataset.clip + (root.dataset.theme === "dark" ? "-dark" : "") + ".mp4";
+            if (clip.requestVideoFrameCallback) frameRequest = clip.requestVideoFrameCallback(() => {
+              frameRequest = undefined;
+              showVideo();
+            });
+            clip.play().catch(() => {});
+          };
+          if (!clip.requestVideoFrameCallback) clip.addEventListener("playing", showVideo);
+          clip.addEventListener("error", showStill);
+          // It rests while it is off the screen.
+          new IntersectionObserver(([entry]) => {
+            if (wantsStill || !clip.src) return;
+            if (entry.isIntersecting) clip.play().catch(() => {}); else clip.pause();
+          }).observe(clip);
+          playClip();
+
+          // The switch itself is `nav.js`; the clip is played again in the theme it now shows.
+          document.addEventListener("unfurl-theme", playClip);
+        })();
+      </script>
     </div>
   </div>
 </header>
@@ -642,26 +678,6 @@
     const box = all[at].getBoundingClientRect();
     try { sessionStorage.setItem("unfurl-place", JSON.stringify({ block: at, part: (bar - box.top) / box.height })); } catch (e) {}
   });
-  const root = document.documentElement;
-  // The hero's phone plays a round in the theme showing, unless the visitor asked for less motion.
-  const clip = document.querySelector(".hero-clip");
-  const wantsStill = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const playClip = () => {
-    if (wantsStill) return;
-    clip.classList.remove("on");
-    clip.src = clip.dataset.clip + (root.dataset.theme === "dark" ? "-dark" : "") + ".mp4";
-    clip.play().catch(() => {});
-  };
-  clip.addEventListener("playing", () => clip.classList.add("on"));
-  // It rests while it is off the screen.
-  new IntersectionObserver(([entry]) => {
-    if (wantsStill || !clip.src) return;
-    if (entry.isIntersecting) clip.play().catch(() => {}); else clip.pause();
-  }).observe(clip);
-  playClip();
-
-  // The switch itself is `nav.js`; the clip is played again in the theme it now shows.
-  document.addEventListener("unfurl-theme", playClip);
 </script>
 
 </body>
