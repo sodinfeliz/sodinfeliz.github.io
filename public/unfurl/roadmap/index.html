@@ -80,6 +80,9 @@
   @media (prefers-reduced-motion: reduce) { .path li::before { transition: none; } .path li:hover::before { transform: none; } }
   .path .when { display: block; font-size: 12.5px; font-weight: 700; letter-spacing: 0.08em; }
   .path .now .when, .path .done .when { color: var(--now-ink); }
+  /* A shipped plan names the version it came out in, and the name leads to that version in the changelog. */
+  .path .when a { color: inherit; text-decoration: underline dotted; text-decoration-thickness: 1.5px; text-underline-offset: 3px; }
+  .path .when a:hover { text-decoration-style: solid; }
   .path .next .when { color: var(--link); }
   .path .later .when { color: var(--soft); }
   .path h2 { font-size: 21px; font-weight: 700; line-height: 1.3; margin: 2px 0 4px; }
@@ -112,7 +115,7 @@
   <h1>Roadmap</h1>
   <p class="date">Updated November 18, 2026</p>
   <ol class="path">
-    <li class="done"><span class="when">Done in 1.1.0</span><h2>Widgets</h2><p>Two small widgets for the Home Screen: your globe with the flags you have collected so far, and your streak, which turns gray until you have played today.</p></li>
+    <li class="done"><span class="when">Done in <a href="../changelog/#v1.1.0">1.1.0</a></span><h2>Widgets</h2><p>Two small widgets for the Home Screen: your globe with the flags you have collected so far, and your streak, which turns gray until you have played today.</p></li>
     <li class="next"><span class="when">Next</span><h2>Achievements</h2><p>Badges for keeping a long streak and for filling a booklet. Every continent has one of its own for you to earn.</p></li>
     <li class="later"><span class="when">Later</span><h2>Globe skins</h2><p>New looks for the globe, earned by keeping your streak going. There are five, and the last takes 197 days.</p></li>
     <li class="later"><span class="when">Later</span><h2>A card for a missed day</h2><p>Keep your streak going and you earn a card. It opens one daily five you missed, and its flags are collected as usual.</p></li>

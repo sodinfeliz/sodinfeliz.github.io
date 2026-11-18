@@ -57,6 +57,7 @@
   /* A log, newest first: the date to the left of each version, its words to the right. */
   .log { margin: 32px 0 28px; }
   .entry { display: grid; grid-template-columns: 104px minmax(0, 1fr); gap: 20px; padding: 26px 0; border-top: 1px solid var(--hair); }
+  .entry { scroll-margin-top: 72px; }
   .entry:last-child { border-bottom: 1px solid var(--hair); }
   .entry time { display: block; font-size: 26px; font-weight: 700; line-height: 1.15; color: var(--ink); }
   .entry time small { display: block; margin-top: 4px; font-size: 13px; font-weight: 600; color: var(--soft); }
@@ -108,7 +109,7 @@
   <h1>Changelog</h1>
   <p class="date">What each version of Unfurl added.</p>
   <div class="log">
-    <article class="entry pending">
+    <article class="entry pending" id="v1.1.0">
       <time datetime="2026-11-18">11.18<small>Wednesday</small></time>
       <div>
         <p class="meta"><b>1.1.0</b>iPhone<span class="pill">In review</span></p>
