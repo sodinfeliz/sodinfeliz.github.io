@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://elliotsu.com/sitemap.xml
