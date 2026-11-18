@@ -78,6 +78,14 @@
   /* A version still in review: set quieter than the ones out, and marked. */
   .entry .pill { display: inline-block; margin-left: 8px; padding: 0 9px; border: 1px solid var(--hair); border-radius: 999px; font-size: 12px; font-weight: 700; line-height: 1.7; color: var(--soft); vertical-align: 1px; }
   .entry.pending h2, .entry.pending p:not(.meta) { color: var(--soft); }
+  /* The two widgets of a version that brought them, light or dark with the page, in a white rim with a soft shadow. */
+  .entry .widgets { display: flex; flex-wrap: wrap; gap: 20px; margin: 16px 0 0 3px; }
+    .entry .widgets img { display: block; width: 128px; height: auto; border-radius: 20%; box-shadow: 0 0 0 3px #fff, 0 8px 18px rgba(28, 33, 45, 0.22); }
+  .entry .widgets .only-dark { display: none; }
+  [data-theme="dark"] .entry .widgets .only-light { display: none; }
+  [data-theme="dark"] .entry .widgets .only-dark { display: block; }
+  /* At night the dark shadow cannot be seen, so the rim carries a faint blue glow, as the app's globe does. */
+  [data-theme="dark"] .entry .widgets img { box-shadow: 0 0 0 3px #fff, 0 0 20px 2px rgba(110, 193, 242, 0.32); }
   @media (max-width: 520px) {
     .entry { grid-template-columns: minmax(0, 1fr); gap: 8px; }
     .entry time { font-size: 22px; }
@@ -117,6 +125,10 @@
         <p class="meta"><b>1.1.0</b>iPhone<span class="pill">審核中</span></p>
         <h2>把地球儀放上主畫面</h2>
         <p>兩款新的小工具，把你的地球儀放上主畫面，看得到已收集的國旗數，還有連續天數，今天還沒玩的時候會變成灰色。另外，「規則說明」新增兩張卡片，淺色模式下的國界線也更清楚。</p>
+        <div class="widgets">
+          <span><img class="only-light" src="/unfurl/images/widget-zh-b-light.webp" alt="地球儀・地平線小工具：已收集 125／197 面國旗，連續 48 天，地球從底部升起" width="384" height="384" loading="lazy"><img class="only-dark" src="/unfurl/images/widget-zh-b-dark.webp" alt="地球儀・地平線小工具：已收集 125／197 面國旗，連續 48 天，地球從底部升起" width="384" height="384" loading="lazy"></span>
+          <span><img class="only-light" src="/unfurl/images/widget-zh-a-light.webp" alt="地球儀・角落小工具：已收集 125／197 面國旗，連續 48 天，地球在角落" width="384" height="384" loading="lazy"><img class="only-dark" src="/unfurl/images/widget-zh-a-dark.webp" alt="地球儀・角落小工具：已收集 125／197 面國旗，連續 48 天，地球在角落" width="384" height="384" loading="lazy"></span>
+        </div>
       </div>
     </article>
     <article class="entry">

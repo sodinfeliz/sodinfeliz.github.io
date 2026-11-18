@@ -67,6 +67,14 @@
   /* A version still in review: set quieter than the ones out, and marked. */
   .entry .pill { display: inline-block; margin-left: 8px; padding: 0 9px; border: 1px solid var(--hair); border-radius: 999px; font-size: 12px; font-weight: 700; line-height: 1.7; color: var(--soft); vertical-align: 1px; }
   .entry.pending h2, .entry.pending p:not(.meta) { color: var(--soft); }
+  /* The two widgets of a version that brought them, light or dark with the page, in a white rim with a soft shadow. */
+  .entry .widgets { display: flex; flex-wrap: wrap; gap: 20px; margin: 16px 0 0 3px; }
+    .entry .widgets img { display: block; width: 128px; height: auto; border-radius: 20%; box-shadow: 0 0 0 3px #fff, 0 8px 18px rgba(28, 33, 45, 0.22); }
+  .entry .widgets .only-dark { display: none; }
+  [data-theme="dark"] .entry .widgets .only-light { display: none; }
+  [data-theme="dark"] .entry .widgets .only-dark { display: block; }
+  /* At night the dark shadow cannot be seen, so the rim carries a faint blue glow, as the app's globe does. */
+  [data-theme="dark"] .entry .widgets img { box-shadow: 0 0 0 3px #fff, 0 0 20px 2px rgba(110, 193, 242, 0.32); }
   @media (max-width: 520px) {
     .entry { grid-template-columns: minmax(0, 1fr); gap: 8px; }
     .entry time { font-size: 22px; }
@@ -106,6 +114,10 @@
         <p class="meta"><b>1.1.0</b>iPhone<span class="pill">In review</span></p>
         <h2>Your globe, on your home screen</h2>
         <p>Two new widgets put your globe on the Home Screen, with the flags you have collected and your streak, which turns gray until you have played today. Also new: two cards in How it works, and clearer country borders on the globe in light mode.</p>
+        <div class="widgets">
+          <span><img class="only-light" src="/unfurl/images/widget-en-b-light.webp" alt="The Globe Horizon widget: 125 of 197 flags collected and a 48 day streak, with the globe rising from the bottom" width="384" height="384" loading="lazy"><img class="only-dark" src="/unfurl/images/widget-en-b-dark.webp" alt="The Globe Horizon widget: 125 of 197 flags collected and a 48 day streak, with the globe rising from the bottom" width="384" height="384" loading="lazy"></span>
+          <span><img class="only-light" src="/unfurl/images/widget-en-a-light.webp" alt="The Globe Corner widget: 125 of 197 flags collected and a 48 day streak, with the globe in the corner" width="384" height="384" loading="lazy"><img class="only-dark" src="/unfurl/images/widget-en-a-dark.webp" alt="The Globe Corner widget: 125 of 197 flags collected and a 48 day streak, with the globe in the corner" width="384" height="384" loading="lazy"></span>
+        </div>
       </div>
     </article>
     <article class="entry">
