@@ -34,12 +34,14 @@
     --paper: #F6F3EC; --ink: #1C212D; --text: #414856; --soft: #5D6473; --link: #8F6B10;
     --card: rgba(255,255,255,0.6); --hair: rgba(28,33,45,0.12);
     --now: #2F7D5B; --now-ink: #1F5C42; --gold: #E2B33C; --later: rgba(28,33,45,0.34); --lip: rgba(28,33,45,0.16);
+    --doing: #2F6FB0; --doing-ink: #245A8F;
   }
   /* The app's night, as on the app's page: its dark page, cream ink, and the lighter greens and golds it uses on them. */
   :root[data-theme="dark"] {
     --paper: #14171F; --ink: #F1EEE7; --text: #C9CDD6; --soft: #9BA2B0; --link: #E8C45E;
     --card: rgba(255,255,255,0.06); --hair: rgba(241,238,231,0.12);
     --now: #4FAE82; --now-ink: #7CCBA4; --later: rgba(241,238,231,0.4); --lip: rgba(241,238,231,0.16);
+    --doing: #6AA6E0; --doing-ink: #8DBDEB;
   }
   html { color-scheme: light; }
   html[data-theme="dark"] { color-scheme: dark; }
@@ -64,6 +66,8 @@
     background: var(--now); box-shadow: 0 2px 0 var(--lip);
   }
   .path li.next::before { background: var(--gold); }
+  /* The plan being worked on has a blue of its own, so that it is not taken for a finished one. */
+  .path li.now::before { background: var(--doing); }
   /* The line runs from one square down to the next, and stops at the last. */
   .path li:not(:last-child)::after { content: ""; position: absolute; left: -26px; top: 27px; bottom: -1px; width: 2px; border-radius: 1px; background: var(--hair); }
   /* A plan that has shipped: the green square with a tick, and the version it came out in. */
@@ -74,12 +78,14 @@
   @media (hover: hover) {
     .path li:hover::before { transform: scale(1.18); }
     .path li.later:hover::before { border-color: var(--gold); }
-    .path li.now:hover::before, .path li.done:hover::before { box-shadow: 0 0 0 4px color-mix(in srgb, var(--now) 28%, transparent), 0 2px 0 var(--lip); }
+    .path li.done:hover::before { box-shadow: 0 0 0 4px color-mix(in srgb, var(--now) 28%, transparent), 0 2px 0 var(--lip); }
+    .path li.now:hover::before { box-shadow: 0 0 0 4px color-mix(in srgb, var(--doing) 28%, transparent), 0 2px 0 var(--lip); }
     .path li.next:hover::before { box-shadow: 0 0 0 4px color-mix(in srgb, var(--gold) 28%, transparent), 0 2px 0 var(--lip); }
   }
   @media (prefers-reduced-motion: reduce) { .path li::before { transition: none; } .path li:hover::before { transform: none; } }
   .path .when { display: block; font-size: 12.5px; font-weight: 700; letter-spacing: 0.08em; }
-  .path .now .when, .path .done .when { color: var(--now-ink); }
+  .path .done .when { color: var(--now-ink); }
+  .path .now .when { color: var(--doing-ink); }
   /* A shipped plan names the version it came out in, and the name leads to that version in the changelog. */
   .path .when a { color: inherit; text-decoration: underline dotted; text-decoration-thickness: 1.5px; text-underline-offset: 3px; }
   .path .when a:hover { text-decoration-style: solid; }
@@ -113,9 +119,10 @@
 </nav>
 <main>
   <h1>Roadmap</h1>
-  <p class="date">Updated November 18, 2026</p>
+  <p class="date">Updated November 19, 2026</p>
   <ol class="path">
     <li class="done"><span class="when">Done in <a href="../changelog/#v1.1.0">1.1.0</a></span><h2>Widgets</h2><p>Two small widgets for the Home Screen: your globe with the flags you have collected so far, and your streak, which turns gray until you have played today.</p></li>
+    <li class="now"><span class="when">In progress</span><h2>A globe you can play with 🌍</h2><p>Looking for a country you have met? Type its name and the globe turns to it. To wander, tap the eye to put the title and the card away. Zoomed in, tap the small globe at the card’s corner to come back out. The first time you open the globe, a short tour walks you through it.</p></li>
     <li class="next"><span class="when">Next</span><h2>Achievements</h2><p>Badges for keeping a long streak and for filling a booklet. Every continent has one of its own for you to earn.</p></li>
     <li class="later"><span class="when">Later</span><h2>Globe skins</h2><p>New looks for the globe, earned by keeping your streak going. There are five, and the last takes 197 days.</p></li>
     <li class="later"><span class="when">Later</span><h2>A card for a missed day</h2><p>Keep your streak going and you earn a card. It opens one daily five you missed, and its flags are collected as usual.</p></li>
