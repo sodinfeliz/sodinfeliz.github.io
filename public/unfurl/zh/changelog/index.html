@@ -34,12 +34,12 @@
   @font-face {
     font-family: "GenSen Rounded";
     font-style: normal; font-weight: 400 500; font-display: swap;
-    src: url("../../fonts/gensenrounded-regular.woff2?v=ba73e6a3") format("woff2");
+    src: url("../../fonts/gensenrounded-regular.woff2?v=16489b25") format("woff2");
   }
   @font-face {
     font-family: "GenSen Rounded";
     font-style: normal; font-weight: 600 800; font-display: swap;
-    src: url("../../fonts/gensenrounded-bold.woff2?v=60905e15") format("woff2");
+    src: url("../../fonts/gensenrounded-bold.woff2?v=61656973") format("woff2");
   }
   :root {
     --paper: #F6F3EC; --ink: #1C212D; --text: #414856; --soft: #5D6473; --link: #8F6B10;
@@ -80,6 +80,15 @@
   .entry .pill { display: inline-block; margin-left: 8px; padding: 0 9px; border: 1px solid var(--hair); border-radius: 999px; font-size: 12px; font-weight: 700; line-height: 1.7; color: var(--soft); vertical-align: 1px; }
   .entry.pending h2, .entry.pending p:not(.meta) { color: var(--soft); }
   /* The two widgets of a version that brought them, light or dark with the page, in a white rim with a soft shadow. */
+  /* The looks a version brought, as small globes. Each picture has its ring in it, since one look's ring is in two colors. */
+  .entry .looks { display: flex; gap: 12px; margin: 16px 0 2px; }
+  /* Four to a row at any width: each is 96 points across where there is room, and narrower with the page. */
+  .entry .looks span { flex: 0 1 96px; min-width: 0; }
+  .entry .looks img { display: block; width: 100%; height: auto; border-radius: 50%; box-shadow: 0 8px 18px rgba(28, 33, 45, 0.22); }
+  .entry .looks .only-dark { display: none; }
+  [data-theme="dark"] .entry .looks .only-light { display: none; }
+  [data-theme="dark"] .entry .looks .only-dark { display: block; }
+  [data-theme="dark"] .entry .looks img { box-shadow: 0 0 20px 2px rgba(110, 193, 242, 0.32); }
   .entry .widgets { display: flex; flex-wrap: wrap; gap: 20px; margin: 16px 0 0 3px; }
     .entry .widgets img { display: block; width: 128px; height: auto; border-radius: 20%; box-shadow: 0 0 0 3px #fff, 0 8px 18px rgba(28, 33, 45, 0.22); }
   .entry .widgets .only-dark { display: none; }
@@ -121,11 +130,17 @@
   <p class="date">Unfurl 每一版做了什麼。</p>
   <div class="log">
     <article class="entry pending" id="v1.2.0">
-      <time datetime="2026-11-19">11.19<small>星期四</small></time>
+      <time datetime="2026-11-20">11.20<small>星期五</small></time>
       <div>
         <p class="meta"><b>1.2.0</b>iPhone<span class="pill">即將推出</span></p>
-        <h2>地球儀頁面大升級</h2>
-        <p>這次我們對地球儀增加了許多優化。現在你可以從搜尋功能找到國家，也可以鎖定畫面，靜靜的欣賞你的地球儀；第一次使用，還有簡短的導覽。收集過的國家會在轉動時慢慢亮起來，開關、縮放和拖曳也更順手。</p>
+        <h2>地球儀大升級，還有新造型</h2>
+        <p>這次的主角是地球儀。現在可以用名字搜尋國家、隱藏介面靜靜欣賞，第一次打開還有簡短的導覽，收集過的國家也會在轉動時慢慢亮起來。連續玩下去還能解鎖新的地球儀造型，一共四款，分別在連續第 7、30、60、100 天；日曆會告訴你還差幾天，小工具也會跟著換色。「規則說明」分成三組，新增「連續天數」和「相似國旗」兩張卡片。</p>
+        <div class="looks">
+          <span><img class="only-light" src="/unfurl/images/look-dusk-light.webp" alt="地球儀造型：黃昏" width="311" height="311" loading="lazy"><img class="only-dark" src="/unfurl/images/look-dusk-dark.webp" alt="地球儀造型：黃昏" width="311" height="311" loading="lazy"></span>
+          <span><img class="only-light" src="/unfurl/images/look-lagoon-light.webp" alt="地球儀造型：潟湖" width="311" height="311" loading="lazy"><img class="only-dark" src="/unfurl/images/look-lagoon-dark.webp" alt="地球儀造型：潟湖" width="311" height="311" loading="lazy"></span>
+          <span><img class="only-light" src="/unfurl/images/look-ink-light.webp" alt="地球儀造型：墨" width="311" height="311" loading="lazy"><img class="only-dark" src="/unfurl/images/look-ink-dark.webp" alt="地球儀造型：墨" width="311" height="311" loading="lazy"></span>
+          <span><img class="only-light" src="/unfurl/images/look-cyberpunk-light.webp" alt="地球儀造型：賽博龐克" width="311" height="311" loading="lazy"><img class="only-dark" src="/unfurl/images/look-cyberpunk-dark.webp" alt="地球儀造型：賽博龐克" width="311" height="311" loading="lazy"></span>
+        </div>
       </div>
     </article>
     <article class="entry" id="v1.1.0">

@@ -69,6 +69,15 @@
   .entry .pill { display: inline-block; margin-left: 8px; padding: 0 9px; border: 1px solid var(--hair); border-radius: 999px; font-size: 12px; font-weight: 700; line-height: 1.7; color: var(--soft); vertical-align: 1px; }
   .entry.pending h2, .entry.pending p:not(.meta) { color: var(--soft); }
   /* The two widgets of a version that brought them, light or dark with the page, in a white rim with a soft shadow. */
+  /* The looks a version brought, as small globes. Each picture has its ring in it, since one look's ring is in two colors. */
+  .entry .looks { display: flex; gap: 12px; margin: 16px 0 2px; }
+  /* Four to a row at any width: each is 96 points across where there is room, and narrower with the page. */
+  .entry .looks span { flex: 0 1 96px; min-width: 0; }
+  .entry .looks img { display: block; width: 100%; height: auto; border-radius: 50%; box-shadow: 0 8px 18px rgba(28, 33, 45, 0.22); }
+  .entry .looks .only-dark { display: none; }
+  [data-theme="dark"] .entry .looks .only-light { display: none; }
+  [data-theme="dark"] .entry .looks .only-dark { display: block; }
+  [data-theme="dark"] .entry .looks img { box-shadow: 0 0 20px 2px rgba(110, 193, 242, 0.32); }
   .entry .widgets { display: flex; flex-wrap: wrap; gap: 20px; margin: 16px 0 0 3px; }
     .entry .widgets img { display: block; width: 128px; height: auto; border-radius: 20%; box-shadow: 0 0 0 3px #fff, 0 8px 18px rgba(28, 33, 45, 0.22); }
   .entry .widgets .only-dark { display: none; }
@@ -110,11 +119,17 @@
   <p class="date">What each version of Unfurl added.</p>
   <div class="log">
     <article class="entry pending" id="v1.2.0">
-      <time datetime="2026-11-19">11.19<small>Thursday</small></time>
+      <time datetime="2026-11-20">11.20<small>Friday</small></time>
       <div>
         <p class="meta"><b>1.2.0</b>iPhone<span class="pill">Coming soon</span></p>
-        <h2>A big upgrade for the globe page</h2>
-        <p>We've made a lot of improvements to the globe. Find any country with search, lock the screen to enjoy your globe in peace, and take a short tour on your first visit. Countries you've collected light up gently as the globe turns, and opening, closing, pinching and dragging all feel smoother.</p>
+        <h2>A bigger globe, and new looks for it</h2>
+        <p>The globe is the star of this one. Find any country by name, hide the interface to enjoy your globe in peace, and take a short tour on your first visit; countries you've collected light up gently as it turns. Keep your streak going and you earn new looks for the globe: four of them, at 7, 30, 60 and 100 days. The calendar counts the days to the next one, and the widgets wear the look you pick. How it works is now in three parts, with two new cards: Streak and Lookalikes.</p>
+        <div class="looks">
+          <span><img class="only-light" src="/unfurl/images/look-dusk-light.webp" alt="Globe look: Dusk" width="311" height="311" loading="lazy"><img class="only-dark" src="/unfurl/images/look-dusk-dark.webp" alt="Globe look: Dusk" width="311" height="311" loading="lazy"></span>
+          <span><img class="only-light" src="/unfurl/images/look-lagoon-light.webp" alt="Globe look: Lagoon" width="311" height="311" loading="lazy"><img class="only-dark" src="/unfurl/images/look-lagoon-dark.webp" alt="Globe look: Lagoon" width="311" height="311" loading="lazy"></span>
+          <span><img class="only-light" src="/unfurl/images/look-ink-light.webp" alt="Globe look: Ink" width="311" height="311" loading="lazy"><img class="only-dark" src="/unfurl/images/look-ink-dark.webp" alt="Globe look: Ink" width="311" height="311" loading="lazy"></span>
+          <span><img class="only-light" src="/unfurl/images/look-cyberpunk-light.webp" alt="Globe look: Cyberpunk" width="311" height="311" loading="lazy"><img class="only-dark" src="/unfurl/images/look-cyberpunk-dark.webp" alt="Globe look: Cyberpunk" width="311" height="311" loading="lazy"></span>
+        </div>
       </div>
     </article>
     <article class="entry" id="v1.1.0">
